@@ -44,6 +44,7 @@
 </nav>
 <body>
   <form class="formulario" action="#" th:action="@{/Producto}" th:object="${producto}" method="post">
+<<<<<<< HEAD
 			<div>
 			    <label>Nombre</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
 			    <input	type="text" th:placeholder="producto" th:field="*{nombre}" th:value="${producto.nombre}">
@@ -84,6 +85,87 @@
 			<input type="submit" value="Buscar" name="Buscar"
 				id="btnCancelar" class="button">
 		</div>
+=======
+			<div class="row" style="margin: 10px">
+				<div class="col" >
+					<label>Nombre del producto</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<input	type="text" placeholder="Ingrese nombre del producto" th:field="*{nombre}" th:value="${producto.nombre}" required="required">
+				</div>
+				<div class="col">
+				<label>Descripcion</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    <input	type="text" placeholder="Ingresar descripcion del producto" th:field="*{decripcion}" th:value="${producto.decripcion}" required="required"> 
+				</div>
+				<div class="col">
+					<label>Codigo de barras</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<input	type="text" placeholder="Ingrese el codigo" th:field="*{idProducto}" th:value="${producto.idProducto}" required="required">
+				</div>
+				<div class="col">
+					<label> Precio de Compra</label>
+					<input type="text" th:placeholder="hola" th:field="*{precioCompraUnidad}" th:value="${producto.precioCompraUnidad}" required="required">
+				</div>
+				<div class="col">
+					<label> Precio de Venta</label>
+				<input type="text" th:placeholder="hola" th:field="*{precioVentaUnidad}" th:value="${producto.precioVentaUnidad}" required="required"> 
+				</div>
+			    <div class="col">
+			    	<label>SubCategoria</label>
+					<select  th:field="*{subcategoria.idSubcategoria}" >
+						<option   th:each="sub : ${subcategoria}" th:text="${sub.nombre}" th:value="${sub.idSubcategoria}" required="required"></option>
+					</select>
+			    </div>
+				<div class="col">
+			    	<label>Proveedor</label>
+					<select  th:field="*{proveedor.idProveedor}" >
+						<option   th:each="pro : ${proveedor}" th:text="${pro.nombre}" th:value="${pro.idProveedor}" required="required"></option>
+					</select>
+			    </div>
+			    <div class="col">
+			    	<label>fecha</label>
+					<input type="text" th:field="*{fechaVencimiento}" class="form-control" id="fechaVencimiento"required="required" th:value="${producto.fechaVencimiento}">
+			    </div>		
+                        		 
+			</div>
+			<div class="container-fluid " >
+				<div class="container d-flex justify-content-center" >
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Registrar" name="Registrar" id="btnCancelar">REGISTRAR</button>
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Buscar" name="Buscar" id="btnCancelar">BUSCAR</button>				
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Modificar" name="Modificar" id="btnCancelar">MODIFICAR</button>		
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Eliminar" name="Eliminar" id="btnCancelar">ELIMINAR</button>	
+		</div>
+		</div>
+				<div class="container" th:switch="${productolist}">
+		  <h2 class="text-center">LISTADO DE CATEGORIAS</h2>
+		  <p class="text-center">Las siguientes items en la lista son los productos usadas en la bodega</p>            
+		  <table class="table table-hover">
+		    <thead style="background-color: #eeef20">
+		      <tr>
+		        <th class="text-center">ID</th>
+		        <th class="text-center">NOMBRE</th>
+		        <th class="text-center">PRECIO COMPRA UNIDAD</th>
+		        <th class="text-center">PRECIO VENTA UNIDAD</th>
+		        <th class="text-center">NOMBRE SUBCATEGORIA</th>
+		        <th class="text-center">NOMBRE PROVEEDOR</th>
+		        <th class="text-center">FECHA VENCIMIENTO</th>
+		        <th class="text-center">DESCRIPCION</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="pro : ${productolist}">
+		        <td th:text="${pro.idProducto}">John</td>
+		        <td th:text="${pro.nombre}">John</td>
+		        <td th:text="${pro.precioCompraUnidad}">John</td>
+		        <td th:text="${pro.precioVentaUnidad}">John</td>
+		        <td th:text="${pro.subcategoria.nombre}">John</td>
+		        <td th:text="${pro.proveedor.nombre}">John</td>
+		        <td th:text="${pro.fechaVencimiento}">John</td>
+		        <td th:text="${pro.decripcion}">John</td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+		
+		
+>>>>>>> a79c53e... En este se creo la interfas de producto y la funcionalidad del crud
 	</form>
 
 </body>

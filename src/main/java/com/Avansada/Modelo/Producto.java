@@ -2,6 +2,12 @@ package com.Avansada.Modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+<<<<<<< HEAD
+=======
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+>>>>>>> a79c53e... En este se creo la interfas de producto y la funcionalidad del crud
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,12 +37,31 @@ public class Producto implements Serializable {
 	@Column(name="fecha_vencimiento")
     private Date fechaVencimiento;
 	
+<<<<<<< HEAD
 	private String nombre;
 
 	@Column(name="precio_compra_unidad")
 	private int precioCompraUnidad;
 
 	@Column(name="precio_venta_unidad")
+=======
+    @Column(unique = true)
+    //@NotEmpty(message = "{error.campoObligatorio}")
+	//@Pattern(regexp = "[A-Za-z ]+", message = "{error.sololetras}")
+	private String nombre;
+
+    
+	@Column(name="precio_compra_unidad")
+
+	//@NotNull(message = "{error.campoObligatorio}")
+	//@Min(value = 1, message = "El precio mínimo es 1")
+	private int precioCompraUnidad;
+
+	@Column(name="precio_venta_unidad")
+
+	//@NotNull(message = "{error.campoObligatorio}")
+	//@Min(value = 1, message = "El precio mínimo es 1")
+>>>>>>> a79c53e... En este se creo la interfas de producto y la funcionalidad del crud
 	private int precioVentaUnidad;
 
 	//bi-directional many-to-one association to DetalleBodega
@@ -57,6 +82,29 @@ public class Producto implements Serializable {
 
 	public Producto() {
 	}
+<<<<<<< HEAD
+=======
+	
+	/**
+
+	public Producto(int idProducto, String decripcion, Date fechaVencimiento,@NotEmpty(message = "hola lindo, se te olvido  nombre") @Pattern(regexp = "[A-Za-z ]+", message = "solo se permite letras") String nombre, int precioCompraUnidad,
+			int precioVentaUnidad, List<DetalleBodega> detalleBodegas, List<DetalleFactura> detalleFacturas,
+			Proveedor proveedor, Subcategoria subcategoria) {
+		super();
+		this.idProducto = idProducto;
+		this.decripcion = decripcion;
+		this.fechaVencimiento = fechaVencimiento;
+		this.nombre = nombre;
+		this.precioCompraUnidad = precioCompraUnidad;
+		this.precioVentaUnidad = precioVentaUnidad;
+		this.detalleBodegas = detalleBodegas;
+		this.detalleFacturas = detalleFacturas;
+		this.proveedor = proveedor;
+		this.subcategoria = subcategoria;
+	}
+
+**/
+>>>>>>> a79c53e... En este se creo la interfas de producto y la funcionalidad del crud
 
 	public int getIdProducto() {
 		return this.idProducto;
