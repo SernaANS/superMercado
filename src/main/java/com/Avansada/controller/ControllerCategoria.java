@@ -57,9 +57,6 @@ public class ControllerCategoria {
 		}else {
 			return "redirect:/GestionCategoria";
 		}
-		
-		
-
 	}
 
 	@PostMapping("/ModificarCategoria")

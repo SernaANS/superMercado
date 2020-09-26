@@ -41,17 +41,12 @@ public class ControllerProducto {
 	@GetMapping("/GestionProducto")
 	public String showSignUpForm(Producto producto,Model model) {
 		
-<<<<<<< HEAD
-		model.addAttribute("producto", producto);
-		//Para cargar el combobox categorias
-=======
 		Iterable<Producto> lista = repoProducto.findAll();
 		model.addAttribute("producto", producto);
 		model.addAttribute("productolist", lista);
 
 		
 		//Para cargar el combobox categorias y provervdor
->>>>>>> a79c53e... En este se creo la interfas de producto y la funcionalidad del crud
 		Iterable<Subcategoria> lista2 = reposubCategoria.todasSubcategoria();
 		model.addAttribute("subcategoria", lista2);
 		Iterable<Proveedor> lista3 = repoProvedor.todosProveedores();

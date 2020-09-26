@@ -2,6 +2,9 @@ package com.Avansada.Modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class Cliente implements Serializable {
 	private String direccion;
 
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
 

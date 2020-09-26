@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Avansada.Modelo.Proveedor;
+import com.Avansada.Modelo.Subcategoria;
 import com.Avansada.repository.RepoProvedor;
 
 
@@ -31,6 +32,8 @@ public class ControllerProvedor {
 
 	@GetMapping("/GestionProvedor")
 	public String showSignUpForm(Proveedor provedor,Model model) {
+		Iterable<Proveedor> lista = repoProvedor.findAll();
+		model.addAttribute("lista", lista);
 		model.addAttribute("provedor", provedor);
 		return "GestionProvedor";
 		
@@ -43,6 +46,8 @@ public class ControllerProvedor {
 		}
 		if(provedor.getIdProveedor()!=0) {
 			repoProvedor.save(provedor);
+			Iterable<Proveedor> lista = repoProvedor.findAll();
+			model.addAttribute("lista", lista);
 			model.addAttribute("provedor", repoProvedor.findAll());
 			return "redirect:/GestionProvedor";
 		}
@@ -54,7 +59,7 @@ public class ControllerProvedor {
 	public String ModificarProvedor(@Validated Proveedor provedor, BindingResult result,Model model) {
 		
 		if (result.hasErrors()) {
-			return "listarMensajeVendedor";
+			return "redirect:/GestionProvedor";
 		}
 		
 		if (provedor.getIdProveedor()!=0) {
@@ -64,6 +69,8 @@ public class ControllerProvedor {
 				nuevoProveedor.setDireccion(provedor.getDireccion());
 				nuevoProveedor.setTelefono(provedor.getTelefono());
 				repoProvedor.save(nuevoProveedor);
+				Iterable<Proveedor> lista = repoProvedor.findAll();
+				model.addAttribute("lista", lista);
 				model.addAttribute("Mensaje", "logrado");
 				return "redirect:/GestionProvedor";
 			}else {
@@ -80,6 +87,8 @@ public class ControllerProvedor {
 	public String BuscarProvedor(Proveedor provedor, Model model) {
 		Proveedor buscaProvedor = repoProvedor.buscarProveedor(provedor.getIdProveedor());
 		if (buscaProvedor != null) {
+			Iterable<Proveedor> lista = repoProvedor.findAll();
+			model.addAttribute("lista", lista);
 			model.addAttribute("provedor", buscaProvedor);
 			return "GestionProvedor";
 			
@@ -94,6 +103,8 @@ public class ControllerProvedor {
 		Proveedor provedor = repoProvedor.findById(cedula)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid usuario Id:" + cedula));
 		repoProvedor.delete(provedor);
+		Iterable<Proveedor> lista = repoProvedor.findAll();
+		model.addAttribute("lista", lista);
 		model.addAttribute("provedor", repoProvedor.findAll());
 		return "redirect:/GestionProvedor";
 	}
@@ -116,5 +127,9 @@ public class ControllerProvedor {
 		}
 		return "GestionProvedor";
 	}
+	
+	
+	
+	
 
 }

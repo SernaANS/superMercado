@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
-	<!-- Necesarios en todos los html para utilizar boostrap y jquery -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-	<script th:src="@{/js/jquery.js}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Necesarios en todos los html para utilizar boostrap y jquery -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+	crossorigin="anonymous">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+	integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+	crossorigin="anonymous"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
 
 
 <head>
@@ -14,65 +27,98 @@
 <title>Insert title here</title>
 </head>
 <p style="margin-top: 110px"></p>
-<nav class="navbar navbar-expand-lg navbar-light fixed-top col" style="background-color: #eeef20;">
-  <a class="navbar-brand" href="#"><img alt="" src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png" width="100px" height="70px"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item active" >
-        <a class="navbar-brand" href="/GestionProducto" style="font-size:25px">PRODUCTOS</a>
-      </li>
-      <li class="nav-item">
-        <a class="navbar-brand" href="/GestionClinte" style="font-size:25px">CLIENTES</a>
-      </li>
-       <li class="nav-item">
-        <a class="navbar-brand" href="/GestionVendedor" style="font-size:25px">VENDEDORES</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="navbar-brand dropdown-toggle"   data-toggle="dropdown"style="font-size:25px">CAT/SUB</a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/GestionCategoria">CATEGORIA</a>
-          <a class="dropdown-item" href="/GestionSubcategoria">SUBCATEGORIA</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="navbar-brand" href="/GestionProvedor" style="font-size:25px">PROVEEDORES</a>
-      </li>
-    </ul>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top col"
+	style="background-color: #eeef20;">
+	<a class="navbar-brand" href="#"><img alt=""
+		src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
+		width="100px" height="70px"></a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse"
+		data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+		aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNavDropdown">
+		<ul class="navbar-nav">
+			<li class="nav-item active"><a class="navbar-brand"
+				href="/GestionProducto" style="font-size: 25px">PRODUCTOS</a></li>
+			<li class="nav-item"><a class="navbar-brand"
+				href="/GestionClinte" style="font-size: 25px">CLIENTES</a></li>
+			<li class="nav-item"><a class="navbar-brand"
+				href="/GestionVendedor" style="font-size: 25px">VENDEDORES</a></li>
+			<li class="nav-item dropdown"><a
+				class="navbar-brand dropdown-toggle" data-toggle="dropdown"
+				style="font-size: 25px">CAT/SUB</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" href="/GestionCategoria">CATEGORIA</a> <a
+						class="dropdown-item" href="/GestionSubcategoria">SUBCATEGORIA</a>
+				</div></li>
+			<li class="nav-item"><a class="navbar-brand"
+				href="/GestionProvedor" style="font-size: 25px">PROVEEDORES</a></li>
+		</ul>
+	</div>
 </nav>
 <body>
-	<form class="formulario" action="#" th:action="@{/Provedor}"
+	<form class="formulario" action="#" th:action="@{/Registro}"
 		th:object="${provedor}" method="post">
-		<div>
-		
-		        <label >CodigoEmpleado</label>
-		        <input	type="number" th:placeholder="hola" th:field="*{idProveedor}"> 
-			    <label>Nombre</label>
-			    <input	type="text" th:placeholder="prov" th:field="*{nombre}" th:value="${provedor.nombre}"> 
-				<label>Telefono</label>
-				<input type="number" th:placeholder="hola" th:field="*{telefono}" th:value="${provedor.telefono}"> 
-				<label>Direccion</label>
-				<input type="text" th:placeholder="hola" th:field="*{direccion}" th:value="${provedor.direccion}">
-			    
+		<div class="row" style="margin: 10px">
+			<div class="col">
+				<label class="font-weight-bold">Codigo Provedor</label> <input
+					class="form-control" type="number"
+					placeholder="Ingrese el Codigo del provedor"
+					th:field="*{idProveedor}">
+			</div>
+			<div class="col">
+				<label class="font-weight-bold">Nombre</label> <input
+					class="form-control" type="text" placeholder="Ingrese el nombre"
+					th:field="*{nombre}" th:value="${provedor.nombre}">
+			</div>
+			<div class="col">
+				<label class="font-weight-bold">Telefono</label> <input
+					class="form-control" type="number"
+					placeholder="Ingrese el telefono" th:field="*{telefono}"
+					th:value="${provedor.telefono}">
+			</div>
+			<div class="col">
+				<label class="font-weight-bold">Direccion</label> <input
+					class="form-control" type="text" placeholder="Ingrese la direccion"
+					th:field="*{direccion}" th:value="${provedor.direccion}">
+			</div>
 		</div>
-		<div>
-			<input type="submit" value="Registrar" name="Registrar"
-				id="btnCancelar" class="button">
-		
-			<input type="submit" value="Modificar" name="Modificar"
-				id="btnCancelar" class="button">
-		
-			<input type="submit" value="Eliminar" name="Eliminar"
-				id="btnCancelar" class="button">
-		
-			<input type="submit" value="Buscar" name="Buscar"
-				id="btnCancelar" class="button">
+		<div class="container-fluid ">
+			<div class="container d-flex justify-content-center">
+				<button type="submit" class="btn btn-outline-dark btn-lg mr-2"
+					value="Registrar" name="Registrar" id="btnCancelar">REGISTRAR</button>
+				<button type="submit" class="btn btn-outline-dark btn-lg mr-2"
+					value="Buscar" name="Buscar" id="btnCancelar">BUSCAR</button>
+				<button type="submit" class="btn btn-outline-dark btn-lg mr-2"
+					value="Modificar" name="Modificar" id="btnCancelar">MODIFICAR</button>
+				<button type="submit" class="btn btn-outline-dark btn-lg mr-2"
+					value="Eliminar" name="Eliminar" id="btnCancelar">ELIMINAR</button>
+			</div>
 		</div>
-		
-		
+		<div class="container" th:switch="${productolist}">
+			<h2 class="text-center">LISTADO DE PROVEDORES</h2>
+			<p class="text-center">Los provedores registrados en la plataforma web</p>
+			<table class="table table-hover">
+				<thead style="background-color: #eeef20">
+					<tr>
+						<th class="text-center">CODIGO</th>
+						<th class="text-center">NOMBRE</th>
+						<th class="text-center">TELEFONO</th>
+						<th class="text-center">DIRECCION</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="lista : ${lista}">
+						<td th:text="${lista.idProveedor}">John</td>
+						<td th:text="${lista.nombre}">John</td>
+						<td th:text="${lista.direccion}">John</td>
+						<td th:text="${lista.telefono}">John</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
 	</form>
 </body>
 </html>
