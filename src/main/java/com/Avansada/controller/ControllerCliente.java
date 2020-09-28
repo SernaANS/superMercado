@@ -22,9 +22,6 @@ public class ControllerCliente {
 	
 	public static int cedula;
 	
-	
-	
-	
 	public static int getCedula() {
 		return cedula;
 	}
