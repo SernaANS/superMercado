@@ -19,7 +19,7 @@ public class Categoria implements Serializable {
 	private int idCategoria;
 
 	private String descripcion;
-	
+
 	private String nombre;
 
 	//bi-directional many-to-one association to Subcategoria

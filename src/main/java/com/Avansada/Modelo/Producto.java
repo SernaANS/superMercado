@@ -2,11 +2,6 @@ package com.Avansada.Modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.sun.istack.NotNull;
-
 import java.util.Date;
 import java.util.List;
 
@@ -26,27 +21,19 @@ public class Producto implements Serializable {
 
 	private String decripcion;
 
-	//@NotNull(message="{date-valid}")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_vencimiento")
-    private Date fechaVencimiento;
-	
-    @Column(unique = true)
-    //@NotEmpty(message = "{error.campoObligatorio}")
-	//@Pattern(regexp = "[A-Za-z ]+", message = "{error.sololetras}")
+	private Date fechaVencimiento;
+
+	@Lob
+	private byte[] foto;
+
 	private String nombre;
 
-    
 	@Column(name="precio_compra_unidad")
-
-	//@NotNull(message = "{error.campoObligatorio}")
-	//@Min(value = 1, message = "El precio mínimo es 1")
 	private int precioCompraUnidad;
 
 	@Column(name="precio_venta_unidad")
-
-	//@NotNull(message = "{error.campoObligatorio}")
-	//@Min(value = 1, message = "El precio mínimo es 1")
 	private int precioVentaUnidad;
 
 	//bi-directional many-to-one association to DetalleBodega
@@ -67,26 +54,6 @@ public class Producto implements Serializable {
 
 	public Producto() {
 	}
-	
-	/**
-
-	public Producto(int idProducto, String decripcion, Date fechaVencimiento,@NotEmpty(message = "hola lindo, se te olvido  nombre") @Pattern(regexp = "[A-Za-z ]+", message = "solo se permite letras") String nombre, int precioCompraUnidad,
-			int precioVentaUnidad, List<DetalleBodega> detalleBodegas, List<DetalleFactura> detalleFacturas,
-			Proveedor proveedor, Subcategoria subcategoria) {
-		super();
-		this.idProducto = idProducto;
-		this.decripcion = decripcion;
-		this.fechaVencimiento = fechaVencimiento;
-		this.nombre = nombre;
-		this.precioCompraUnidad = precioCompraUnidad;
-		this.precioVentaUnidad = precioVentaUnidad;
-		this.detalleBodegas = detalleBodegas;
-		this.detalleFacturas = detalleFacturas;
-		this.proveedor = proveedor;
-		this.subcategoria = subcategoria;
-	}
-
-**/
 
 	public int getIdProducto() {
 		return this.idProducto;
@@ -110,6 +77,14 @@ public class Producto implements Serializable {
 
 	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public byte[] getFoto() {
+		return this.foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 
 	public String getNombre() {

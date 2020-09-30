@@ -2,9 +2,6 @@ package com.Avansada.Modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.Date;
 import java.util.List;
 
@@ -31,9 +28,11 @@ public class Cliente implements Serializable {
 	private String direccion;
 
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
+
+	@Lob
+	private byte[] foto;
 
 	private String nombre;
 
@@ -92,6 +91,14 @@ public class Cliente implements Serializable {
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public byte[] getFoto() {
+		return this.foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 
 	public String getNombre() {

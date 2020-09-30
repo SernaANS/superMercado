@@ -21,6 +21,8 @@ public class Vendedor implements Serializable {
 
 	private String apellido;
 
+	private String clave;
+
 	private String direccion;
 
 	@Column(name="estado_civil")
@@ -33,6 +35,9 @@ public class Vendedor implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
+
+	@Lob
+	private byte[] foto;
 
 	private String nombre;
 
@@ -59,6 +64,14 @@ public class Vendedor implements Serializable {
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
+	}
+
+	public String getClave() {
+		return this.clave;
+	}
+
+	public void setClave(String clave) {
+		this.clave = clave;
 	}
 
 	public String getDireccion() {
@@ -91,6 +104,14 @@ public class Vendedor implements Serializable {
 
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public byte[] getFoto() {
+		return this.foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 
 	public String getNombre() {
