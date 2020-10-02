@@ -38,6 +38,7 @@ public class ControllerProvedor {
 		return "GestionProvedor";
 		
 	}
+	
 
 	@PostMapping("/RegistrarProvedor")
 	public String RegistarProvedor(@Validated Proveedor provedor, BindingResult result, Model model) {

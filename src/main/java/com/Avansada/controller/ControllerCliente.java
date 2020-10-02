@@ -71,7 +71,7 @@ public class ControllerCliente {
 	/////////////////////////// Metodos////////////////////////////////////////////
 	public String registar(Cliente cliente, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "GestionCategoria";
+			return "Index";
 		}
 		if (cliente.getIdCliente() != 0 || !cliente.getNombre().isEmpty() || cliente.getDireccion() != ""
 				|| cliente.getApellido() != "" || cliente.getTelefono() != "" || cliente.getCorreo() != ""
@@ -80,10 +80,10 @@ public class ControllerCliente {
 				repoCliente.save(cliente);
 				return "redirect:/Login";
 			} else {
-				return "redirect:/GestionCategoria";
+				return "redirect:/Index";
 			}
 		} else {
-			return "redirect:/GestionCategoria";
+			return "redirect:/Index";
 		}
 
 	}
@@ -153,9 +153,7 @@ public class ControllerCliente {
 	}
 	////////////////////////// Bottones///////////////////////////////////////////
 
-	public void BottonLogin() {
-	}
-
+	
 	@RequestMapping(value = "/perfil", method = RequestMethod.POST)
 	public String BottonMiperfil(@RequestParam(required = false, value = "Modificar") String modificar,
 			@RequestParam(required = false, value = "Eliminar") String eliminar,
