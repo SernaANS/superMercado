@@ -43,7 +43,7 @@
   </div>
 </nav>
 <body>
-  <form class="formulario" action="#" th:action="@{/Producto}" th:object="${producto}" method="post">
+  <form class="formulario" action="#" th:action="@{/Producto}" th:object="${producto}" method="post" enctype="multipart/form-data">
 			<div class="row" style="margin: 10px">
 				<div class="col" >
 					<label class="font-weight-bold">Nombre del producto</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
@@ -85,7 +85,12 @@
 			    	<label class="font-weight-bold">fecha</label>
 					<input class="form-control" type="text" th:field="*{fechaVencimiento}" required="required" th:value="${producto.fechaVencimiento}">
 			    </div>
+			<div class="col">
+			<label class="font-weight-bold">Foto</label>				
+					
+					 <input type="file"  name="file"/>
 			</div>
+		</div>
 			<div class="container-fluid " >
 				<div class="container d-flex justify-content-center" >
 					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Registrar" name="Registrar" id="btnCancelar">REGISTRAR</button>
@@ -109,6 +114,7 @@
 		        <th class="text-center">NOMBRE PROVEEDOR</th>
 		        <th class="text-center">FECHA VENCIMIENTO</th>
 		        <th class="text-center">DESCRIPCION</th>
+		        <th class="text-center">FOTO</th>
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -121,6 +127,7 @@
 		        <td th:text="${pro.proveedor.nombre}">John</td>
 		        <td th:text="${pro.fechaVencimiento}">John</td>
 		        <td th:text="${pro.decripcion}">John</td>
+		        <td th:text="${/uploaded/pro.foto}">John</td>
 		      </tr>
 		    </tbody>
 		  </table>
@@ -130,4 +137,5 @@
 	</form>
 
 </body>
+
 </html>

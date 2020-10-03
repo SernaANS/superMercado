@@ -1,5 +1,6 @@
 package com.Avansada.controller;
 
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Proveedor;
@@ -24,6 +25,8 @@ import com.Avansada.repository.RepoSubcategoria;
 @Controller
 public class ControllerProducto {
 
+	
+	
 	@Autowired
 	private final RepoProducto repoProducto;
 	@Autowired
@@ -57,8 +60,10 @@ public class ControllerProducto {
 	
 	
 	@PostMapping("/RegistrarProducto")
-	public String RegistarProducto(@Validated Producto producto, BindingResult result, Model model) {
+	
+	public String RegistarProducto(@Validated Producto producto, @RequestParam("file")MultipartFile file,BindingResult result, Model model) throws IOException {
 		if (result.hasErrors()) {
+			
 			model.addAttribute("producto", producto);
 			
 			Iterable<Subcategoria> lista2 = reposubCategoria.todasSubcategoria();
@@ -68,7 +73,7 @@ public class ControllerProducto {
 			
 			return "GestionProducto";
 		}
-		
+		producto.setFoto(file.getBytes());
 		repoProducto.save(producto);
 		model.addAttribute("producto", repoProducto.findAll());
 
@@ -143,11 +148,11 @@ public class ControllerProducto {
 	public String handlePost(@RequestParam(required = false, value = "Registrar") String registrar,
 			@RequestParam(required = false, value = "Modificar") String modificar,
 			@RequestParam(required = false, value = "Buscar") String Buscar, 
-			@RequestParam(required = false, value = "Eliminar") String Eliminar, 
-			@Validated Producto pruducto,BindingResult result, Model model) {
+			@RequestParam(required = false, value = "Eliminar") String Eliminar,
+			@Validated Producto pruducto,BindingResult result, Model model,@RequestParam("file") MultipartFile file) throws IOException {
 
 		if ("Registrar".equals(registrar)) {
-			return RegistarProducto(pruducto, result, model);
+			return RegistarProducto(pruducto,file, result, model);
 		} else if ("Modificar".equals(modificar)) {
 			return ModificarProducto(pruducto, result, model);
 		}else if ("Eliminar".equals(Eliminar)) {
@@ -155,7 +160,10 @@ public class ControllerProducto {
 		}else if ("Buscar".equals(Buscar)) {
 			return BuscarProducto(pruducto,result, model);
 		}
-		return "GestionSubcategoria";
+		return "GestionProducto";
 	}
 	
+	
+	//------- FOTO -----------
+
 }
