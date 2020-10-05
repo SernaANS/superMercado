@@ -31,8 +31,7 @@ public class Cliente implements Serializable {
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
 
-	@Lob
-	private byte[] foto;
+	private String foto;
 
 	private String nombre;
 
@@ -93,11 +92,11 @@ public class Cliente implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public byte[] getFoto() {
+	public String getFoto() {
 		return this.foto;
 	}
 
-	public void setFoto(byte[] foto) {
+	public void setFoto(String foto) {
 		this.foto = foto;
 	}
 

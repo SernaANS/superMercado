@@ -1,6 +1,7 @@
 package com.Avansada.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,14 @@ import com.Avansada.Modelo.Subcategoria;
 import com.Avansada.repository.RepoProducto;
 import com.Avansada.repository.RepoProvedor;
 import com.Avansada.repository.RepoSubcategoria;
+import com.cloudinary.utils.ObjectUtils;
 
 @Controller
 public class ControllerProducto {
 
 	
-	
+    @Autowired
+    com.Avansada.cloudinary.CloudinaryConfig cloudc;
 	@Autowired
 	private final RepoProducto repoProducto;
 	@Autowired
@@ -60,7 +63,7 @@ public class ControllerProducto {
 	
 	
 	@PostMapping("/RegistrarProducto")
-	
+
 	public String RegistarProducto(@Validated Producto producto, @RequestParam("file")MultipartFile file,BindingResult result, Model model) throws IOException {
 		if (result.hasErrors()) {
 			
@@ -73,30 +76,59 @@ public class ControllerProducto {
 			
 			return "GestionProducto";
 		}
-		producto.setFoto(file.getBytes());
-		repoProducto.save(producto);
-		model.addAttribute("producto", repoProducto.findAll());
+		if (file.isEmpty()) {
+	        return "GestionProducto";
+		  
+        }
+        try {
+	        
+        	//se crea la url del archivofoto
+            Map uploadResult = cloudc.upload(file.getBytes(),
+                    ObjectUtils.asMap("resourcetype", "auto"));
+			
+    		//Se inserta la direcion que se obtuvo del cloudc
+    		
+    		producto.setFoto(uploadResult.get("url").toString());
+    		repoProducto.save(producto);
+    		model.addAttribute("producto", repoProducto.findAll());
+    		return "redirect:/GestionProducto";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "redirect:/GestionProducto";
+        }
 
-		return "redirect:/GestionProducto";
 
 	}
 
 	@PostMapping("/ModificarProducto")
-	public String ModificarProducto(@Validated Producto producto, BindingResult result,Model model) {
+	public String ModificarProducto(@Validated Producto producto,@RequestParam("file")MultipartFile file, BindingResult result,Model model) {
 		
 		if (result.hasErrors()) {
-			System.out.println("entro modificar primer if "+producto.getNombre());
-			return "listarMensajeVendedor";
+			
+			return "redirect:/GestionProducto";
 		}
 		
 		if (producto!=null) {
 			Producto buscaProducto = repoProducto.buscarProductoId(producto.getIdProducto());
 			if (buscaProducto!=null) {
 				
-				buscaProducto.setNombre(producto.getNombre());
-				buscaProducto.setDecripcion(producto.getDecripcion());
-				buscaProducto.setPrecioCompraUnidad(producto.getPrecioCompraUnidad());
-				buscaProducto.setPrecioVentaUnidad(producto.getPrecioVentaUnidad());
+				//se crea la url del archivofoto
+				try {
+					Map uploadResult = cloudc.upload(file.getBytes(),
+		                    ObjectUtils.asMap("resourcetype", "auto"));
+					
+					producto.setFoto(uploadResult.get("url").toString());
+					buscaProducto.setNombre(producto.getNombre());
+					buscaProducto.setDecripcion(producto.getDecripcion());
+					buscaProducto.setPrecioCompraUnidad(producto.getPrecioCompraUnidad());
+					buscaProducto.setPrecioVentaUnidad(producto.getPrecioVentaUnidad());
+					
+					buscaProducto.setFoto(producto.getFoto());
+				} catch (IOException e) {
+					// TODO: handle exception
+				}
+	            
+				
 				
 				repoProducto.save(buscaProducto);
 				System.out.println("entro modficar segundo if  final "+buscaProducto.getNombre());
@@ -154,7 +186,7 @@ public class ControllerProducto {
 		if ("Registrar".equals(registrar)) {
 			return RegistarProducto(pruducto,file, result, model);
 		} else if ("Modificar".equals(modificar)) {
-			return ModificarProducto(pruducto, result, model);
+			return ModificarProducto(pruducto,file, result, model);
 		}else if ("Eliminar".equals(Eliminar)) {
 			return EliminarProducto(pruducto.getIdProducto(), result, model);
 		}else if ("Buscar".equals(Buscar)) {

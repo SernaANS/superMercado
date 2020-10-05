@@ -19,14 +19,14 @@ public class Producto implements Serializable {
 	@Column(name="id_producto")
 	private int idProducto;
 
+	
 	private String decripcion;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_vencimiento")
 	private Date fechaVencimiento;
 
-	@Lob
-	private byte[] foto;
+	private String foto;
 
 	private String nombre;
 
@@ -44,13 +44,13 @@ public class Producto implements Serializable {
 	@OneToMany(mappedBy="producto")
 	private List<DetalleFactura> detalleFacturas;
 
-	//bi-directional many-to-one association to Proveedor
-	@ManyToOne
-	private Proveedor proveedor;
-
 	//bi-directional many-to-one association to Subcategoria
 	@ManyToOne
 	private Subcategoria subcategoria;
+
+	//bi-directional many-to-one association to Proveedor
+	@ManyToOne
+	private Proveedor proveedor;
 
 	public Producto() {
 	}
@@ -79,11 +79,11 @@ public class Producto implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public byte[] getFoto() {
+	public String getFoto() {
 		return this.foto;
 	}
 
-	public void setFoto(byte[] foto) {
+	public void setFoto(String foto) {
 		this.foto = foto;
 	}
 
@@ -155,20 +155,20 @@ public class Producto implements Serializable {
 		return detalleFactura;
 	}
 
-	public Proveedor getProveedor() {
-		return this.proveedor;
-	}
-
-	public void setProveedor(Proveedor proveedor) {
-		this.proveedor = proveedor;
-	}
-
 	public Subcategoria getSubcategoria() {
 		return this.subcategoria;
 	}
 
 	public void setSubcategoria(Subcategoria subcategoria) {
 		this.subcategoria = subcategoria;
+	}
+
+	public Proveedor getProveedor() {
+		return this.proveedor;
+	}
+
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
 	}
 
 }

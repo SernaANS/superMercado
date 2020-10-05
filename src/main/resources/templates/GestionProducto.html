@@ -86,9 +86,8 @@
 					<input class="form-control" type="text" th:field="*{fechaVencimiento}" required="required" th:value="${producto.fechaVencimiento}">
 			    </div>
 			<div class="col">
-			<label class="font-weight-bold">Foto</label>				
-					
-					 <input type="file"  name="file"/>
+				<label class="font-weight-bold">Fotos del Producto</label> 
+				<input type="file"accept=".png, .jpg, .jpeg, .raw, .bmp" name="file">
 			</div>
 		</div>
 			<div class="container-fluid " >
@@ -127,7 +126,7 @@
 		        <td th:text="${pro.proveedor.nombre}">John</td>
 		        <td th:text="${pro.fechaVencimiento}">John</td>
 		        <td th:text="${pro.decripcion}">John</td>
-		        <td th:text="${/uploaded/pro.foto}">John</td>
+		        <td><img th:src="${pro.foto}" title="publicidadIndex" height="100px" width="200px"></td>
 		      </tr>
 		    </tbody>
 		  </table>

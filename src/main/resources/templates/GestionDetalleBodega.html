@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<!-- Necesarios en todos los html para utilizar boostrap y jquery -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+	<script th:src="@{/js/jquery.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+</head>
+<p style="margin-top: 110px"></p>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top col" style="background-color: #eeef20;">
+  <a class="navbar-brand" href="#"><img alt="" src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png" width="100px" height="70px"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active" >
+        <a class="navbar-brand" href="/GestionProducto" style="font-size:25px">PRODUCTOS</a>
+      </li>
+      <li class="nav-item">
+        <a class="navbar-brand" href="/GestionClinte" style="font-size:25px">CLIENTES</a>
+      </li>
+       <li class="nav-item">
+        <a class="navbar-brand" href="/GestionVendedor" style="font-size:25px">VENDEDORES</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="navbar-brand dropdown-toggle"  href="/GestionCategoria" data-toggle="dropdown"style="font-size:25px">CAT/SUB</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/GestionCategoria">CATEGORIA</a>
+          <a class="dropdown-item" href="/GestionSubcategoria">SUBCATEGORIA</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="navbar-brand" href="/GestionProvedor" style="font-size:25px">PROVEEDORES</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="navbar-brand dropdown-toggle"  href="/GestionCategoria" data-toggle="dropdown"style="font-size:25px">BODEGA</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/GestionBodega">BODEGA</a>
+          <a class="dropdown-item" href="/GestionDetalleBodega">ASIGNAR PRODUCTOS</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<body>
+ 
+ 
+ 		<div class="container-fluid" >
+			<p class="text-center " style="font-size:30px">DETALLE BODEGA</p>
+    	</div>
+    	<div style="background-color: #eeef20"  ><br></div>
+    	<br>
+    	<div class="container-fluid" >
+    	<div class="row">
+    		<div class="col border-right">
+    	
+    		
+		  <h2 class="text-center">LISTADO DE PRODUCTOS</h2>
+		  <p class="text-center">Las siguientes items en la lista son las categorias usadas en los productos</p>
+		  <div class="container" th:switch="${productos}">   
+		  <table class="table table-hover">
+		    <thead style="background-color: #eeef20">
+		      <tr>
+		        <th class="text-center">ID</th>
+		        <th class="text-center">NOMBRE</th>
+		        <th class="text-center">PRECIO VENTA UNIDAD</th>
+		        <th class="text-center">SUBCATEGORIA</th>
+		        <th class="text-center">FECHA VENCIMIENTO</th>
+		        <th class="text-center">SELECCIONAR</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="pro : ${productos}">
+		        <td th:text="${pro.idProducto}">John</td>
+		        <td th:text="${pro.nombre}">John</td>
+		        <td th:text="${pro.precioVentaUnidad}">John</td>
+		        <td th:text="${pro.subcategoria.nombre}">John</td>
+		        <td th:text="${pro.fechaVencimiento}">John</td>
+		        <td><a th:href="@{/GestionDetalleBodega/producto/{idProducto}(idProducto=${pro.idProducto})}" class="btn btn-primary">
+					<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+ 				 	<path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+  					<path fill-rule="evenodd" d="M8 2.5A5.5 5.5 0 1 0 13.5 8a.5.5 0 0 1 1 0 6.5 6.5 0 1 1-3.25-5.63.5.5 0 1 1-.5.865A5.472 5.472 0 0 0 8 2.5z"/></svg>
+					</a>
+				</td>
+		        
+		      </tr>
+		    </tbody>
+		  </table>
+		</div> 
+          
+
+
+		  </div> 
+		  <div class="col ">
+			<form class="formulario" action="#" th:action="@{/DetalleBodega}" th:object="${detalleBodega}" method="post"> 
+				<div class="row">
+				<div  class="col-md-7 m-1">
+					<div >
+						<div class="row"> 
+							<div class="col">
+								<label   class="col-form-label " >CODIGO DE BARRAS</label>
+							</div>
+							<div class="col" th:each="por : ${datosProducto}">
+							<input type="text"    th:field="*{producto.idProducto}" >
+							</div>
+							
+							
+						</div>
+						<div class="row">
+							<div class="col ">
+								<label   class="col-form-label " >NOMBRE</label>
+							</div>
+							<div class="col" >
+							
+								<label   class="col-form-label" th:each="por : ${datosProducto}"  th:text="${por.nombre}" >DATO DE ESO</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label   class="col-form-label" >PROVEEDOR</label>
+							</div>
+							<div class="col">
+								<label   class="col-form-label" th:each="por : ${datosProducto}" th:text="${por.proveedor.nombre}">DATO DE ESO</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label   class="col-form-label" >SUBCATEGORIA</label>
+							</div>
+							<div class="col">
+								<label   class="col-form-label" th:each="por : ${datosProducto}" th:text="${por.subcategoria.nombre}" >DATO DE ESO</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label   class="col-form-label" >FECHA</label>
+							</div>
+						</div>
+						
+					</div>
+				 </div>
+
+
+					<div class="col m-1">
+						<div class="container align-self-center" style=" width: 200px; height: 150px">
+							<img src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png" alt="..." class="rounded">
+						</div>
+					</div>
+				</div>
+				
+			
+			
+			
+			
+		  			<label   class="col-form-label" >BODEGA</label>
+                            <select class="form-control" th:field="*{bodega.idBodega}" >
+								<option  th:each="bo : ${bodeguitas}" th:value="${bo.idBodega}" th:text="${bo.nombre}"></option>
+							</select>
+					
+					
+					
+	
+					<label class="col-form-label">CANTIDAD MINIMA</label>
+					<input type="number"  class="form-control" th:value="${cantidadMinima}" placeholder="INNGRESE LA CANTIDAD MINIMA" th:field="*{cantidadMinima}">
+					<label class="col-form-label">CANTIDAD A INGRESAR</label>
+					<input type="number"  class="form-control"  th:value="${cantidadProducto}" placeholder="INNGRESE LA CANTIDAD A INGRESAR" th:field="*{cantidadProducto}">
+					<hr>
+			<div class="container-fluid " >
+				<div class="container d-flex justify-content-center" >
+				
+				 
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Registrar" name="Registrar" id="btnCancelar">REGISTRAR</button>	
+				</div>
+			</div>
+			</form>
+		  	</div>
+	
+		  </div>      
+		</div>  
+		<hr>
+		<div class="container" th:switch="${detalleBodeguita}">
+		  <h2 class="text-center">LISTADO DE DETALLE BODEGA</h2>
+		  <p class="text-center">Las siguientes items en la lista son las  usadas en los productos</p>            
+		  <table class="table table-hover">
+		    <thead style="background-color: #eeef20">
+		      <tr>
+		        <th class="text-center">ID</th>
+		        <th class="text-center">NOMBRE BODEGA</th>
+		        <th class="text-center">CODIGO PRODUCTO</th>
+		        <th class="text-center">NOMBRE PRODUCTO</th>
+		        <th class="text-center">CANTIDAD MINIMA</th>
+		        <th class="text-center">CANTIDAD INGRESADDA</th>
+		        <th class="text-center">FECHA INGRESP</th>
+		         <th class="text-center">OPCIONES</th>
+		        
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="dtB : ${detalleBodeguita}">
+		        <td th:text="${dtB.idDetalleBodega}">John</td>
+		        <td th:text="${dtB.bodega.nombre}">John</td>
+				<td th:text="${dtB.producto.idProducto}">John</td>
+		        <td th:text="${dtB.producto.nombre}">John</td>
+		        <td th:text="${dtB.cantidadMinima}">John</td>
+		        <td th:text="${dtB.cantidadProducto}">John</td>
+		        <td th:text="${dtB.fecha}">John</td>
+		        <td><a th:href="@{/GestionDetalleProducto/detalleBodega/{idDetalleBodega}(idDetalleBodega=${dtB.idDetalleBodega})}" class="btn btn-primary"></a>
+				</td>
+		        
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+<hr>
+</body>
+</html>
