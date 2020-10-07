@@ -1,0 +1,17 @@
+@charset "ISO-8859-1";
+
+.izquierda{
+    width:950px;
+	margin:2px;
+	float: left;
+}
+.derecha{
+	border-left:1px solid black;
+	width:405px;
+	margin:2px;
+	float: right;
+}
+.TEXTO{
+	margin: 10px
+	
+}

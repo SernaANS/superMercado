@@ -1,5 +1,7 @@
 package com.Avansada.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Avansada.Modelo.Categoria;
 import com.Avansada.Modelo.Cliente;
+import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Proveedor;
 import com.Avansada.repository.RepoCliente;
+import com.Avansada.repository.RepoProducto;
 
 @Controller
 public class ControllerCliente {
@@ -32,11 +36,14 @@ public class ControllerCliente {
 
 	@Autowired
 	private final RepoCliente repoCliente;
+	@Autowired
+	private final RepoProducto repoProducto;
 
 	@Autowired
-	public ControllerCliente(RepoCliente repoCliente) {
+	public ControllerCliente(RepoCliente repoCliente,RepoProducto repoProducto) {
 		super();
 		this.repoCliente = repoCliente;
+		this.repoProducto = repoProducto;
 	}
 
 	//////////////////////////// Vistas////////////////////////////////////////////
@@ -65,6 +72,8 @@ public class ControllerCliente {
 
 	@GetMapping("/IndexCliente")
 	public String IndexClienteLogeado(Cliente cliente, Model model) {
+		Iterable<Producto> productos = repoProducto.findAll();
+		model.addAttribute("productos", productos);
 		return "indexClienteLogiado";
 	}
 	
@@ -98,6 +107,7 @@ public class ControllerCliente {
 		Cliente Bcliente = repoCliente.BuscarCLiente(cedula);
 		if (Bcliente != null) {
 			model.addAttribute("cliente", Bcliente);
+			
 			return "MiPerfil";
 
 		} else {
@@ -112,7 +122,10 @@ public class ControllerCliente {
 		Cliente Bcliente = repoCliente.login(cliente.getIdCliente(), cliente.getClave());
 		if (Bcliente != null) {
 			model.addAttribute("Cliente", Bcliente);
+			
 			cedula=cliente.getIdCliente();
+			Iterable<Producto> productos = repoProducto.findAll();
+			model.addAttribute("productos", productos);
 			return "indexClienteLogiado";
 		} else {
 			return "/Index";
