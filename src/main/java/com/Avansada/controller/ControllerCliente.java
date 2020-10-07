@@ -67,6 +67,11 @@ public class ControllerCliente {
 	public String IndexClienteLogeado(Cliente cliente, Model model) {
 		return "indexClienteLogiado";
 	}
+	
+	@GetMapping("/Micarrito")
+	public String Micarrito(Cliente cliente, Model model) {
+		return "MiCarrito";
+	}
 
 	/////////////////////////// Metodos////////////////////////////////////////////
 	public String registar(Cliente cliente, BindingResult result, Model model) {

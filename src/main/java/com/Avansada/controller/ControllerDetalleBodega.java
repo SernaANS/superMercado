@@ -69,10 +69,7 @@ public class ControllerDetalleBodega {
 		DetalleBodega bodeguita= repoDetalleBodega.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalidanuncio Id:" + id));
 		if(bodeguita!=null) {
 			System.out.println("bodeguita"+ bodeguita.getIdDetalleBodega()+"---"+bodeguita.getCantidadMinima());
-			
-			
 			model.addAttribute("detalles",bodeguita);
-			
 			Iterable<Bodega> listaBodegas=repoBodega.findAll();
 			model.addAttribute("bodeguitas",listaBodegas);
 			return "ModificarDetalleBodega";

@@ -10,7 +10,7 @@ import com.Avansada.Modelo.DetalleBodega;
 
 public interface RepoDetalleBodega extends CrudRepository<DetalleBodega,Integer>{
 
-	@Query("SELECT A FROM Bodega A WHERE A.idBodega=?1")
+	@Query("SELECT A FROM DetalleBodega A WHERE A.idDetalleBodega=?1")
 	public DetalleBodega buscarDetalleBodegaId(int idDetalleBodega);
 	
 	@Query("SELECT A FROM Bodega A WHERE A.nombre=?1")
