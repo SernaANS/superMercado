@@ -39,12 +39,22 @@
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav">
+					<li class="nav-item active"><a class="navbar-brand" href="#"
+						style="font-size: 25px">PRODUCTOS</a></li>
+					<li class="nav-item"><a class="navbar-brand" href="/FormularioVendedor"
+						style="font-size: 25px">REGISTRATE</a></li>
+					<li class="nav-item"><a class="navbar-brand" href="/LoginVendedor"
+						style="font-size: 25px">INICIAR SESION</a></li>
+
+				</ul>
+			</div>
 		</nav>
 	</div>
 
 	<div class="login-form">
-		<form action="#" th:action="@{/Ingresar}"
+		<form action="#" th:action="@{IniciarV}"
 		th:object="${vendedor}" method="post">
 			<div style="border: solid;  margin-left: 250px; margin-right: 250px">
 			<svg  style="margin-left: 350px"      width="8em" height="8em" viewBox="0 0 16 16" class="bi bi-person-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -65,10 +75,10 @@
 					</div>
 					<div style="margin-top: 30px"
 						class="container d-flex justify-content-center">
-						<button type="submit"  class="btn btn-outline-dark btn-lg btn-block" value="Ingresar" name="Ingresar">Ingresar</button>
+						<button type="submit"  class="btn btn-outline-dark btn-lg btn-block" >Ingresar</button>
 					</div>
 				</div>
-				
+				<p class="text-center ">No tienes cuenta <a href="/FormularioVendedor">Registrate aqui </a></p>
 			</div>
 
 		</form>

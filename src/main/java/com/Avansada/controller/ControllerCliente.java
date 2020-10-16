@@ -23,8 +23,9 @@ import com.Avansada.repository.RepoProducto;
 @Controller
 public class ControllerCliente {
 
+	
 	public static int cedula;
-
+	
 	public static int getCedula() {
 		return cedula;
 	}
@@ -39,7 +40,7 @@ public class ControllerCliente {
 	private final RepoProducto repoProducto;
 
 	@Autowired
-	public ControllerCliente(RepoCliente repoCliente, RepoProducto repoProducto) {
+	public ControllerCliente(RepoCliente repoCliente,RepoProducto repoProducto) {
 		super();
 		this.repoCliente = repoCliente;
 		this.repoProducto = repoProducto;
@@ -75,7 +76,7 @@ public class ControllerCliente {
 		model.addAttribute("productos", productos);
 		return "indexClienteLogiado";
 	}
-
+	
 	@GetMapping("/Micarrito")
 	public String Micarrito(Cliente cliente, Model model) {
 		return "MiCarrito";
@@ -106,7 +107,7 @@ public class ControllerCliente {
 		Cliente Bcliente = repoCliente.BuscarCLiente(cedula);
 		if (Bcliente != null) {
 			model.addAttribute("cliente", Bcliente);
-
+			
 			return "MiPerfil";
 
 		} else {
@@ -121,8 +122,8 @@ public class ControllerCliente {
 		Cliente Bcliente = repoCliente.login(cliente.getIdCliente(), cliente.getClave());
 		if (Bcliente != null) {
 			model.addAttribute("Cliente", Bcliente);
-
-			cedula = cliente.getIdCliente();
+			
+			cedula=cliente.getIdCliente();
 			Iterable<Producto> productos = repoProducto.findAll();
 			model.addAttribute("productos", productos);
 			return "indexClienteLogiado";
@@ -143,10 +144,10 @@ public class ControllerCliente {
 		if (result.hasErrors()) {
 			return "index";
 		}
-
-		if (cliente.getIdCliente() != 0) {
-			Cliente newCleinte = repoCliente.BuscarCLiente(cliente.getIdCliente());
-			if (newCleinte != null) {
+		
+		if (cliente.getIdCliente()!=0) {
+			Cliente newCleinte=repoCliente.BuscarCLiente(cliente.getIdCliente());
+			if (newCleinte!=null) {
 				newCleinte.setNombre(cliente.getNombre());
 				newCleinte.setDireccion(cliente.getDireccion());
 				newCleinte.setTelefono(cliente.getTelefono());
@@ -156,10 +157,10 @@ public class ControllerCliente {
 				repoCliente.save(newCleinte);
 				model.addAttribute("Mensaje", "logrado");
 				return "indexClienteLogiado";
-			} else {
+			}else {
 				return "redirect:/Iniciar";
 			}
-		} else {
+		}else {
 			return "redirect:/GestionProvedor";
 		}
 	}
@@ -175,15 +176,15 @@ public class ControllerCliente {
 
 	@RequestMapping(value = "/perfil", method = RequestMethod.POST)
 	public String BottonMiperfil(@RequestParam(required = false, value = "Modificar") String modificar,
-			@RequestParam(required = false, value = "Eliminar") String eliminar, @Validated Cliente cliente,
-			BindingResult result, Model model) {
-
+			@RequestParam(required = false, value = "Eliminar") String eliminar,
+			@Validated Cliente cliente, BindingResult result, Model model) {
+		
 		if ("Modificar".equals(modificar)) {
 			return Modificar(cliente, result, model);
-		} else if ("Eliminar".equals(eliminar)) {
+		}else if ("Eliminar".equals(eliminar)) {
 			return Eliminar(cliente, result, model);
 		}
-
+		
 		return "index";
 	}
 
