@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Avansada.Modelo.Bodega;
 import com.Avansada.Modelo.Categoria;
+import com.Avansada.Modelo.Vendedor;
 import com.Avansada.repository.RepoBodega;
 
 
@@ -26,6 +27,11 @@ public class ControllerBodega {
 		this.repoBodega = repoBodega;
 	}
 
+	@GetMapping("/IndexAdminLogiado")
+	public String Login(Vendedor vendedor, Model model) {
+		return "IndexAdminLogiado";
+	}
+	
 	@GetMapping("/GestionBodega")
 	public String showSignUpForm(Bodega bodega,Model model) {
 		Iterable<Bodega> lista = repoBodega.findAll();

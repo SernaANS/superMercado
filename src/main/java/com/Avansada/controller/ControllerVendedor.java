@@ -11,11 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.Avansada.Modelo.Admin;
+import com.Avansada.Modelo.Cliente;
+import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Vendedor;
 import com.Avansada.repository.RepoVendedor;
 
 @Controller
 public class ControllerVendedor {
+	
+	public static Admin admin=new Admin("1212","1212","sernita@gamil.com","santiago"); 
 	
 	public static int cedula;
 	
@@ -100,17 +105,25 @@ public class ControllerVendedor {
 
 	@PostMapping("/IniciarV")
 	public String BuscarLogin(Vendedor vendedor, BindingResult result, Model model) {
-
-		Vendedor Bvendedor = repoVendedor.loginVendedor(vendedor.getIdVendedor());
-		if (Bvendedor != null) {
-			model.addAttribute("Cliente", Bvendedor);
-			cedula=vendedor.getIdVendedor();
-			return "indexV";
-		} else {
-			return "/Index";
+		
+		if(Integer.toString(vendedor.getIdVendedor()).equals(admin.getIdAdmin())&&vendedor.getClave().equals(admin.getClave())) {
+			return "IndexAdminLogiado";
+		}else {
+			Vendedor Bvendedor = repoVendedor.loginVendedor(vendedor.getIdVendedor());
+			if (Bvendedor != null) {
+				model.addAttribute("Cliente", Bvendedor);
+				cedula=vendedor.getIdVendedor();
+				return "indexV";
+			} else {
+				return "/Index";
+			}
 		}
 
+		
+
 	}
+	
+
 
 	public String Eliminar(Vendedor vendedor, BindingResult result, Model model) {
 		Vendedor bCliente = repoVendedor.findById(vendedor.getIdVendedor())

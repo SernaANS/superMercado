@@ -37,7 +37,10 @@ public class ControllerCategoria {
 	@GetMapping("/Index")
 	public String showSignUpForm(Model model) {
 		return "Index";
-		
+	}
+	@GetMapping("/*")
+	public String showSignUpForm1(Model model) {
+		return "Index";
 	}
 	
 	@PostMapping("/RegistrarCategoria")

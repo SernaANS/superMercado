@@ -130,8 +130,8 @@ public class ControllerCliente {
 		} else {
 			return "/Index";
 		}
-
 	}
+	
 
 	public String Eliminar(Cliente cliente, BindingResult result, Model model) {
 		Cliente bCliente = repoCliente.findById(cliente.getIdCliente())
