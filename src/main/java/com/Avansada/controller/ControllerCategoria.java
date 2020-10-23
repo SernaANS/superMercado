@@ -1,5 +1,6 @@
 package com.Avansada.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,17 +13,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Avansada.Modelo.Categoria;
+import com.Avansada.Modelo.Producto;
 import com.Avansada.repository.RepoCategoria;
+import com.Avansada.repository.RepoProducto;
 
 
 @Controller
 public class ControllerCategoria {
 
+	
+	@Autowired
 	private final RepoCategoria repoCategoria;
+	
+	@Autowired
+	private final RepoProducto repoProducto;
 
-	public ControllerCategoria(RepoCategoria repoCategoria) {
+	public ControllerCategoria(RepoCategoria repoCategoria,RepoProducto repoProducto) {
 		super();
 		this.repoCategoria = repoCategoria;
+		this.repoProducto=repoProducto;
 	}
 
 	@GetMapping("/GestionCategoria")
@@ -36,10 +45,14 @@ public class ControllerCategoria {
 	
 	@GetMapping("/Index")
 	public String showSignUpForm(Model model) {
+		Iterable<Producto> productos = repoProducto.findAll();
+		model.addAttribute("productos", productos);
 		return "Index";
 	}
 	@GetMapping("/*")
 	public String showSignUpForm1(Model model) {
+		Iterable<Producto> productos = repoProducto.findAll();
+		model.addAttribute("productos", productos);
 		return "Index";
 	}
 	
