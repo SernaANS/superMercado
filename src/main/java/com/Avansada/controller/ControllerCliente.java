@@ -3,11 +3,13 @@ package com.Avansada.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +22,12 @@ import com.Avansada.Modelo.Proveedor;
 import com.Avansada.repository.RepoCliente;
 import com.Avansada.repository.RepoProducto;
 
+
 @Controller
 public class ControllerCliente {
+
+	public static ArrayList<Producto> misProductos= new ArrayList<Producto>();
+	
 
 	
 	public static int cedula;
@@ -74,13 +80,31 @@ public class ControllerCliente {
 	public String IndexClienteLogeado(Cliente cliente, Model model) {
 		Iterable<Producto> productos = repoProducto.findAll();
 		model.addAttribute("productos", productos);
+		model.addAttribute("pro", "nada");
 		return "indexClienteLogiado";
 	}
 	
 	@GetMapping("/Micarrito")
 	public String Micarrito(Cliente cliente, Model model) {
+		model.addAttribute("productos", misProductos);
 		return "MiCarrito";
 	}
+	@GetMapping("/VerInfoModal/{id}")
+	public String MostrarModal(@PathVariable("id") Integer id,Producto pro,Model model) {
+		Producto prod=repoProducto.buscarProductoId(id);
+		model.addAttribute("pro", prod.getNombre());
+		return "indexClienteLogiado";
+	}
+	
+	@GetMapping("/AgregarMiCarrito/{id}")
+	public String AgregarMiCarrito(@PathVariable("id") Integer id,Producto pro,Model model) {
+		
+		Producto prod=repoProducto.buscarProductoId(id);
+		misProductos.add(prod);
+
+		return "redirect:/IndexCliente";
+	}
+	
 
 	/////////////////////////// Metodos////////////////////////////////////////////
 	public String registar(Cliente cliente, BindingResult result, Model model) {

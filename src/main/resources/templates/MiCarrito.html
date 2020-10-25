@@ -106,7 +106,6 @@
 					<tr>
 						<th class="text-center">ID</th>
 						<th class="text-center">PRODUCTO</th>
-						<th class="text-center">NOMBRE PRODUCTO</th>
 						<th class="text-center">PRECIO</th>
 						<th class="text-center">CANTIDAD</th>
 						<th class="text-center">ELIMINAR</th>
@@ -116,7 +115,7 @@
 					<tr th:each="pro : ${productos}">
 						<td th:text="${pro.idProducto}">John</td>
 						<td th:text="${pro.nombre}">John</td>
-						<td th:text="${pro.nombre}">John</td>
+						<td th:text="${pro.precioVentaUnidad}">John</td>
 						<td th:text="${pro.nombre}">John</td>
 						<td th:text="${pro.precioVentaUnidad}"><input type="text"></td>
 						<td><a

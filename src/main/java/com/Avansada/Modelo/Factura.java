@@ -39,6 +39,19 @@ public class Factura implements Serializable {
 
 	public Factura() {
 	}
+	
+	
+
+	public Factura(int idFactura, Date fecha, int precioTotal, Cliente cliente, Vendedor vendedor) {
+		super();
+		this.idFactura = idFactura;
+		this.fecha = fecha;
+		this.precioTotal = precioTotal;
+		this.cliente = cliente;
+		this.vendedor = vendedor;
+	}
+
+
 
 	public int getIdFactura() {
 		return this.idFactura;
