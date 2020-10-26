@@ -86,7 +86,8 @@
 							style="font-size: 25px"> Mi Cuenta</a>
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="/Miperfil">Mi Cuenta</a> <a
+							<a class="dropdown-item" href="/Miperfil">Mi Cuenta</a> 
+							<a class="dropdown-item" href="/MisFacturas">Mis Facturas</a><a
 								class="dropdown-item" href="#">Cerrar Sesion</a>
 						</div>
 					</div>
@@ -113,14 +114,13 @@
 				</thead>
 				<tbody>
 					<tr th:each="pro : ${productos}">
-						<td th:text="${pro.idProducto}">John</td>
+						<td th:text="${pro.idProducto}">Jhon</td>
 						<td th:text="${pro.nombre}">John</td>
 						<td th:text="${pro.precioVentaUnidad}">John</td>
-						<td th:text="${pro.nombre}">John</td>
-						<td th:text="${pro.precioVentaUnidad}"><input type="text"></td>
+						<td ><input type="number" style="width: 50px;" min="1" pattern="^[0-9]+"></td>
 						<td><a
 							th:href="@{/GestionDetalleBodega/producto/{idProducto}(idProducto=${pro.idProducto})}"
-							class="btn btn-primary"></a></td>
+							class="btn btn-primary">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

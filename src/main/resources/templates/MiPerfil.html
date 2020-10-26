@@ -24,51 +24,53 @@
 </head>
 <body>
 
-			<!-- Inicio navegacion -->
-			<p style="margin-top: 110px"></p>
-			<nav class="navbar navbar-expand-lg navbar-light fixed-top col"
-				style="background-color: #17b978;">
-				<a class="navbar-brand" href="/IndexCliente"><img alt=""
-					src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-					width="100px" height="70px"></a>
-				</button>
-		
-				<!-- Buscar -->
-				<form class="collapse navbar-collapse">
-					<input type="text" class="form-control"
-						placeholder="Buscar Categoria"
-						aria-label="Example text with button addon"
-						aria-describedby="button-addon1"
-						style="width: 70%; margin-left: 125px;">
-					<button class="btn btn-outline-secondary" x type="button"
-						id="button-addon1" style="background-color: white; border: none;">Button</button>
-				</form>
-		
-				<!-- navegacion -->
-				<div class="form-inline my-2 my-lg-0" id="navbarNavDropdown">
-					<ul class="navbar-nav">
-						<li class="nav-item"><a class="navbar-brand"
-							href="/IndexCliente" style="font-size: 25px">Inicio</a></li>
-							
-							<li class="nav-item"><a class="navbar-brand" href="/Micarrito"
-							style="font-size: 25px">Mi Carrito</a></li>
-						<li class="nav-item">
-		
-							<div class="btn-group">
-								<a class="navbar-brand dropdown-toggle" data-toggle="dropdown"
-									style="font-size: 25px"> Mi Cuenta</a>
-								</button>
-								<div class="dropdown-menu">
-									<a class="dropdown-item" href="/Miperfil">Mi Cuenta</a> <a
-										class="dropdown-item" href="#">Cerrar Sesion</a>
-								</div>
-							</div>
-						</li>
-						
-					</ul>
-				</div>
-			</nav>
-			<!-- Fin navegacion -->
+					<!-- Inicio navegacion -->
+	<p style="margin-top: 110px"></p>
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top col"
+		style="background-color: #17b978;">
+		<a class="navbar-brand" href="/IndexCliente"><img alt=""
+			src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
+			width="100px" height="70px"></a>
+		</button>
+
+		<!-- Buscar -->
+		<form class="collapse navbar-collapse">
+			<input type="text" class="form-control"
+				placeholder="Buscar Categoria"
+				aria-label="Example text with button addon"
+				aria-describedby="button-addon1"
+				style="width: 70%; margin-left: 125px;">
+			<button class="btn btn-outline-secondary" x type="button"
+				id="button-addon1" style="background-color: white; border: none;">Button</button>
+		</form>
+
+		<!-- navegacion -->
+		<div class="form-inline my-2 my-lg-0" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="navbar-brand"
+          href="/IndexCliente" style="font-size: 25px">Inicio</a></li>
+          
+          <li class="nav-item"><a class="navbar-brand" href="/Micarrito"
+					style="font-size: 25px">Mi Carrito</a></li>
+				<li class="nav-item">
+
+					<div class="btn-group">
+						<a class="navbar-brand dropdown-toggle" data-toggle="dropdown"
+							style="font-size: 25px"> Mi Cuenta</a>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="/Miperfil">Mi Cuenta</a> 
+							<a class="dropdown-item" href="/MisFacturas">Mis Facturas</a><a
+								class="dropdown-item" href="#">Cerrar Sesion</a>
+						</div>
+					</div>
+				</li>
+				
+			</ul>
+		</div>
+	</nav>
+	<!-- Fin navegacion -->
+	<!-- Fin navegacion -->
 
 	<!-- formulario -->
 	<form action="#" th:action="@{/perfil}" th:object="${cliente}"
@@ -79,8 +81,10 @@
 			<h2 class="text-center">MI PERFIL</h2>
 			<hr>
 
-			<input class="form-control" type="hidden" th:each="cliente:${cliente.idCliente}" th:field="*{idCliente}">
-			 <input class="form-control" type="hidden" th:each="cliente:${cliente.clave}" th:field="*{clave}">
+			<input class="form-control" type="hidden"
+				th:each="cliente:${cliente.idCliente}" th:field="*{idCliente}">
+			<input class="form-control" type="hidden"
+				th:each="cliente:${cliente.clave}" th:field="*{clave}">
 
 
 
@@ -104,11 +108,11 @@
 						th:value="${cliente.telefono}" th:field="*{telefono}">
 				</div>
 				<div class="col">
-					<label class="font-weight-bold">fecha Nacimiento</label> 
-					 <input
-					class="form-control" type="text" placeholder="Ingrese la fecha"
-					required="required" th:value="${cliente.fechaNacimiento}" th:field="*{fechaNacimiento}">
-					
+					<label class="font-weight-bold">fecha Nacimiento</label> <input
+						class="form-control" type="text" placeholder="Ingrese la fecha"
+						required="required" th:value="${cliente.fechaNacimiento}"
+						th:field="*{fechaNacimiento}">
+
 				</div>
 			</div>
 			<div class="row" style="margin: 10px">

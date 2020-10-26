@@ -129,7 +129,7 @@ public class ControllerFactura {
 				model.addAttribute("facturas",listaProductos);
 				return "MisFacturas";
 			}else {		
-				return "redirect:/";
+				return "MisFacturas";
 			}
 
 		}
