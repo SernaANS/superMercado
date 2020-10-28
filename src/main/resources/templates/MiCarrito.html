@@ -18,10 +18,6 @@
 	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
 	crossorigin="anonymous">
 
-
-
-
-
 <head>
 <meta charset="ISO-8859-1">
 <title>Micarrito</title>
@@ -98,7 +94,7 @@
 	</nav>
 	<!-- Fin navegacion -->
 
-
+<form action="#" th:action="@{/RegistrarFactura}"  method="post">
 
 	<div class="izquierda">
 		<div class="container" th:switch="${productos}">
@@ -117,10 +113,9 @@
 						<td th:text="${pro.idProducto}">Jhon</td>
 						<td th:text="${pro.nombre}">John</td>
 						<td th:text="${pro.precioVentaUnidad}">John</td>
-						<td ><input type="number" style="width: 50px;" min="1" pattern="^[0-9]+"></td>
-						<td><a
-							th:href="@{/GestionDetalleBodega/producto/{idProducto}(idProducto=${pro.idProducto})}"
-							class="btn btn-primary">Eliminar</a></td>
+						<td ><input type="number" value="cantidad" name="cantidad" style="width: 50px;" min="1" pattern="^[0-9]+"></td>
+						<td><a class="btn btn-primary">Eliminar</a></td>
+						
 					</tr>
 				</tbody>
 			</table>
@@ -133,5 +128,9 @@
 				value="Registrar" name="Registrar">COMPRAR</button>
 		</div>
 	</div>
+
+
+</form>
+
 
 </body>

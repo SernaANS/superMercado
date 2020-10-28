@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,17 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.Avansada.Modelo.Bodega;
+
 import com.Avansada.Modelo.Cliente;
-import com.Avansada.Modelo.DetalleBodega;
 import com.Avansada.Modelo.Factura;
 import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Vendedor;
 import com.Avansada.repository.RepoCliente;
+
 import com.Avansada.repository.RepoFactura;
 import com.Avansada.repository.RepoProducto;
-import com.Avansada.repository.RepoProvedor;
-import com.Avansada.repository.RepoSubcategoria;
 import com.Avansada.repository.RepoVendedor;
 
 @Controller
@@ -41,6 +40,11 @@ public class ControllerFactura {
 	@Autowired
 	private final RepoVendedor repoVendedor;
 	
+
+	ControllerDetalleFactura controlador;
+	
+	
+	
 	 @Autowired
 	    public ControllerFactura(RepoProducto repoProducto,RepoFactura repoFactura,RepoCliente repoCliente,RepoVendedor repoVendedor) {
 			this.repoProducto = repoProducto;
@@ -50,7 +54,7 @@ public class ControllerFactura {
 		}
 
 	 @PostMapping("/RegistrarFactura")
-		public String RegistarFactura( BindingResult result, Model model) {
+		public String RegistarFactura(BindingResult result, Model model) {
 			if (result.hasErrors()) {
 				return "algo";
 			}
@@ -67,7 +71,6 @@ public class ControllerFactura {
 					}
 					 Date ahora = new Date();
 					 System.out.println(ahora);
-					 
 					 Factura facturita= new Factura(0, ahora, total, cliente, vende);
 					 repoFactura.save(facturita);
 					 return "algo";
@@ -85,7 +88,7 @@ public class ControllerFactura {
 				model.addAttribute("factura", buscaFactura.getIdFactura());
 				return "redirect:/";		
 			} else {
-				return "algo";
+				return  "algo";
 			}
 		}
 		
@@ -104,7 +107,7 @@ public class ControllerFactura {
 				@Validated Factura factura,BindingResult result, Model model) {
 
 			if ("Registrar".equals(registrar)) {
-				return RegistarFactura( result, model);
+				
 			}else if ("Eliminar".equals(Eliminar)) {
 				return EliminarFactura(factura.getIdFactura(), result, model);
 			}else if ("Buscar".equals(Buscar)) {
