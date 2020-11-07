@@ -1,7 +1,13 @@
 package com.Avansada.controller;
 
-import org.springframework.stereotype.Controller;
+import java.util.ArrayList;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.Avansada.Modelo.Cliente;
 import com.Avansada.Modelo.DetalleFactura;
 import com.Avansada.Modelo.Factura;
 import com.Avansada.Modelo.Producto;
@@ -19,38 +25,68 @@ public class ControllerDetalleFactura {
 	
 	
 	public void registrar(Producto producto, Factura factura,Integer cantidad) {
-		DetalleFactura detalleFactura=new DetalleFactura();
-		detalleFactura.setIdFactura(0);
-		detalleFactura.setCantidad(cantidad);
-		detalleFactura.setFactura(factura);
-		detalleFactura.setProducto(producto);	
-		repo.save(detalleFactura);
+		if(producto!=null && factura!=null && cantidad!=0) {
+			DetalleFactura newDetalleFactura=new DetalleFactura();
+			newDetalleFactura.setCantidad(cantidad);
+			newDetalleFactura.setDespachos(null);
+			newDetalleFactura.setFactura(factura);
+			newDetalleFactura.setProducto(producto);
+			repo.save(newDetalleFactura);
+		}else {
+		 String mensaje="fallo";	
+		 System.out.println(mensaje);
+		}
 	}
 	
-	public void buscar(int idFactura) {
+	public ArrayList<DetalleFactura> listar(int cedulaCliente) {
 		
+		ArrayList<DetalleFactura> detalleFactura=repo.BuscarDetalleFactura(cedulaCliente);
+		if(detalleFactura!=null) {
+			return detalleFactura;
+		}else {
+			return null;
+		}
+		
+	}
+	
+     public ArrayList<DetalleFactura> buscarCedulaFactura(int cedula,int idFactura) {
+		
+    	 ArrayList<DetalleFactura> detalleFactura=repo.buscarCedulaFactura(cedula, idFactura);
+		if(detalleFactura!=null) {
+			return detalleFactura;
+		}else {
+			return null;
+		}
 		
 	}
 	
 	
 	
 	
+	public void eliminar(Integer cedulaCliente) {
+		
+		if(cedulaCliente!=0) {
+			repo.eliminarDetalle(cedulaCliente);
+		}
+		
+	}
 	
+	public void modificar(Producto producto, Factura factura,Integer cantidad) {
+		if(producto!=null && factura!=null && cantidad!=0) {
+			DetalleFactura newDetalleFactura=new DetalleFactura();
+			newDetalleFactura.setCantidad(cantidad);
+			newDetalleFactura.setDespachos(null);
+			newDetalleFactura.setFactura(factura);
+			newDetalleFactura.setProducto(producto);
+			repo.save(newDetalleFactura);
+		}else {
+		 String mensaje="fallo";	
+		 System.out.println(mensaje);
+		}
+		
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 
 }
