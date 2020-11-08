@@ -16,4 +16,8 @@ public interface RepoFactura extends CrudRepository<Factura,Integer>{
 	
 	@Query("SELECT A FROM Factura A WHERE A.cliente.idCliente=?1")
 	public ArrayList<Factura> lista(int cedula);
+	
+
+	@Query("SELECT A FROM Factura A WHERE A.cliente.idCliente=?1 and A.fecha is not null")
+	public ArrayList<Factura> historialFacturas(int cedula);
 }

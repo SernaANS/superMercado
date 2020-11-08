@@ -65,7 +65,7 @@
 						<th class="text-center">Cedula</th>
 						<th class="text-center">fecha</th>
 						<th class="text-center">precio_total</th>
-						<th class="text-center">id_vendedor</th>
+						<th class="text-center">nombre del vendedor</th>
 						<th class="text-center">Estado</th>
 						<th class="text-center">factura</th>
 					</tr>
@@ -74,14 +74,12 @@
 					<tr th:each="factura : ${facturas}" >
 						<td th:text="${factura.idFactura}" >John</td>
 						<td th:text="${factura.Cliente.idCliente}">John</td>
+						<td th:text="${factura.fecha}" >John</td>
 						<td th:text="${factura.precioTotal}" >John</td>
-						<td th:text="${factura.precioTotal}" >John</td>
-						<td th:text="${factura.precioTotal}" >John</td>
-						<td th:text="${factura.precioTotal}">John</td>
-						<td><a
-							th:href="@{/GestionDetalleBodega/producto/{idProducto}(idProducto=${pro.idProducto})}"
-							class="btn btn-primary">Ver Factura</a></td>
-					</tr>
+						<td th:text="${factura.vendedor}" >John</td>
+						<td th:text="sinEntregar">John</td>
+						<td><a class="btn btn-primary">ver factura</a></td>
+					</tr.>
 				</tbody>
 			</table>
 		</div>
