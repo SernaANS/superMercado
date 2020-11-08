@@ -64,25 +64,29 @@ public class ControllerDetalleFactura {
 		
 		for (int i = 0; i < listaBusqueda.size(); i++) {
 			if(listaBusqueda.get(i).getIdFactura()!=0 && listaBusqueda.get(i).getFecha()==null) {
-				DetalleFactura newDetalle=new DetalleFactura();
+				Factura factura=listaBusqueda.get(i);
 				Producto producto=repoProducto.buscarProductoId(id);
+			    int precioActual=factura.getPrecioTotal()+producto.getPrecioVentaUnidad();
+			    System.out.println(precioActual);
+			    factura.setPrecioTotal(precioActual);
+			    repoFactura.save(factura);
+				DetalleFactura newDetalle=new DetalleFactura();
 				newDetalle.setProducto(producto);
 				newDetalle.setFactura(listaBusqueda.get(i));
+				newDetalle.setCantidad(1);
 				repo.save(newDetalle);
-				
-			    System.out.println(listaBusqueda.size());
 			}else if(i+1 == listaBusqueda.size()){
+				Producto producto=repoProducto.buscarProductoId(id);
 				factura=new Factura();
 				Cliente cliente=repoCliente.BuscarCLiente(ControllerCliente.getCedula());
 				factura.setCliente(cliente);
+				factura.setPrecioTotal(producto.getPrecioVentaUnidad());
 				repoFactura.save(factura);
 				DetalleFactura newDetalle=new DetalleFactura();
-				Producto producto=repoProducto.buscarProductoId(id);
 				newDetalle.setProducto(producto);
 				newDetalle.setFactura(listaBusqueda.get(i));
+				newDetalle.setCantidad(1);
 				repo.save(newDetalle);
-			    System.out.println(cliente.getApellido());
-			    System.out.println(listaBusqueda.size());
 			}
 			
 			
@@ -114,43 +118,72 @@ public class ControllerDetalleFactura {
 	
 	
 	
-	
-	public void eliminar(Integer cedulaCliente) {
-		
-		if(cedulaCliente!=0) {
-			
-		}
-		
+    @GetMapping("/EliminarMiCarrito/{id}")
+	public String eliminar(@PathVariable("id") Integer idDetalle) {
+    	DetalleFactura detalle=repo.buscar(idDetalle);
+    	Factura factura=detalle.getFactura();
+    	int cantidaActual=detalle.getCantidad();
+    	int precioProducto=detalle.getProducto().getPrecioVentaUnidad();
+        int precioActual=factura.getPrecioTotal();
+        int precioEliminacion=precioProducto*cantidaActual;
+        int precioTotal=precioActual-precioEliminacion;
+        
+        System.err.println(precioActual);
+        System.out.println(precioEliminacion);
+        System.out.println(precioTotal);
+        
+        factura.setPrecioTotal(precioTotal);
+    	repoFactura.save(factura);
+    	repo.deleteById(idDetalle);
+    	return "redirect:/Micarrito";
 	}
-	
-	public void modificar(Producto producto, Factura factura,Integer cantidad) {
-		if(producto!=null && factura!=null && cantidad!=0) {
-			DetalleFactura newDetalleFactura=new DetalleFactura();
-			newDetalleFactura.setCantidad(cantidad);
-			newDetalleFactura.setDespachos(null);
-			newDetalleFactura.setFactura(factura);
-			newDetalleFactura.setProducto(producto);
-			repo.save(newDetalleFactura);
+    
+	@GetMapping("/Restar/{id}")
+	public String modificarCantidadMas(@PathVariable("id") Integer id) {
+		DetalleFactura detalle=repo.buscar(id);
+		if(detalle!=null) {
+			int cantidad=detalle.getCantidad()-1;
+			if(cantidad!=0) {
+				detalle.setCantidad(cantidad);
+				repo.save(detalle);
+				return "redirect:/Micarrito";
+			}else {
+				return "redirect:/IndexCliente" ;
+			}
 		}else {
-		 String mensaje="fallo";	
-		 System.out.println(mensaje);
+			return "redirect:/Index" ;
 		}
 		
 	}
 	
-	//bottones
-	
-	@RequestMapping(value = "/AgregarMicarrito", method = RequestMethod.POST)
-	public String BottonFormulario(@RequestParam(required = false, value = "Añadir") String Añadir,
-			@Validated DetalleFactura detalleFactura, BindingResult result, Model model) {
-
-		if ("Añadir".equals(Añadir)) {
-			
+	@GetMapping("/sumar/{id}")
+	public String modificarCantidadMenos(@PathVariable("id") Integer id) {
+		DetalleFactura detalle=repo.buscar(id);
+		if(detalle!=null) {
+			Factura factura=detalle.getFactura();
+			Producto producto=detalle.getProducto();
+			int cantidad=detalle.getCantidad()+1;
+			if(cantidad!=0) {
+				int precioActual=factura.getPrecioTotal();
+				int precioTotal=0;
+				for (int i = 1; i < cantidad; i++) {
+					precioTotal=precioActual+producto.getPrecioVentaUnidad();
+				}
+				factura.setPrecioTotal(precioTotal);
+				repoFactura.save(factura);
+				detalle.setFactura(factura);
+				detalle.setCantidad(cantidad);
+				repo.save(detalle);
+				return "redirect:/Micarrito";
+			}else {
+				return "redirect:/IndexCliente" ;
+			}
+		}else {
+			return "redirect:/Index" ;
 		}
-
-		return "/Index";
-
+		
 	}
+	
 
 	
 

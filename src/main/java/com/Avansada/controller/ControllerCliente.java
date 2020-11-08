@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.Avansada.Modelo.Categoria;
 import com.Avansada.Modelo.Cliente;
 import com.Avansada.Modelo.DetalleFactura;
 import com.Avansada.Modelo.Producto;
-import com.Avansada.Modelo.Proveedor;
 import com.Avansada.repository.RepoCliente;
+import com.Avansada.repository.RepoDetallaFactura;
 import com.Avansada.repository.RepoProducto;
 
 
@@ -45,12 +44,14 @@ public class ControllerCliente {
 	private final RepoCliente repoCliente;
 	@Autowired
 	private final RepoProducto repoProducto;
+	RepoDetallaFactura repoDetallaFactura;
 
 	@Autowired
-	public ControllerCliente(RepoCliente repoCliente,RepoProducto repoProducto) {
+	public ControllerCliente(RepoCliente repoCliente,RepoProducto repoProducto,RepoDetallaFactura repoDetallaFactura) {
 		super();
 		this.repoCliente = repoCliente;
 		this.repoProducto = repoProducto;
+		this.repoDetallaFactura=repoDetallaFactura;
 	}
 
 	//////////////////////////// Vistas////////////////////////////////////////////
@@ -89,7 +90,13 @@ public class ControllerCliente {
 	
 	@GetMapping("/Micarrito")
 	public String Micarrito(Cliente cliente, Model model) {
-		model.addAttribute("productos", misProductos);
+		ArrayList<DetalleFactura> lista=repoDetallaFactura.BuscarDetalleFactura(cedula);
+		model.addAttribute("productos", lista);
+		System.out.println(lista.size());
+		if(lista.size()!=0) {
+			model.addAttribute("preciototal", lista.get(0).getFactura().getPrecioTotal());
+		}
+		
 		return "MiCarrito";
 	}
 	@GetMapping("/VerInfoModal/{id}")

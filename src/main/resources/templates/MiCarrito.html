@@ -110,12 +110,11 @@
 				</thead>
 				<tbody>
 					<tr th:each="pro : ${productos}">
-						<td th:text="${pro.idProducto}">Jhon</td>
-						<td th:text="${pro.nombre}">John</td>
-						<td th:text="${pro.precioVentaUnidad}">John</td>
-						<td ><input type="number" value="cantidad" name="cantidad" style="width: 50px;" min="1" pattern="^[0-9]+"></td>
-						<td><a class="btn btn-primary">Eliminar</a></td>
-						
+						<td th:text="${pro.producto.idProducto}">Jhon</td>
+						<td th:text="${pro.producto.nombre}">John</td>
+						<td th:text="${pro.producto.precioVentaUnidad}">John</td>
+						<td><a class="btn btn-primary" style="float: left;"  th:href="@{Restar/}+${pro.idFactura}">-</a><p th:text="${pro.cantidad}" style="float: left;border:1px solid;width: 30px"></p><a class="btn btn-primary" th:href="@{sumar/}+${pro.idFactura}">+</a></td>
+						<td><a class="btn btn-primary" th:href="@{EliminarMiCarrito/}+${pro.idFactura}" >Eliminar</a></td>			
 					</tr>
 				</tbody>
 			</table>
@@ -123,7 +122,7 @@
 	</div>
 	<div class="derecha">
 		<div class="TEXTO">
-			<p>TOTAL: </p>
+			<p style="float: left;" >TOTAL:</p> <p  th:text="${preciototal}" style="float: left;"  ></p>
 			<button type="submit" class="btn btn-outline-dark btn-lg btn-block"
 				value="Registrar" name="Registrar">COMPRAR</button>
 		</div>
