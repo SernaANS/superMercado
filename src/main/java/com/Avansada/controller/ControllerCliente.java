@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Avansada.Modelo.Categoria;
 import com.Avansada.Modelo.Cliente;
+import com.Avansada.Modelo.DetalleFactura;
 import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Proveedor;
 import com.Avansada.repository.RepoCliente;
@@ -77,9 +78,11 @@ public class ControllerCliente {
 	}
 
 	@GetMapping("/IndexCliente")
-	public String IndexClienteLogeado(Cliente cliente, Model model) {
+	public String IndexClienteLogeado( Model model) {
 		Iterable<Producto> productos = repoProducto.findAll();
+		System.out.println("entra########################");
 		model.addAttribute("productos", productos);
+		model.addAttribute("detalleFactura", new DetalleFactura());
 		model.addAttribute("pro", "nada");
 		return "indexClienteLogiado";
 	}
@@ -96,14 +99,7 @@ public class ControllerCliente {
 		return "indexClienteLogiado";
 	}
 	
-	@GetMapping("/AgregarMiCarrito/{id}")
-	public String AgregarMiCarrito(@PathVariable("id") Integer id,Producto pro,Model model) {
-		
-		Producto prod=repoProducto.buscarProductoId(id);
-		misProductos.add(prod);
-
-		return "redirect:/IndexCliente";
-	}
+	
 	
 
 	/////////////////////////// Metodos////////////////////////////////////////////
@@ -141,11 +137,12 @@ public class ControllerCliente {
 	}
 
 	@PostMapping("/Iniciar")
-	public String BuscarLogin(Cliente cliente, BindingResult result, Model model) {
+	public String BuscarLogin(Cliente cliente, DetalleFactura detalleFactura, BindingResult result, Model model) {
 
 		Cliente Bcliente = repoCliente.login(cliente.getIdCliente(), cliente.getClave());
 		if (Bcliente != null) {
 			model.addAttribute("Cliente", Bcliente);
+			model.addAttribute("detalleFactura",detalleFactura);
 			
 			cedula=cliente.getIdCliente();
 			Iterable<Producto> productos = repoProducto.findAll();

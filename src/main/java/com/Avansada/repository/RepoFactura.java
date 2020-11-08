@@ -1,15 +1,19 @@
 package com.Avansada.repository;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.Avansada.Modelo.Factura;
-import com.Avansada.Modelo.Proveedor;
+
 
 public interface RepoFactura extends CrudRepository<Factura,Integer>{
 
 	@Query("SELECT A FROM Factura A WHERE A.idFactura=?1")
 	public Factura buscarFacturaId(int idFactura);
+	
+	@Query("SELECT A FROM Factura A WHERE A.cliente.idCliente=?1")
+	public ArrayList<Factura> lista(int cedula);
 }

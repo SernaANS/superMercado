@@ -15,8 +15,7 @@ public interface RepoDetallaFactura  extends  CrudRepository<DetalleFactura,Inte
 	@Query("SELECT d FROM DetalleFactura d WHERE d.factura.cliente.idCliente=?1 and d.factura.idFactura=?2")
 	public ArrayList<DetalleFactura> buscarCedulaFactura(int idCliente,int idFactura);
 	
-	@Query("delete from DetalleFactura WHERE d.factura.cliente.idCliente=?1")
-	public DetalleFactura eliminarDetalle(int idCliente);
+
 
 
 	
