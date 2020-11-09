@@ -128,7 +128,7 @@ public class ControllerFactura {
 		@GetMapping("/MisFacturas")
 		public String MisFacturas(Model model) {
 			if(ControllerCliente.getCedula()!=0) {
-				Iterable<Factura> listaProductos=repoFactura.findAll();
+				Iterable<Factura> listaProductos=repoFactura.historialFacturas(ControllerCliente.getCedula());
 				model.addAttribute("facturas",listaProductos);
 				return "MisFacturas";
 			}else {		
