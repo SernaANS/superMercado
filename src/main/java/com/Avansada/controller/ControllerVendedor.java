@@ -113,11 +113,12 @@ public class ControllerVendedor {
 			if (Bvendedor != null) {
 				model.addAttribute("Cliente", Bvendedor);
 				cedula=vendedor.getIdVendedor();
-				return "indexV";
+				return "indexVendedor";
 			} else {
 				return "/Index";
 			}
 		}
+		
 
 		
 

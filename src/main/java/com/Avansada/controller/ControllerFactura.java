@@ -3,6 +3,8 @@ package com.Avansada.controller;
 import java.util.ArrayList;
 import java.util.Date;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -18,14 +20,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.Avansada.Modelo.Cliente;
+import com.Avansada.Modelo.DetalleFactura;
 import com.Avansada.Modelo.Factura;
 import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Vendedor;
 import com.Avansada.repository.RepoCliente;
-
+import com.Avansada.repository.RepoDetallaFactura;
 import com.Avansada.repository.RepoFactura;
 import com.Avansada.repository.RepoProducto;
 import com.Avansada.repository.RepoVendedor;
+
 
 @Controller
 public class ControllerFactura {
@@ -39,6 +43,8 @@ public class ControllerFactura {
 	private final RepoCliente repoCliente;
 	@Autowired
 	private final RepoVendedor repoVendedor;
+	@Autowired
+	private final RepoDetallaFactura repoDTfactura;
 	
 
 	ControllerDetalleFactura controlador;
@@ -46,36 +52,43 @@ public class ControllerFactura {
 	
 	
 	 @Autowired
-	    public ControllerFactura(RepoProducto repoProducto,RepoFactura repoFactura,RepoCliente repoCliente,RepoVendedor repoVendedor) {
+	    public ControllerFactura(RepoProducto repoProducto,RepoFactura repoFactura,RepoCliente repoCliente,RepoVendedor repoVendedor,
+	    		RepoDetallaFactura repoDTfactura) {
 			this.repoProducto = repoProducto;
 			this.repoFactura=repoFactura;
 			this.repoCliente=repoCliente;
 			this.repoVendedor=repoVendedor;
+			this.repoDTfactura=repoDTfactura;
 		}
 
-	 @PostMapping("/RegistrarFactura")
-		public String RegistarFactura(BindingResult result, Model model) {
-			if (result.hasErrors()) {
-				return "algo";
-			}
+	 @GetMapping("/RegistrarFactura/{idFactura}")
+		public String RegistarFactura( @PathVariable("idFactura") Integer id,Model model) {
+			
 				if(ControllerCliente.cedula!=0) {
 					Cliente cliente= new Cliente();
 					cliente.setIdCliente(ControllerCliente.getCedula());
 					ArrayList<Vendedor> listaVendedores=(ArrayList<Vendedor>) repoVendedor.findAll();
-					int numero = (int) (Math.random() * listaVendedores.size()) + 1;
+					System.out.println("esta la tiene id"+id);
+					int numero = (int) (Math.random() * listaVendedores.size());
 					Vendedor vende=listaVendedores.get(numero);
 					ArrayList<Producto> listaProductos=ControllerCliente.misProductos;
-					int total=0;
-					for (int i = 0; i < listaProductos.size(); i++) {
-						total+=listaProductos.get(i).getPrecioVentaUnidad();
-					}
+					Factura facturita=repoFactura.buscarFacturaId(id);
 					 Date ahora = new Date();
 					 System.out.println(ahora);
-					 Factura facturita= new Factura(0, ahora, total, cliente, vende);
-					 repoFactura.save(facturita);
-					 return "algo";
+					 
+					 
+					 ArrayList<DetalleFactura> detallito=repoDTfactura.buscarFactura(id);
+					 System.out.println("este es detallito"+detallito.size());
+					 if(detallito!=null) {
+						 facturita.setFecha(ahora);
+							facturita.setVendedor(vende);		 
+							repoFactura.save(facturita);
+							 return "redirect:/MisFacturas";
+					 }
+					 return "redirect:/IndexCliente";
+					
 				}else {
-					return "redirect:/Login";
+					return "MisFacturas";
 				}
 				
 		}
@@ -113,7 +126,7 @@ public class ControllerFactura {
 			}else if ("Buscar".equals(Buscar)) {
 				return BuscarFacturaId(factura.getIdFactura(), model);
 			}
-			return "GestionBodega";
+			return "MiCarrito";
 		}
 		
 		@GetMapping("/MostrarFractura/{id}")
@@ -122,20 +135,26 @@ public class ControllerFactura {
 			Iterable<Producto > listaProductos=repoProducto.findAll();
 			model.addAttribute("productos",listaProductos);
 			
-			return "";
+			return "VerFactura";
 		}
 		
 		@GetMapping("/MisFacturas")
 		public String MisFacturas(Model model) {
 			if(ControllerCliente.getCedula()!=0) {
+				
 				Iterable<Factura> listaProductos=repoFactura.historialFacturas(ControllerCliente.getCedula());
-				model.addAttribute("facturas",listaProductos);
+				if(listaProductos!=null) {
+					model.addAttribute("facturas",listaProductos);
+				}
+				
 				return "MisFacturas";
 			}else {		
 				return "MisFacturas";
 			}
 
 		}
+		
+
 	 
 	 
 	 

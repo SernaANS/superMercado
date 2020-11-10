@@ -95,6 +95,8 @@ public class ControllerCliente {
 		System.out.println(lista.size());
 		if(lista.size()!=0) {
 			model.addAttribute("preciototal", lista.get(0).getFactura().getPrecioTotal());
+			model.addAttribute("preciototalIva", (lista.get(0).getFactura().getPrecioTotal())*1.19);
+			model.addAttribute("idFactura", lista.get(0).getFactura().getIdFactura());
 		}
 		
 		return "MiCarrito";
