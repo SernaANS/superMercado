@@ -4,14 +4,8 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Avansada.Modelo.Cliente;
 import com.Avansada.Modelo.DetalleFactura;
@@ -142,8 +136,19 @@ public class ControllerDetalleFactura {
 	public String modificarCantidadMas(@PathVariable("id") Integer id) {
 		DetalleFactura detalle=repo.buscar(id);
 		if(detalle!=null) {
+			Factura factura=detalle.getFactura();
+			Producto producto=detalle.getProducto();
 			int cantidad=detalle.getCantidad()-1;
 			if(cantidad!=0) {
+				int precioActual=factura.getPrecioTotal();
+				int precioTotal=0;
+				for (int i = 0; i < cantidad; i++) {
+					precioTotal=precioActual-producto.getPrecioVentaUnidad();
+				}
+				System.out.println(precioTotal);
+				factura.setPrecioTotal(precioTotal);
+				repoFactura.save(factura);
+				detalle.setFactura(factura);
 				detalle.setCantidad(cantidad);
 				repo.save(detalle);
 				return "redirect:/Micarrito";
