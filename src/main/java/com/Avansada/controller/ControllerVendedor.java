@@ -1,5 +1,8 @@
 package com.Avansada.controller;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,17 +13,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Avansada.Modelo.Admin;
 import com.Avansada.Modelo.Cliente;
 import com.Avansada.Modelo.Producto;
+import com.Avansada.Modelo.Proveedor;
 import com.Avansada.Modelo.Vendedor;
 import com.Avansada.repository.RepoVendedor;
+import com.cloudinary.utils.ObjectUtils;
 
 @Controller
 public class ControllerVendedor {
 	
 	public static Admin admin=new Admin("1212","1212","sernita@gamil.com","santiago"); 
+	
+	@Autowired
+    com.Avansada.cloudinary.CloudinaryConfig cloudc;
 	
 	public static int cedula;
 	
@@ -52,6 +61,14 @@ public class ControllerVendedor {
 		model.addAttribute("vendedor", vendedor);
 		return "RegistrarVendedor";
 	}
+	@GetMapping("/GestionVendedor")
+	public String GesVendedor(Vendedor vendedor, Model model) {
+		Iterable<Vendedor> lista = repoVendedor.findAll();
+		model.addAttribute("lista", lista);
+		
+		model.addAttribute("vendedor", vendedor);
+		return "GestionVendedor";
+	}
 
 	@GetMapping("/MiVendedor")
 	public String Miperfil(Vendedor vendedor, Model model) {
@@ -71,14 +88,24 @@ public class ControllerVendedor {
 	}
 
 	/////////////////////////// Metodos////////////////////////////////////////////
-	public String registar(Vendedor vendedor, BindingResult result, Model model) {
+	public String RegistarVendedor(Vendedor vendedor,@RequestParam("file")MultipartFile file,
+			BindingResult result, Model model) throws IOException {
 		if (result.hasErrors()) {
 			return "GestionVendedor";
 		}
 		if (vendedor.getIdVendedor() >= 0 || !vendedor.getNombre().isEmpty() || vendedor.getDireccion() != ""
 				|| vendedor.getApellido() != "" || vendedor.getTelefono() != "" 
 				 || vendedor.getFechaNacimiento() != null) {
-			if (BuscarCedula(vendedor, result, model) != null) {
+			if (BuscarVendedor(vendedor, result, model) != null) {
+				
+				//se crea la url del archivofoto
+	            Map uploadResult = cloudc.upload(file.getBytes(),
+	                    ObjectUtils.asMap("resourcetype", "auto"));
+				
+	    		//Se inserta la direcion que se obtuvo del cloudc
+	    		
+	    		vendedor.setFoto(uploadResult.get("url").toString());
+				
 				repoVendedor.save(vendedor);
 				return "redirect:/Login";
 			} else {
@@ -90,7 +117,7 @@ public class ControllerVendedor {
 
 	}
 
-	public String BuscarCedula(Vendedor vendedor, BindingResult result, Model model) {
+	public String BuscarVendedor(Vendedor vendedor, BindingResult result, Model model) {
 
 		Vendedor Bvendedor = repoVendedor.BuscarVendedor(cedula);
 		if (Bvendedor != null) {
@@ -113,27 +140,23 @@ public class ControllerVendedor {
 			if (Bvendedor != null) {
 				model.addAttribute("Cliente", Bvendedor);
 				cedula=vendedor.getIdVendedor();
-				return "indexVendedor";
+				return "indexVendedorLogiado";
 			} else {
 				return "/Index";
 			}
 		}
-		
-
-		
-
 	}
 	
 
-
-	public String Eliminar(Vendedor vendedor, BindingResult result, Model model) {
+	public String EliminarVendedor(Vendedor vendedor, BindingResult result, Model model) {
 		Vendedor bCliente = repoVendedor.findById(vendedor.getIdVendedor())
 				.orElseThrow(() -> new IllegalArgumentException("Invalid usuario Id:" + vendedor.getIdVendedor()));
 		repoVendedor.delete(vendedor);
 		return "redirect:/Index";
 	}
 
-	public String Modificar(Vendedor vendedor, BindingResult result, Model model) {
+	public String ModificarVendedor(Vendedor vendedor,@RequestParam("file")MultipartFile file,
+			BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "index";
 		}
@@ -169,12 +192,13 @@ public class ControllerVendedor {
 	@RequestMapping(value = "/perfilV", method = RequestMethod.POST)
 	public String BottonMiperfil(@RequestParam(required = false, value = "Modificar") String modificar,
 			@RequestParam(required = false, value = "Eliminar") String eliminar,
-			@Validated Vendedor vendedor, BindingResult result, Model model) {
+			@Validated Vendedor vendedor, BindingResult result, Model model,
+			@RequestParam("file") MultipartFile file) throws IOException {
 		
 		if ("Modificar".equals(modificar)) {
-			return Modificar(vendedor, result, model);
+			return ModificarVendedor(vendedor,file, result, model);
 		}else if ("Eliminar".equals(eliminar)) {
-			return Eliminar(vendedor, result, model);
+			return EliminarVendedor(vendedor, result, model);
 		}
 		
 		return "index";
@@ -182,16 +206,35 @@ public class ControllerVendedor {
 
 	@RequestMapping(value = "/RegistroV", method = RequestMethod.POST)
 	public String BottonFormulario(@RequestParam(required = false, value = "RegistrarV") String registrar,
-			@Validated Vendedor vendedor, BindingResult result, Model model) {
+			@Validated Vendedor vendedor, BindingResult result, Model model,
+			@RequestParam("file") MultipartFile file) throws IOException {
 
 		if ("RegistrarV".equals(registrar)) {
-			return registar(vendedor, result, model);
+			return RegistarVendedor(vendedor,file, result, model);
 		}
 
 		return "/Index";
 
 	}
 
+	@RequestMapping(value = "/Vendedor", method = RequestMethod.POST)
+	public String handlePost(@RequestParam(required = false, value = "Registrar") String registrar,
+			@RequestParam(required = false, value = "Modificar") String modificar,
+			@RequestParam(required = false, value = "Buscar") String Buscar, 
+			@RequestParam(required = false, value = "Eliminar") String Eliminar, 
+			@Validated Vendedor provedor,BindingResult result, Model model,
+			@RequestParam("file") MultipartFile file) throws IOException {
 
+		if ("Registrar".equals(registrar)) {
+			return RegistarVendedor(provedor,file, result, model);
+		} else if ("Modificar".equals(modificar)) {
+			return ModificarVendedor(provedor,file, result, model);
+		}else if ("Eliminar".equals(Eliminar)) {
+			return EliminarVendedor(provedor, result, model);
+		}else if ("Buscar".equals(Buscar)) {
+			return BuscarVendedor(provedor, result, model);
+		}
+		return "GestionProvedor";
+	}
 
 }

@@ -1,148 +1,189 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-
+<meta http-equiv=”Content-Type” content="text/html; charset=UTF-8" />
+<meta charset="UTF-8">
 <!-- Necesarios en todos los html para utilizar boostrap y jquery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+	integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+	crossorigin="anonymous"></script>
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
 	crossorigin="anonymous">
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-	integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-	crossorigin="anonymous"></script>
-<script th:src="@{/js/jquery.js}"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous"></script>
+
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
+
+
+
+
 <body>
 
-	<div>
-		<p style="margin-top: 110px"></p>
-		<nav class="navbar navbar-expand-lg navbar-light fixed-top col"
-			style="background-color: #eeef20;">
-			<a class="navbar-brand" href="/Index"><img alt=""
-				src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-				width="100px" height="70px"></a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavDropdown">
-				<ul class="navbar-nav">
-					<li class="nav-item"><a class="navbar-brand" href="/IndexCliente"
-						style="font-size: 25px">INICIO</a></li>
-					<li class="nav-item"><a class="navbar-brand" href="/Miperfil"
-						style="font-size: 25px">PERFIL</a></li>
-					<li class="nav-item"><a class="navbar-brand" href="/Micarrito"
-						style="font-size: 25px">CARRITO</a></li>
+	<!-- Inicio navegacion -->
+	<p style="margin-top: 110px"></p>
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top col"
+		style="background-color: #17b978;">
+		<a class="navbar-brand" href="/IndexCliente"><img alt=""
+			src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
+			width="100px" height="70px"></a>
+		</button>
 
-				</ul>
-			</div>
-		</nav>
-	</div>
+		<!-- Buscar -->
+		<form class="collapse navbar-collapse">
+			<input type="text" class="form-control"
+				placeholder="Buscar Categoria"
+				aria-label="Example text with button addon"
+				aria-describedby="button-addon1"
+				style="width: 70%; margin-left: 125px;">
+			<button class="btn btn-outline-secondary" x type="button"
+				id="button-addon1" style="background-color: white; border: none;">Button</button>
+		</form>
 
+		<!-- navegacion -->
+		<div class="form-inline my-2 my-lg-0" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="navbar-brand"
+					href="/IndexCliente" style="font-size: 25px">Inicio</a></li>
 
+				<li class="nav-item"><a class="navbar-brand" href="/Micarrito"
+					style="font-size: 25px">Mi Carrito</a></li>
+				<li class="nav-item">
+
+					<div class="btn-group">
+						<a class="navbar-brand dropdown-toggle" data-toggle="dropdown"
+							style="font-size: 25px"> Mi Cuenta</a>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="/Miperfil">Mi Cuenta</a> <a
+								class="dropdown-item" href="/MisFacturas">Mis Facturas</a><a
+								class="dropdown-item" href="#">Cerrar Sesion</a>
+						</div>
+					</div>
+				</li>
+
+			</ul>
+		</div>
+	</nav>
+	<!-- Fin navegacion -->
 	<hr>
-	<div>
-		<div class="container-fluid">
-			<p class="text-center " style="font-size: 30px">PRODUCTOS MAS
-				VENDIDOS</p>
-		</div>
-		<div style="background-color: #eeef20">
-			<br>
-		</div>
-		<br>
-		<div class="container">
-			<div class="card-deck ">
 
-				<div class="card">
-					<img class="card-img-top"
-						src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">TITULO DEL PRODUCTO</h5>
-						<p class="card-text">DESCRIPCION DEL PRODUCTO</p>
-						<button type="button" class="btn btn-primary btn-lg btn-block">
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-cart3" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-  					<path fill-rule="evenodd"
-									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-  				</svg>
-							COMPRAR
-						</button>
-					</div>
+	<!-- Cartas Inicio  -->
+	<form action="#" th:action="@{/AgregarMicarrito}" th:object="${detalleFactura}" method="post">
+		<div class="container-fluid ml-4" th:switch="${productos}">
+			<div class="card booking-card m-2"
+				style="width: 15rem; height: 30rem; float: left;"
+				th:each="producto : ${productos}">
+				<!-- Card image -->
+				<div class="view overlay">
+					<img class="card-img-top" th:src="${producto.foto}"
+						alt="Card image cap" width="250px" height="250px"> <a
+						href="#!"> </a>
 				</div>
-				<div class="card">
-					<img class="card-img-top"
-						src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">TITULO DEL PRODUCTO</h5>
-						<p class="card-text">DESCRIPCION DEL PRODUCTO</p>
-						<button type="button" class="btn btn-primary btn-lg btn-block">
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-cart3" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-  					<path fill-rule="evenodd"
-									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-  				</svg>
-							COMPRAR
-						</button>
+				<!-- Card content -->
+				<div class="card-body">
+					<!-- Title -->
+					<h4 class="card-title font-weight-bold text-align-center">
+						<a th:text="${producto.nombre}" ></a>
+					</h4>
+					<hr class="my-2">
+					<!-- Data -->
+					<div class="row">
+						<div class="col-1">
+							<p>$</p>
+						</div>
+						<div class="col-4">
+							<p th:text="${producto.precioVentaUnidad}"></p>
+						</div>
+
 					</div>
-				</div>
-				<div class="card">
-					<img class="card-img-top"
-						src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">TITULO DEL PRODUCTO</h5>
-						<p class="card-text">DESCRIPCION DEL PRODUCTO</p>
-						<button type="button" class="btn btn-primary btn-lg btn-block">
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-cart3" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-  					<path fill-rule="evenodd"
-									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-  				</svg>
-							COMPRAR
-						</button>
+
+					<div class="row">
+
+						<p class="card-text" th:text="${producto.decripcion}"></p>
+
 					</div>
-				</div>
-				<div class="card">
-					<img class="card-img-top"
-						src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">TITULO DEL PRODUCTO</h5>
-						<p class="card-text">DESCRIPCION DEL PRODUCTO</p>
-						<button type="button" class="btn btn-primary btn-lg btn-block">
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-cart3" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-  					<path fill-rule="evenodd"
-									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-  				</svg>
-							COMPRAR
-						</button>
-					</div>
-				</div>
 
 
+					<!-- Text -->
+
+					<hr class="my-2">
+
+					<a th:href="@{AgregarMiCarrito/}+${producto.idProducto}">
+						<button type="button"
+							class="btn btn-outline-dark btn-lg btn-block">
+							<svg width="1em" height="1em" viewBox="0 0 16 16"
+								class="bi bi-cart3" fill="currentColor"
+								xmlns="http://www.w3.org/2000/svg">
+						<path fill-rule="evenodd"
+									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" /></svg>
+							Agregar
+						</button>
+					</a>
+
+
+				</div>
 			</div>
 		</div>
-	</div>
+	</form>
+	<!-- 
+	<a  th:href="@{VerInfoModal/}+${producto.idProducto}"
+        	 data-toggle="modal" data-target="#miModal">
+        		<button type="button" class="btn btn-outline-dark btn-lg btn-block">
+					<svg width="1em" height="1em" viewBox="0 0 16 16"
+						class="bi bi-cart3" fill="currentColor"
+						xmlns="http://www.w3.org/2000/svg">
+						<path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" /></svg>
+					COMPRAR
+				</button>
+        	</a>
+		<div>
+        		<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title">Añadir al carrito</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				      	<div class=row>
+					      	<div class=col-5>
+					      	<svg width="5em" height="5em" viewBox="0 0 16 16" class="bi bi-cart-plus ml-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								  <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+								  <path fill-rule="evenodd" d="M8.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 .5-.5z"/>
+								</svg>	
+					      	</div>
+					      	<div class=col-5>
+					      	 <p class="display-5" >¿Quiere agregar este produto al carrito?</p>
+					      	 <p class="display-5" th:text="${pro}">aaaaaa</p>
+					      	</div>
+				      		
+				      	</div>
+				       
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-primary"
+				        >Agregar</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+        	</div>
+	
+	 -->
+
 
 
 

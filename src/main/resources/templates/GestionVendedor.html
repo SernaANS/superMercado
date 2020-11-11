@@ -58,30 +58,67 @@
 	</div>
 </nav>
 <body>
-	<form class="formulario" action="#" th:action="@{/Provedor}"
-		th:object="${provedor}" method="post">
+	<form class="formulario" action="#" th:action="@{/Vendedor}"
+		th:object="${vendedor}" method="post" enctype="multipart/form-data">
 		<div class="row" style="margin: 10px">
 			<div class="col">
-				<label class="font-weight-bold">Codigo Provedor</label> <input
+				<label class="font-weight-bold">Codigo Vendedor</label> <input
 					class="form-control" type="number"
-					placeholder="Ingrese el Codigo del provedor"
-					th:field="*{idProveedor}">
+					placeholder="Ingrese el Codigo del vendedor"
+					th:field="*{idVendedor}" th:value="${vendedor.idVendedor}">
 			</div>
 			<div class="col">
 				<label class="font-weight-bold">Nombre</label> <input
 					class="form-control" type="text" placeholder="Ingrese el nombre"
-					th:field="*{nombre}" th:value="${provedor.nombre}">
+					th:field="*{nombre}" th:value="${vendedor.nombre}">
+			</div>
+			<div class="col">
+				<label class="font-weight-bold">Apellido</label> <input
+					class="form-control" type="text" placeholder="Ingrese el apellido"
+					th:field="*{apellido}" th:value="${vendedor.apellido}">
 			</div>
 			<div class="col">
 				<label class="font-weight-bold">Telefono</label> <input
 					class="form-control" type="number"
 					placeholder="Ingrese el telefono" th:field="*{telefono}"
-					th:value="${provedor.telefono}">
+					th:value="${vendedor.telefono}">
 			</div>
 			<div class="col">
 				<label class="font-weight-bold">Direccion</label> <input
 					class="form-control" type="text" placeholder="Ingrese la direccion"
-					th:field="*{direccion}" th:value="${provedor.direccion}">
+					th:field="*{direccion}" th:value="${vendedor.direccion}">
+			</div>
+		</div>
+		<div class="row" style="margin: 10px">
+			
+			<div class="col">
+				<label class="font-weight-bold">Clave</label> <input
+					class="form-control" type="text"
+					placeholder="Ingrese el clave" th:field="*{clave}"
+					th:value="${vendedor.clave}">
+			</div>
+			<div class="col">
+				<label class="font-weight-bold">Estado civil</label> <input
+					class="form-control" type="text" placeholder="Ingrese la estado civil"
+					th:field="*{estadoCivil}" th:value="${vendedor.estadoCivil}">
+			</div>
+			<div class="col">
+			    	<label class="font-weight-bold">fecha contrato</label>
+					<input class="form-control" type="text" placeholder="Ingrese fecha de contrato"
+					th:field="*{fechaContratacion}" th:value="${vendedor.fechaContratacion}">
+			</div>
+			<div class="col">
+			    	<label class="font-weight-bold">fecha contrato</label>
+					<input class="form-control" type="text" placeholder="Ingrese fecha de nacimiento"
+					th:field="*{fechaNacimiento}" th:value="${vendedor.fechaNacimiento}">
+			</div>
+			<div class="col">
+			<label class="font-weight-bold">Fotos del vendedor</label> 
+			<div class="custom-file">
+			  <input type="file" class="custom-file-input" accept=".png, .jpg, .jpeg, .raw, .bmp" name="file" id="customFileLang" lang="es">
+			  <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+			</div>
+				
 			</div>
 		</div>
 		<div class="container-fluid ">
@@ -97,23 +134,35 @@
 			</div>
 		</div>
 		<div class="container" th:switch="${productolist}">
-			<h2 class="text-center">LISTADO DE PROVEDORES</h2>
-			<p class="text-center">Los provedores registrados en la plataforma web</p>
+			<h2 class="text-center">LISTADO DE VENDENDORES</h2>
+			<p class="text-center">Los vendedores registrados en la plataforma web</p>
 			<table class="table table-hover">
 				<thead style="background-color: #eeef20">
 					<tr>
 						<th class="text-center">CODIGO</th>
 						<th class="text-center">NOMBRE</th>
+						<th class="text-center">APELLIDO</th>
 						<th class="text-center">TELEFONO</th>
 						<th class="text-center">DIRECCION</th>
+						<th class="text-center">CLAVE</th>
+						<th class="text-center">ESTADO CIVIL</th>
+						<th class="text-center">FECHA CONTRATO</th>
+						<th class="text-center">FECHA NACIMIENTO</th>
+						<th class="text-center">FOTO</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="lista : ${lista}">
-						<td th:text="${lista.idProveedor}">John</td>
+						<td th:text="${lista.idVendedor}">John</td>
 						<td th:text="${lista.nombre}">John</td>
+						<td th:text="${lista.apellido}">John</td>
 						<td th:text="${lista.direccion}">John</td>
 						<td th:text="${lista.telefono}">John</td>
+						<td th:text="${lista.clave}">John</td>
+						<td th:text="${lista.estadoCivil}">John</td>
+						<td th:text="${lista.fechaContratacion}">John</td>
+						<td th:text="${lista.fechaNacimiento}">John</td>
+						<!--  <td><img th:src="${pro.foto}" title="publicidadIndex" height="100px" width="200px"></td>-->
 					</tr>
 				</tbody>
 			</table>
