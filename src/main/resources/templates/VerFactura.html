@@ -58,6 +58,87 @@
 			</nav>
 			<!-- Fin navegacion -->
 			
+			<div class="container">
+		  <h2 class="text-center">DATOS DE LA FACTURA</h2>
+			
+			<div class="row" style="margin: 10px">
+				<div class="col" >
+					<label class="font-weight-bold">ID</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.idFactura}" ></label>
+				</div>
+				<div class="col">
+				<label class="font-weight-bold">FECHA</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    <label class="form-control"	type="text"  th:text="${factura.fecha}" > </label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold">PRECIOTOTAL</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.precioTotal}"></label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold">PRECIOTOTAL</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.precioTotal}*1.19"></label>
+				</div>
+				
+			</div>
+			<div class="row" style="margin: 10px">
+			<div class="col">
+			    	<label class="font-weight-bold">VENDEDOR ID</label>
+					<label class="form-control" type="text"  th:text="${factura.vendedor.idVendedor}"> </label>
+			    </div>
+				<div class="col">
+			    	<label class="font-weight-bold">VENDEDOR NOMBRE</label>
+					<label class="form-control" type="text"  th:text="${factura.vendedor.nombre}"> </label>
+			    </div>
+			    
+			    <div class="col">
+					<label class="font-weight-bold"> CLIENTE ID</label>
+					<label class="form-control" type="text"  th:text="${factura.cliente.idCliente}"></label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold"> CLIENTE NOMBRE</label>
+				<label class="form-control" type="text"  th:text="${factura.cliente.nombre}"> </label>
+				</div>
+			   	
+
+		</div>
+			</div>
+		<hr>
+				<div class="container" th:switch="${productolist}">
+		  <h2 class="text-center">PRODUCTOS DE LA FACTURA</h2>
+		        
+		  <table class="table table-hover">
+		    <thead style="background-color: #17b978;">
+		      <tr>
+		        <th class="text-center">ID</th>
+		        <th class="text-center">NOMBRE</th>
+		        <th class="text-center">PRECIO COMPRA UNIDAD</th>
+		        <th class="text-center">PRECIO VENTA UNIDAD</th>
+		        <th class="text-center">NOMBRE SUBCATEGORIA</th>
+		        <th class="text-center">NOMBRE PROVEEDOR</th>
+		        <th class="text-center">FECHA VENCIMIENTO</th>
+		        <th class="text-center">DESCRIPCION</th>
+		        <th class="text-center">FOTO</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="pro : ${productolist}">
+		        <td th:text="${pro.idProducto}">John</td>
+		        <td th:text="${pro.nombre}">John</td>
+		        <td th:text="${pro.precioCompraUnidad}">John</td>
+		        <td th:text="${pro.precioVentaUnidad}">John</td>
+		        <td th:text="${pro.subcategoria.nombre}">John</td>
+		        <td th:text="${pro.proveedor.nombre}">John</td>
+		        <td th:text="${pro.fechaVencimiento}">John</td>
+		        <td th:text="${pro.decripcion}">John</td>
+		        <td><img th:src="${pro.foto}" title="publicidadIndex" height="100px" width="200px"></td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+		
+		
+	</form>
+			
 
 
 </body>

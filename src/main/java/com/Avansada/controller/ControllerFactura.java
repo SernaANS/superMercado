@@ -129,9 +129,12 @@ public class ControllerFactura {
 			return "MiCarrito";
 		}
 		
-		@GetMapping("/MostrarFractura/{id}")
-		public String MostrarFactura(Factura factura,Model model) {
+		@GetMapping("/MostrarFractura/{idFactura}")
+		public String MostrarFactura(@PathVariable("idFactura") Integer id,Factura factura,Model model) {
 			//Detalles
+			Factura f=repoFactura.buscarFacturaId(id);
+			model.addAttribute("factura",f);
+			
 			Iterable<Producto > listaProductos=repoProducto.findAll();
 			model.addAttribute("productos",listaProductos);
 			
@@ -151,7 +154,6 @@ public class ControllerFactura {
 			}else {		
 				return "MisFacturas";
 			}
-
 		}
 		
 
