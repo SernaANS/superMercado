@@ -39,6 +39,13 @@ public class ControllerBodega {
 		return "GestionBodega";
 	}
 	
+	@GetMapping("/GestionBodegaVendedor")
+	public String GestionBodegaVendedor(Bodega bodega,Model model) {
+		Iterable<Bodega> lista = repoBodega.findAll();
+		model.addAttribute("bodegitas", lista);
+		return "GestionBodegaVendedor";
+	}
+	
 	
 	@PostMapping("/RegistrarBodega")
 	public String RegistarBodega(@Validated Bodega bodega, BindingResult result, Model model) {

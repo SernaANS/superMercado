@@ -43,6 +43,15 @@ public class ControllerCategoria {
 		
 	}
 	
+	@GetMapping("/GestionCategoriaVendedor")
+	public String GestionCategoriaVendedor(Categoria categoria,Model model) {
+		model.addAttribute("categoria", categoria);
+		Iterable<Categoria> lista = repoCategoria.findAll();
+		model.addAttribute("cantegorias", lista);
+		return "GestionCategoriaVendedor";
+		
+	}
+	
 	@GetMapping("/Index")
 	public String showSignUpForm(Model model) {
 		Iterable<Producto> productos = repoProducto.findAll();
@@ -164,7 +173,116 @@ public class ControllerCategoria {
 		}
 		return "GestionProvedor";
 	}
+//-----------------vendedor-----------
+	
+	@PostMapping("/RegistrarCategoriaV")
+	public String RegistarCategoriaV(@Validated Categoria categoria, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "GestionCategoriaVendedor";
+		}
+		if(!categoria.getNombre().isEmpty()||!categoria.getDescripcion().isEmpty()) {
+			if(BuscarCategoriaNombre(categoria, result, model)!=null) {
+				repoCategoria.save(categoria);
+				Iterable<Categoria> lista = repoCategoria.findAll();
+				model.addAttribute("cantegorias", lista);
+				return "redirect:/GestionCategoriaVendedor";
+			}else {
+				return "redirect:/GestionCategoriaVendedor";
+			}
+		}else {
+			return "redirect:/GestionCategoriaVendedor";
+		}
+	}
 
+	@PostMapping("/ModificarCategoria")
+	public String ModificarCategoriaV(@Validated Categoria categoria, BindingResult result,Model model) {
+		if (result.hasErrors()) {
+			return "listarMensajeVendedor";
+		}
+		
+		if (categoria!=null) {
+			if(!categoria.getDescripcion().isEmpty()||!categoria.getNombre().isEmpty()) {
+				Categoria buscaCategoria = repoCategoria.buscarCategoriaNombre(categoria.getNombre());
+				if (buscaCategoria!=null) {
+					buscaCategoria.setNombre(categoria.getNombre());
+					buscaCategoria.setDescripcion(categoria.getDescripcion());
+					
+					repoCategoria.save(buscaCategoria);
+					model.addAttribute("Mensaje", "logrado");
+					Iterable<Categoria> lista = repoCategoria.findAll();
+					model.addAttribute("cantegorias", lista);
+					return "redirect:/GestionCategoriaVendedor";
+				}else {
+					return "redirect:/GestionCategoriaVendedor";
+				}
+			}else {
+				model.addAttribute("errorVacio", "Ingrese ");
+				Iterable<Categoria> lista = repoCategoria.findAll();
+				model.addAttribute("cantegorias", lista);
+				return "redirect:/GestionCategoriaVendedor";
+			}
+			
+		}else {
+			return "redirect:/GestionCategoriaVendedor";
+		}
+		
+
+	}
+
+	//Este Funciona con ID
+	public String BuscarCategoriaIDV(Categoria categoria, Model model) {
+		Categoria buscaCategoria = repoCategoria.buscarCategoriaId(categoria.getIdCategoria());
+		if (buscaCategoria != null) {
+			model.addAttribute("categoria", repoCategoria.findAll());
+			return "redirect:/GestionCategoriaVendedor";
+			
+		} else {
+			return "GestionCategoriaVendedor";
+		}
+
+	}
+	
+	//Este con el Nombre
+	@PostMapping("/BuscarCategoriaV")	
+	public String BuscarCategoriaNombreV(Categoria categoria, BindingResult result,Model model) {
+		Categoria buscaCategoria = repoCategoria.buscarCategoriaNombre(categoria.getNombre());
+		
+		if (buscaCategoria != null) {
+			System.out.println(buscaCategoria.getNombre());
+			model.addAttribute("categoria", buscaCategoria);
+			return "GestionCategoriaVendedor";
+			
+		} else {
+			return "GestionCategoriaVendedor";
+		}
+
+	}
+	@GetMapping("/deleteCategoriaV")
+	public String EliminarCategoriaV(@PathVariable("nombre") String nombre,BindingResult result, Model model) {
+		Categoria categoria = repoCategoria.buscarCategoriaNombre(nombre);
+		repoCategoria.delete(categoria);
+		model.addAttribute("categoria", repoCategoria.findAll());
+		return "redirect:/GestionCategoriaVendedor";
+	}
+
+	@RequestMapping(value = "/CategoriaV", method = RequestMethod.POST)
+	public String handlePostV(@RequestParam(required = false, value = "Registrar") String registrar,
+			@RequestParam(required = false, value = "Modificar") String modificar,
+			@RequestParam(required = false, value = "Buscar") String Buscar, 
+			@RequestParam(required = false, value = "Eliminar") String Eliminar, 
+			@Validated Categoria categoria,BindingResult result, Model model) {
+
+		if ("Registrar".equals(registrar)) {
+			return RegistarCategoriaV(categoria, result, model);
+		} else if ("Modificar".equals(modificar)) {
+			return ModificarCategoriaV(categoria, result, model);
+		}else if ("Eliminar".equals(Eliminar)) {
+			return EliminarCategoriaV(categoria.getNombre(), result, model);
+		}else if ("Buscar".equals(Buscar)) {
+			return BuscarCategoriaNombreV(categoria,result, model);
+		}
+		return "GestionProvedor";
+	}
 }
 
 

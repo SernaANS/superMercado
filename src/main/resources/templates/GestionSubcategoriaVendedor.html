@@ -22,52 +22,45 @@
         <a class="navbar-brand" href="/GestionProductoVendendor" style="font-size:25px">PRODUCTOS</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="navbar-brand dropdown-toggle"  href="/GestionCategoria" data-toggle="dropdown"style="font-size:25px">CAT/SUB</a>
+        <a class="navbar-brand dropdown-toggle"  href="/GestionCategoriaVendedor" data-toggle="dropdown"style="font-size:25px">CAT/SUB</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/GestionCategoriaVendedor">CATEGORIA</a>
           <a class="dropdown-item" href="/GestionSubcategoriaVendedor">SUBCATEGORIA</a>
         </div>
       </li>
-      <li class="nav-item dropdown">
-        <a class="navbar-brand dropdown-toggle"  href="/GestionCategoria" data-toggle="dropdown"style="font-size:25px">BODEGA</a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/GestionBodega">BODEGA</a>
-          <a class="dropdown-item" href="/GestionDetalleBodega">ASIGNAR PRODUCTOS</a>
-        </div>
-      </li>
       <li class="nav-item"><a class="navbar-brand" href="/IndexVendedor"
-			style="font-size: 25px">ListaDeFacturas</a></li>
+		style="font-size: 25px">ListaDeFacturas</a></li>
 		<li class="nav-item"><a class="navbar-brand" href="/GestionBodegaVendedor"
-			style="font-size: 25px">VerBodega</a></li>			
+		 style="font-size: 25px">VerBodega</a></li>				
     </ul>
   </div>
 </nav>
 <body>
- <form class="formulario" action="#" th:action="@{/Bodega}" th:object="${bodega}" method="post"> 
+  <form class="formulario" action="#" th:action="@{/SubcategoriaV}" th:object="${subcategoria}" method="post">
 <hr>
 	
 		<div class="container-fluid" >
-			<p class="text-center " style="font-size:30px">BODEGA</p>
+			<p class="text-center " style="font-size:30px">GESTION DE SUBCATEGORIAS</p>
     	</div>
     	<div style="background-color: #eeef20"  ><br></div>
     	<br>
 			<div class="Container">
 				<div class="row" style="margin: 10px">
+					<div class="col" >
+						<label class="font-weight-bold">NOMBRE</label>
+						<input class="form-control" type="text" placeholder="INGRESE EL NOMBRE DE LA CATEGORIA" th:field="*{nombre}" th:value="${subcategoria.nombre}" required="required">
+					</div>
 					
 					<div class="col">
-						<label class="font-weight-bold">NOMBRE</label><!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
-					 <input class="form-control" type="text" placeholder="INGRESE EL NOMBRE LA BODEGA" th:field="*{nombre}" th:value="${bodega.nombre}"> 
+						<label class="font-weight-bold">DESCRIPCION</label><!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+						<input class="form-control" type="text" placeholder="INGRESE LA DESCRIPCION DE LA CATEGORIA" th:field="*{descripcion}" th:value="${subcategoria.descripcion}"> 
 					</div>
 					<div class="col">
-						<label class="font-weight-bold">DIRECCION</label><!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
-					 <input class="form-control" type="text" placeholder="INGRESE LA DIRECCION" th:field="*{direccion}" th:value="${bodega.direccion}">  
+						<label class="font-weight-bold">Categoria</label>
+						<select class="form-control"  th:field="*{categoria.idCategoria}" >
+							<option   th:each="cat : ${cantegorias}" th:text="${cat.nombre}" th:value="${cat.idCategoria}"></option>
+						</select>
 					</div>
-					<div class="col">
-						<label class="font-weight-bold">ESPACIO MAXIMO</label><!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
-					<input class="form-control" type="number" placeholder="INGRESE EL ESPACIO MAXIMO DE LA BODEGA" th:field="*{espacioMaximo}" th:value="${bodega.espacioMaximo}">  
-					</div>
-
-
 				</div>
 			    		<hr>				
 		
@@ -83,29 +76,51 @@
 		</div>
 		<hr>
 		
-		<div class="container" th:switch="${bodegitas}">
-		  <h2 class="text-center">LISTADO DE BODEGAS</h2>
-		  <p class="text-center">Las siguientes items en la lista son las bodegas registradas</p>            
+		<div class="container" th:switch="${subcantegorias}">
+		  <h2 class="text-center">LISTADO DE SUBCATEGORIAS</h2>
+		  <p class="text-center">Las siguientes items en la lista son las subcategorias usadas en los productos</p>            
 		  <table class="table table-hover">
 		    <thead style="background-color: #eeef20">
 		      <tr>
 		        <th class="text-center">ID</th>
 		        <th class="text-center">NOMBRE</th>
-		        <th class="text-center">DIRECCION</th>
-		        <th class="text-center">ESPACIO MAXIMO</th>
+		        <th class="text-center">DESCRIPCION</th>
+		        <th class="text-center">NOMBRE CATEGORIA</th>
 		      </tr>
 		    </thead>
 		    <tbody>
-		      <tr th:each="bod : ${bodegitas}">
-		        <td th:text="${bod.idBodega}">John</td>
-		        <td th:text="${bod.nombre}">John</td>
-		        <td th:text="${bod.direccion}">John</td>
-		        <td th:text="${bod.espacioMaximo}">John</td>
+		      <tr th:each="subcat : ${subcantegorias}">
+		        <td th:text="${subcat.idSubcategoria}">John</td>
+		        <td th:text="${subcat.nombre}">John</td>
+		        <td th:text="${subcat.descripcion}">John</td>
+		        <td th:text="${subcat.categoria.nombre}">John</td>
 		      </tr>
 		    </tbody>
 		  </table>
 		</div>
 	</form>
 
+	
+
 </body>
+
+<script th:src="@{/js/jquery.js}"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+		
+		<script th:inline="javascript">
+		$(function() {
+						$('#subcategorias').load('/ajax/subcategorias', "id_categoria="+$('#categoria').val());
+						$('#categoria').on('change', function() {
+							$('#subcategorias').load('/ajax/subcategorias', 'id_categoria='+$('#categoria').val());
+						});
+					});
+	
+		</script>
 </html>

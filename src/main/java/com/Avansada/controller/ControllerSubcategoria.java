@@ -47,6 +47,20 @@ public class ControllerSubcategoria {
 		return "GestionSubcategoria";
 		
 	}
+	
+	@GetMapping("/GestionSubcategoriaVendedor")
+	public String GestionSubcategoriaVendedor(Subcategoria subcategoria,Model model) {
+		//Carga la lista de Subcategorias Existentes
+		Iterable<Subcategoria> lista = repoSubcategoria.findAll();
+		model.addAttribute("subcantegorias", lista);
+		
+		//Para cargar el combobox categorias
+		Iterable<Categoria> listaCategorias = repoCategoria.todasCategoria();
+		model.addAttribute("cantegorias", listaCategorias);
+		
+		return "GestionSubcategoriaVendedor";
+		
+	}
 
 
 	@PostMapping("/RegistrarSubcategoria")
@@ -160,7 +174,119 @@ public class ControllerSubcategoria {
 		}
 		return "GestionSubcategoria";
 	}
+//------------------Vendedor----------------------
+	
+	@RequestMapping(value = "/SubcategoriaV", method = RequestMethod.POST)
+	public String SubcategoriV(@RequestParam(required = false, value = "Registrar") String registrar,
+			@RequestParam(required = false, value = "Modificar") String modificar,
+			@RequestParam(required = false, value = "Buscar") String Buscar, 
+			@RequestParam(required = false, value = "Eliminar") String Eliminar, 
+			@Validated Subcategoria subcategoria,BindingResult result, Model model) {
 
+		if ("Registrar".equals(registrar)) {
+			return RegistarSubcategoriaV(subcategoria, result, model);
+		} else if ("Modificar".equals(modificar)) {
+			return ModificarSubcategoriaV(subcategoria, result, model);
+		}else if ("Eliminar".equals(Eliminar)) {
+			return EliminarSubcategoriaV(subcategoria.getNombre(), result, model);
+		}else if ("Buscar".equals(Buscar)) {
+			return BuscarSubcategoriaV(subcategoria,result, model);
+		}
+		return "GestionSubcategoria";
+	}
+	
+	@PostMapping("/RegistrarSubcategoriaV")
+	public String RegistarSubcategoriaV(@Validated Subcategoria subcategoria, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			
+			//Carga la lista de Subcategorias Existentes
+			Iterable<Subcategoria> lista = repoSubcategoria.findAll();
+			model.addAttribute("subcantegorias", lista);
+			
+			//Para cargar el combobox categorias
+			Iterable<Categoria> listaCategorias = repoCategoria.todasCategoria();
+			model.addAttribute("cantegorias", listaCategorias);
+			return "GestionSubcategoriaVendedor";
+		}
+		//Valida si alguno de los campos esta vacio
+		if(!subcategoria.getNombre().equals("")||!subcategoria.getDescripcion().equals("")) {
+			Categoria cate=repoCategoria.buscarCategoriaNombre(subcategoria.getNombre());
+			Subcategoria sub=repoSubcategoria.buscarSubcategoriaNombre(subcategoria.getNombre());
+			if(cate==null&&sub==null) {
+				repoSubcategoria.save(subcategoria);
+				return "redirect:/GestionSubcategoriaVendedor";
+			}else {
+				//Devolver un Mensaje De Error Que Ya existe(Hacer)
+				return "redirect:/GestionSubcategoriaVendedor";
+			}
+		}else {
+			repoSubcategoria.save(subcategoria);
+			return "redirect:/GestionSubcategoriaVendedor";
+		}
+		
+
+	}
+
+	@PostMapping("/ModificarSubcategoriaV")
+	public String ModificarSubcategoriaV(@Validated Subcategoria subcategoria, BindingResult result,Model model) {
+		
+		if (result.hasErrors()) {
+			return "listarMensajeVendedor";
+		}
+		
+		if (subcategoria!=null) {
+			Subcategoria buscaSubcategoria = repoSubcategoria.buscarSubcategoriaNombre(subcategoria.getNombre());
+			if (buscaSubcategoria!=null) {
+				buscaSubcategoria.setDescripcion(subcategoria.getDescripcion());
+				
+				Categoria cat=subcategoria.getCategoria();
+				cat.setIdCategoria(subcategoria.getCategoria().getIdCategoria());
+				buscaSubcategoria.setCategoria(cat);
+				
+				repoSubcategoria.save(buscaSubcategoria);
+				
+				model.addAttribute("Mensaje", "logrado");
+				return "redirect:/GestionSubcategoriaVendedor";
+			}else {
+				return "redirect:/GestionSubcategoriaVendedor";
+			}
+		}else {
+			return "redirect:/GestionSubcategoriaVendedor";
+		}
+		
+
+	}
+
+	@PostMapping("/BuscarSubcategoriaV")
+	public String BuscarSubcategoriaV(Subcategoria subcategoria, BindingResult result, Model model) {
+		Subcategoria buscaSubcategoria = repoSubcategoria.buscarSubcategoriaNombre(subcategoria.getNombre());
+		
+		if (buscaSubcategoria != null) {
+			//Devuleve el objeto buscado
+			model.addAttribute("subcategoria", buscaSubcategoria);
+			
+			//Carga la lista de Subcategorias Existentes
+			Iterable<Subcategoria> lista = repoSubcategoria.findAll();
+			model.addAttribute("subcantegorias", lista);
+			
+			//Para cargar el combobox categorias
+			Iterable<Categoria> listaCategorias = repoCategoria.todasCategoria();
+			model.addAttribute("cantegorias", listaCategorias);
+			 return "GestionSubcategoriaVendedor";
+			
+		} else {
+			return "GestionSubcategoriaVendedor";
+		}
+
+	}
+
+	@GetMapping("/deleteSubcategoriaV")
+	public String EliminarSubcategoriaV(@PathVariable("nombre") String nombre,BindingResult result, Model model) {
+		Subcategoria subcategoria = repoSubcategoria.buscarSubcategoriaNombre(nombre);
+		repoSubcategoria.delete(subcategoria);
+		model.addAttribute("subcategoria", repoSubcategoria.findAll());
+		return "redirect:/GestionSubcategoriaVendedor";
+	}
 }
 
 
