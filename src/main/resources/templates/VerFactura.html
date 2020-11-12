@@ -109,37 +109,29 @@
 		  <table class="table table-hover">
 		    <thead style="background-color: #17b978;">
 		      <tr>
-		        <th class="text-center">ID</th>
-		        <th class="text-center">NOMBRE</th>
-		        <th class="text-center">PRECIO COMPRA UNIDAD</th>
-		        <th class="text-center">PRECIO VENTA UNIDAD</th>
-		        <th class="text-center">NOMBRE SUBCATEGORIA</th>
-		        <th class="text-center">NOMBRE PROVEEDOR</th>
-		        <th class="text-center">FECHA VENCIMIENTO</th>
-		        <th class="text-center">DESCRIPCION</th>
+		      <th class="text-center">CODIGO DE BARRAS</th>
+		        <th class="text-center">CANTIDAD</th>
+		        <th class="text-center">NOMBRE PRODUCTO</th>
+		        <th class="text-center">SUBCATEGORIA</th>
 		        <th class="text-center">FOTO</th>
 		      </tr>
 		    </thead>
 		    <tbody>
-		      <tr th:each="pro : ${productolist}">
-		        <td th:text="${pro.idProducto}">John</td>
-		        <td th:text="${pro.nombre}">John</td>
-		        <td th:text="${pro.precioCompraUnidad}">John</td>
-		        <td th:text="${pro.precioVentaUnidad}">John</td>
-		        <td th:text="${pro.subcategoria.nombre}">John</td>
-		        <td th:text="${pro.proveedor.nombre}">John</td>
-		        <td th:text="${pro.fechaVencimiento}">John</td>
-		        <td th:text="${pro.decripcion}">John</td>
-		        <td><img th:src="${pro.foto}" title="publicidadIndex" height="100px" width="200px"></td>
+		      <tr th:each="pro :${factura.detalleFacturas}">
+		      <td th:text="${pro.producto.idProducto}">John</td>
+		        <td th:text="${pro.cantidad}">John</td>
+		        <td th:text="${pro.producto.nombre}">John</td>
+		        <td th:text="${pro.producto.subcategoria.nombre}">John</td>
+		        <td>
+		        	<img th:src="${pro.producto.foto}" title="publicidadIndex" height="100px" width="200px">
+		        </td>
+
 		      </tr>
 		    </tbody>
 		  </table>
 		</div>
 		
 		
-	</form>
-			
-
 
 </body>
 </html>
