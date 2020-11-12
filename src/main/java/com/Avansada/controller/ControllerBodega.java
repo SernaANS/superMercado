@@ -152,4 +152,109 @@ public class ControllerBodega {
 		}
 		return "GestionBodega";
 	}
+	
+	//--Vendedor---
+	
+	@PostMapping("/RegistrarBodegaV")
+	public String RegistarBodegaV(@Validated Bodega bodega, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "GestionBodega";
+		}
+		
+			if(BuscarBodegaNombre(bodega, result, model)!=null) {
+				repoBodega.save(bodega);
+				Iterable<Bodega> lista = repoBodega.findAll();
+				model.addAttribute("bodegitas", lista);
+				return "redirect:/GestionBodegaVendedor";
+			}else {
+				return "redirect:/GestionBodegaVendedor";
+			}
+	
+	}
+
+	@PostMapping("/ModificarBodegaV")
+	public String ModificarBodegaV(@Validated Bodega bodega, BindingResult result,Model model) {
+		if (result.hasErrors()) {
+			return "listarMensajeVendedor";
+		}
+		
+		if ( bodega!=null) {	
+				Bodega buscaBodega = repoBodega.buscarBodegaNombre(bodega.getNombre());
+				if (buscaBodega!=null) {
+					buscaBodega.setNombre( bodega.getNombre());
+					buscaBodega.setDireccion(bodega.getDireccion());
+					buscaBodega.setEspacioMaximo(bodega.getEspacioMaximo());
+					
+					repoBodega.save(buscaBodega);
+					model.addAttribute("Mensaje", "logrado");
+					Iterable<Bodega> lista = repoBodega.findAll();
+					model.addAttribute("bodegitas", lista);
+					return "GestionBodegaVendedor";
+				}else {
+					return "redirect:/GestionBodegaVendedor";
+				}
+			}else {
+				model.addAttribute("errorVacio", "Ingrese ");
+				Iterable<Bodega> lista = repoBodega.findAll();
+				model.addAttribute("bodegitas", lista);
+				return "redirect:/GestionBodegaVendedor";
+			}
+			
+	}
+
+	//Este Funciona con ID
+	public String BuscarBodegaIDV(Bodega bodega, Model model) {
+		Bodega buscaBodega = repoBodega.buscarBodegaId(bodega.getIdBodega());
+		if (buscaBodega != null) {
+			model.addAttribute("bodega", repoBodega.findAll());
+			return "redirect:/GestionBodegaVendedor";
+			
+		} else {
+			return "GestionBodega";
+		}
+
+	}
+	
+	//Este con el Nombre
+	@PostMapping("/BuscarBodegaV")	
+	public String BuscarBodegaNombreV(Bodega bodega, BindingResult result,Model model) {
+		Bodega buscaBodega = repoBodega.buscarBodegaNombre(bodega.getNombre());
+		
+		if (buscaBodega != null) {
+			System.out.println(buscaBodega.getNombre());
+			model.addAttribute("bodegitas", buscaBodega);
+			return "GestionBodegaVendedor";
+			
+		} else {
+			return "GestionBodegaVendedor";
+		}
+
+	}
+	@GetMapping("/deleteBodegaV")
+	public String EliminarBodegaV(@PathVariable("nombre") String nombre,BindingResult result, Model model) {
+		Bodega bodega = repoBodega.buscarBodegaNombre(nombre);
+		repoBodega.delete(bodega);
+		model.addAttribute("bodega", repoBodega.findAll());
+		return "redirect:/GestionBodega";
+	}
+
+	@RequestMapping(value = "/BodegaV", method = RequestMethod.POST)
+	public String handlePostV(
+			@RequestParam(required = false, value = "Registrar") String registrar,
+			@RequestParam(required = false, value = "Modificar") String modificar,
+			@RequestParam(required = false, value = "Buscar") String Buscar, 
+			@RequestParam(required = false, value = "Eliminar") String Eliminar, 
+			@Validated Bodega bodega,BindingResult result, Model model) {
+
+		if ("Registrar".equals(registrar)) {
+			return RegistarBodegaV(bodega, result, model);
+		} else if ("Modificar".equals(modificar)) {
+			return ModificarBodegaV(bodega, result, model);
+		}else if ("Eliminar".equals(Eliminar)) {
+			return EliminarBodegaV(bodega.getNombre(), result, model);
+		}else if ("Buscar".equals(Buscar)) {
+			return BuscarBodegaNombreV(bodega,result, model);
+		}
+		return "GestionBodega";
+	}
 }

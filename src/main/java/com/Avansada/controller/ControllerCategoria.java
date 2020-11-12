@@ -194,7 +194,7 @@ public class ControllerCategoria {
 		}
 	}
 
-	@PostMapping("/ModificarCategoria")
+	@PostMapping("/ModificarCategoriaV")
 	public String ModificarCategoriaV(@Validated Categoria categoria, BindingResult result,Model model) {
 		if (result.hasErrors()) {
 			return "listarMensajeVendedor";
