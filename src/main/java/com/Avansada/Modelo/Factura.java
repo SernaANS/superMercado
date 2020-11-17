@@ -50,6 +50,15 @@ public class Factura implements Serializable {
 		this.cliente = cliente;
 		this.vendedor = vendedor;
 	}
+	
+	public Factura(int idFactura, int precioTotal, Cliente cliente, Vendedor vendedor) {
+		super();
+		this.idFactura = idFactura;
+		this.precioTotal = precioTotal;
+		this.cliente = cliente;
+		this.vendedor = vendedor;
+	}
+
 
 
 

@@ -58,6 +58,13 @@ public class Vendedor implements Serializable {
 		this.clave = clave;
 		this.nombre = nombre;
 	}
+	
+	public Vendedor(int idVendedor, String apellido, String nombre) {
+		super();
+		this.idVendedor = idVendedor;
+		this.apellido = apellido;
+		this.nombre = nombre;
+	}
 
 
 
