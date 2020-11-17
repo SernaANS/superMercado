@@ -28,6 +28,16 @@ public class Categoria implements Serializable {
 
 	public Categoria() {
 	}
+	
+
+	public Categoria(int idCategoria, String descripcion, String nombre) {
+		super();
+		this.idCategoria = idCategoria;
+		this.descripcion = descripcion;
+		this.nombre = nombre;
+	}
+
+
 
 	public int getIdCategoria() {
 		return this.idCategoria;

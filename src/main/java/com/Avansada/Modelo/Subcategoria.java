@@ -32,6 +32,13 @@ public class Subcategoria implements Serializable {
 
 	public Subcategoria() {
 	}
+	
+	public Subcategoria(int idSubcategoria, String descripcion, String nombre) {
+		super();
+		this.idSubcategoria = idSubcategoria;
+		this.descripcion = descripcion;
+		this.nombre = nombre;
+	}
 
 	public int getIdSubcategoria() {
 		return this.idSubcategoria;

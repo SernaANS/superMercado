@@ -11,13 +11,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.Avansada.Modelo.Cliente;
-import com.Avansada.Modelo.Proveedor;
 import com.Avansada.repository.RepoCliente;
-import com.Avansada.repository.RepoProvedor;
-
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-class sqlCliente {
+class slqSubCategoria {
 
 	@Autowired
 	  private TestEntityManager entityManager;

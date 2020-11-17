@@ -31,6 +31,15 @@ public class Bodega implements Serializable {
 
 	public Bodega() {
 	}
+	
+	public Bodega(int idBodega, int espacioMaximo, String nombre) {
+		super();
+		this.idBodega = idBodega;
+		this.espacioMaximo = espacioMaximo;
+		this.nombre = nombre;
+	}
+
+
 
 	public int getIdBodega() {
 		return this.idBodega;
