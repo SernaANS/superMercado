@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.Avansada.Modelo.Cliente;
+import com.Avansada.Modelo.DetalleBodega;
 import com.Avansada.Modelo.DetalleFactura;
 import com.Avansada.Modelo.Factura;
 import com.Avansada.Modelo.Producto;
@@ -57,6 +58,7 @@ public class ControllerDetalleFactura {
 		ArrayList<Factura> listaBusqueda=repoFactura.lista(ControllerCliente.getCedula());
 		
 		for (int i = 0; i < listaBusqueda.size(); i++) {
+			
 			if(listaBusqueda.get(i).getIdFactura()!=0 && listaBusqueda.get(i).getFecha()==null) {
 				Factura factura=listaBusqueda.get(i);
 				Producto producto=repoProducto.buscarProductoId(id);
@@ -64,6 +66,8 @@ public class ControllerDetalleFactura {
 			    System.out.println(precioActual);
 			    factura.setPrecioTotal(precioActual);
 			    repoFactura.save(factura);
+			    
+			    
 				DetalleFactura newDetalle=new DetalleFactura();
 				newDetalle.setProducto(producto);
 				newDetalle.setFactura(listaBusqueda.get(i));
@@ -76,6 +80,8 @@ public class ControllerDetalleFactura {
 				factura.setCliente(cliente);
 				factura.setPrecioTotal(producto.getPrecioVentaUnidad());
 				repoFactura.save(factura);
+				
+				
 				DetalleFactura newDetalle=new DetalleFactura();
 				newDetalle.setProducto(producto);
 				newDetalle.setFactura(listaBusqueda.get(i));

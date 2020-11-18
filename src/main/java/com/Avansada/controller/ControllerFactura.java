@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.Avansada.Modelo.Cliente;
+import com.Avansada.Modelo.DetalleBodega;
 import com.Avansada.Modelo.DetalleFactura;
 import com.Avansada.Modelo.Factura;
 import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Vendedor;
 import com.Avansada.repository.RepoCliente;
 import com.Avansada.repository.RepoDetallaFactura;
+import com.Avansada.repository.RepoDetalleBodega;
 import com.Avansada.repository.RepoFactura;
 import com.Avansada.repository.RepoProducto;
 import com.Avansada.repository.RepoVendedor;
@@ -45,6 +47,8 @@ public class ControllerFactura {
 	private final RepoVendedor repoVendedor;
 	@Autowired
 	private final RepoDetallaFactura repoDTfactura;
+	@Autowired
+	private final RepoDetalleBodega repoDTBodega;
 	
 
 	ControllerDetalleFactura controlador;
@@ -53,12 +57,13 @@ public class ControllerFactura {
 	
 	 @Autowired
 	    public ControllerFactura(RepoProducto repoProducto,RepoFactura repoFactura,RepoCliente repoCliente,RepoVendedor repoVendedor,
-	    		RepoDetallaFactura repoDTfactura) {
+	    		RepoDetallaFactura repoDTfactura,RepoDetalleBodega repoDTBodega) {
 			this.repoProducto = repoProducto;
 			this.repoFactura=repoFactura;
 			this.repoCliente=repoCliente;
 			this.repoVendedor=repoVendedor;
 			this.repoDTfactura=repoDTfactura;
+			this.repoDTBodega=repoDTBodega;
 		}
 
 	 @GetMapping("/RegistrarFactura/{idFactura}")
@@ -67,10 +72,12 @@ public class ControllerFactura {
 				if(ControllerCliente.cedula!=0) {
 					Cliente cliente= new Cliente();
 					cliente.setIdCliente(ControllerCliente.getCedula());
+					
 					ArrayList<Vendedor> listaVendedores=(ArrayList<Vendedor>) repoVendedor.findAll();
 					System.out.println("esta la tiene id"+id);
 					int numero = (int) (Math.random() * listaVendedores.size());
 					Vendedor vende=listaVendedores.get(numero);
+					
 					ArrayList<Producto> listaProductos=ControllerCliente.misProductos;
 					Factura facturita=repoFactura.buscarFacturaId(id);
 					 Date ahora = new Date();
@@ -79,9 +86,22 @@ public class ControllerFactura {
 					 
 					 ArrayList<DetalleFactura> detallito=repoDTfactura.buscarFactura(id);
 					 System.out.println("este es detallito"+detallito.size());
+					  
+					 
+					 for(int i=0;i<detallito.size();i++) {
+						ArrayList<DetalleBodega> dtBodega =repoDTBodega.buscarDetalleBodegaIdProducto(detallito.get(i).getProducto().getIdProducto());
+							for(int j=0;j<dtBodega.size();j++) {
+								if(detallito.get(i).getCantidad()<=dtBodega.get(j).getCantidadProducto()) {
+									int resta=dtBodega.get(j).getCantidadProducto()-detallito.get(i).getCantidad();
+									dtBodega.get(j).setCantidadProducto(resta);
+									repoDTBodega.save(dtBodega.get(j));
+								}
+							}
+						}
+					 
 					 if(detallito!=null) {
 						 facturita.setFecha(ahora);
-							facturita.setVendedor(vende);		 
+							facturita.setVendedor(vende);
 							repoFactura.save(facturita);
 							 return "redirect:/MisFacturas";
 					 }
