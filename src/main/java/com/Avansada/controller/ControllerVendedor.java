@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,9 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Avansada.Modelo.Admin;
 import com.Avansada.Modelo.Cliente;
+import com.Avansada.Modelo.Factura;
 import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Proveedor;
 import com.Avansada.Modelo.Vendedor;
+import com.Avansada.repository.RepoFactura;
+import com.Avansada.repository.RepoProducto;
 import com.Avansada.repository.RepoVendedor;
 import com.cloudinary.utils.ObjectUtils;
 
@@ -43,11 +47,19 @@ public class ControllerVendedor {
 
 	@Autowired
 	private final RepoVendedor repoVendedor;
+	
+	@Autowired
+	private final RepoFactura repoFactura;
 
 	@Autowired
-	public ControllerVendedor(RepoVendedor repoVendedor) {
+	private final RepoProducto repoProducto;
+	
+	@Autowired
+	public ControllerVendedor(RepoVendedor repoVendedor, RepoFactura repoFactura,RepoProducto repoProducto) {
 		super();
 		this.repoVendedor = repoVendedor;
+		this.repoFactura= repoFactura;
+		this.repoProducto = repoProducto;
 	}
 
 	//////////////////////////// Vistas////////////////////////////////////////////
@@ -84,7 +96,10 @@ public class ControllerVendedor {
 
 	@GetMapping("/IndexVendedor")
 	public String IndexClienteLogeado(Vendedor vendedor, Model model) {
-		return "indexVendedorLogiado";
+		
+		
+			return "indexVendedorLogiado";
+		
 	}
 
 	/////////////////////////// Metodos////////////////////////////////////////////
@@ -138,8 +153,13 @@ public class ControllerVendedor {
 		}else {
 			Vendedor Bvendedor = repoVendedor.loginVendedor(vendedor.getIdVendedor());
 			if (Bvendedor != null) {
-				model.addAttribute("Cliente", Bvendedor);
 				cedula=vendedor.getIdVendedor();
+				Iterable<Factura> listaProductos=repoFactura.facturasVendedor(cedula);
+				if(listaProductos!=null) {
+					model.addAttribute("facturas",listaProductos);
+					return "indexVendedorLogiado";
+				}
+				
 				return "indexVendedorLogiado";
 			} else {
 				return "/Index";
@@ -147,6 +167,17 @@ public class ControllerVendedor {
 		}
 	}
 	
+	@GetMapping("/MostrarFracturaV/{idFactura}")
+	public String MostrarFactura(@PathVariable("idFactura") Integer id,Factura factura,Model model) {
+		//Detalles
+		Factura f=repoFactura.buscarFacturaId(id);
+		model.addAttribute("factura",f);
+		
+		Iterable<Producto > listaProductos=repoProducto.findAll();
+		model.addAttribute("productos",listaProductos);
+		
+		return "VerFacturaV";
+	}
 
 	public String EliminarVendedor(Vendedor vendedor, BindingResult result, Model model) {
 		Vendedor bCliente = repoVendedor.findById(vendedor.getIdVendedor())
