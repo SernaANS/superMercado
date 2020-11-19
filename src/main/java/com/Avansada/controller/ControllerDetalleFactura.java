@@ -97,10 +97,11 @@ public class ControllerDetalleFactura {
 				factura.setPrecioTotal(producto.getPrecioVentaUnidad());
 				repoFactura.save(factura);
 				
+				ArrayList<Factura> busqueda=repoFactura.lista(ControllerCliente.getCedula());
 				
 				DetalleFactura newDetalle=new DetalleFactura();
 				newDetalle.setProducto(producto);
-				newDetalle.setFactura(listaBusqueda.get(i));
+				newDetalle.setFactura(busqueda.get(i+1));
 				newDetalle.setCantidad(1);
 				repo.save(newDetalle);
 			}
