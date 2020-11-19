@@ -172,9 +172,7 @@ public class ControllerVendedor {
 		//Detalles
 		Factura f=repoFactura.buscarFacturaId(id);
 		model.addAttribute("factura",f);
-		
-		Iterable<Producto > listaProductos=repoProducto.findAll();
-		model.addAttribute("productos",listaProductos);
+	
 		
 		return "VerFacturaV";
 	}
