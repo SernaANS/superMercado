@@ -63,16 +63,21 @@ public class ControllerDetalleFactura {
 				Factura factura=listaBusqueda.get(i);
 				Producto producto=repoProducto.buscarProductoId(id);
 			    int precioActual=factura.getPrecioTotal()+producto.getPrecioVentaUnidad();
-			    System.out.println(precioActual);
 			    factura.setPrecioTotal(precioActual);
 			    repoFactura.save(factura);
-			    
-			    
-				DetalleFactura newDetalle=new DetalleFactura();
-				newDetalle.setProducto(producto);
-				newDetalle.setFactura(listaBusqueda.get(i));
-				newDetalle.setCantidad(1);
-				repo.save(newDetalle);
+			    DetalleFactura vDetalle=repo.buscar(factura.getDetalleFacturas().get(i).getIdFactura());
+			    if(vDetalle!=null) {
+			    	int cantid=vDetalle.getCantidad()+1;
+			    	vDetalle.setCantidad(cantid);
+			    	repo.save(vDetalle);
+			    }else {
+			    	DetalleFactura newDetalle=new DetalleFactura();
+					newDetalle.setProducto(producto);
+					newDetalle.setFactura(listaBusqueda.get(i));
+					newDetalle.setCantidad(1);
+					repo.save(newDetalle);
+			    }
+				
 			}else if(i+1 == listaBusqueda.size()){
 				Producto producto=repoProducto.buscarProductoId(id);
 				factura=new Factura();
