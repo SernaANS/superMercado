@@ -74,7 +74,6 @@ public class ControllerFactura {
 					cliente.setIdCliente(ControllerCliente.getCedula());
 					
 					ArrayList<Vendedor> listaVendedores=(ArrayList<Vendedor>) repoVendedor.findAll();
-					System.out.println("esta la tiene id"+id);
 					int numero = (int) (Math.random() * listaVendedores.size());
 					Vendedor vende=listaVendedores.get(numero);
 					
@@ -83,23 +82,52 @@ public class ControllerFactura {
 					 Date ahora = new Date();
 					 System.out.println(ahora);
 					 
+					 //DETALLES BODEGA
+					// ArrayList<DetalleBodega> Bodega=repoDTBodega.buscarDetallesConElTotalDeCantidadProducto();
 					 
-					 ArrayList<DetalleFactura> detallito=repoDTfactura.buscarFactura(id);
-					 System.out.println("este es detallito"+detallito.size());
-					  
-					 
-					 for(int i=0;i<detallito.size();i++) {
-						ArrayList<DetalleBodega> dtBodega =repoDTBodega.buscarDetalleBodegaIdProducto(detallito.get(i).getProducto().getIdProducto());
-							for(int j=0;j<dtBodega.size();j++) {
-								if(detallito.get(i).getCantidad()<=dtBodega.get(j).getCantidadProducto()) {
-									int resta=dtBodega.get(j).getCantidadProducto()-detallito.get(i).getCantidad();
-									dtBodega.get(j).setCantidadProducto(resta);
-									repoDTBodega.save(dtBodega.get(j));
+					 //DETALLES PRODUCTO DE LA FACTURA
+					 int total;
+					 ArrayList<DetalleFactura> producto=repoDTfactura.buscarFactura(id);
+					 if(producto!=null) {
+						 for(int i=0;i<producto.size();i++) {
+							  total=0;
+						 		System.out.println("producto tal"+producto.get(i).getProducto().getNombre());
+						 		
+								//Lista Bodegas Con Este Producto
+								ArrayList<DetalleBodega> BodegaProducta =repoDTBodega.buscarDetalleBodegaIdProducto(producto.get(i).getProducto().getIdProducto());
+								System.out.println(BodegaProducta.size());
+								for(int j=0;j<BodegaProducta.size();j++) {
+									total+=BodegaProducta.get(j).getCantidadProducto();
+									System.out.println("TOTAL"+total+" Tamaño"+BodegaProducta.size());
 								}
-							}
+								for (int j = 0; j < BodegaProducta.size(); j++) {
+									
+								if(producto.get(i).getCantidad()<=total) {
+									System.out.println("entro");
+										
+											if(total!=0) {
+												int cantidadRestar=producto.get(i).getCantidad();
+												if(BodegaProducta.get(j).getCantidadProducto()!=0) {
+													total-=cantidadRestar;
+													BodegaProducta.get(j).setCantidadProducto(BodegaProducta.get(j).getCantidadProducto()-cantidadRestar);
+													repoDTBodega.save(BodegaProducta.get(j));
+												}
+												
+											}
+										
+								}else {
+									System.out.println("No tengo esa cantidad");
+									System.out.println("cantidad"+producto.get(i).getCantidad());
+									System.out.println("TOTALITO"+total);
+								}
+								}
 						}
+					 }else {
+						 System.out.println("producto nullo");
+					 }
+					 	
 					 
-					 if(detallito!=null) {
+					 if(producto!=null) {
 						 facturita.setFecha(ahora);
 							facturita.setVendedor(vende);
 							repoFactura.save(facturita);

@@ -19,7 +19,6 @@ public interface RepoDetalleBodega extends CrudRepository<DetalleBodega,Integer>
 	@Query("SELECT A FROM Bodega A WHERE A.nombre=?1")
 	public DetalleBodega buscarDetalleBodegaNombre(String nombre);
 	
-	
 	@Query("SELECT A FROM Bodega A")
 	public ArrayList<DetalleBodega> todasDetalleBodega();
 }

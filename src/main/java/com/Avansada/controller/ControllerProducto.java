@@ -99,8 +99,9 @@ public class ControllerProducto {
         try {
 	        
         	//se crea la url del archivofoto
-            Map uploadResult = cloudc.upload(file.getBytes(),
-                    ObjectUtils.asMap("resourcetype", "auto"));
+           Map uploadResult = cloudc.upload(file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
+            
+           // Map uploadResult = cloudc.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
 			
     		//Se inserta la direcion que se obtuvo del cloudc
     		
