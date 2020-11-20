@@ -67,14 +67,16 @@ public class ControllerDetalleFactura {
 			    repoFactura.save(factura);
 			    int idFactura=factura.getIdFactura();
 			    ArrayList<DetalleFactura> det=repo.buscarFactura(idFactura);
+			    DetalleFactura vDetalle;
 			    if(det.size()!=0) {
 			    	for (int j = 0; j < det.size(); j++) {
-			    		DetalleFactura vDetalle=repo.buscar(det.get(j).getIdFactura());
+			    		vDetalle=repo.buscar(det.get(j).getIdFactura());
 					    if(vDetalle.getProducto()==producto) {
 					    	int cantid=vDetalle.getCantidad()+1;
 					    	vDetalle.setCantidad(cantid);
 					    	repo.save(vDetalle);
-					    }else {
+					    	break;
+					    }else if (j+1==det.size()) {
 					    	DetalleFactura newDetalle=new DetalleFactura();
 							newDetalle.setProducto(producto);
 							newDetalle.setFactura(listaBusqueda.get(i));
