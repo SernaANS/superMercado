@@ -1,6 +1,7 @@
 package com.Avansada.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,7 +59,6 @@ public class ControllerDetalleFactura {
 		ArrayList<Factura> listaBusqueda=repoFactura.lista(ControllerCliente.getCedula());
 		
 		for (int i = 0; i < listaBusqueda.size(); i++) {
-			
 			if(listaBusqueda.get(i).getIdFactura()!=0 && listaBusqueda.get(i).getFecha()==null) {
 				Factura factura=listaBusqueda.get(i);
 				Producto producto=repoProducto.buscarProductoId(id);
@@ -68,18 +68,22 @@ public class ControllerDetalleFactura {
 			    int idFactura=factura.getIdFactura();
 			    ArrayList<DetalleFactura> det=repo.buscarFactura(idFactura);
 			    if(det.size()!=0) {
-			    	DetalleFactura vDetalle=repo.buscar(factura.getDetalleFacturas().get(i).getIdFactura());
-				    if(vDetalle!=null) {
-				    	int cantid=vDetalle.getCantidad()+1;
-				    	vDetalle.setCantidad(cantid);
-				    	repo.save(vDetalle);
-				    }else {
-				    	DetalleFactura newDetalle=new DetalleFactura();
-						newDetalle.setProducto(producto);
-						newDetalle.setFactura(listaBusqueda.get(i));
-						newDetalle.setCantidad(1);
-						repo.save(newDetalle);
-				    }
+			    	for (int j = 0; j < det.size(); j++) {
+			    		DetalleFactura vDetalle=repo.buscar(det.get(j).getIdFactura());
+					    if(vDetalle.getProducto()==producto) {
+					    	int cantid=vDetalle.getCantidad()+1;
+					    	vDetalle.setCantidad(cantid);
+					    	repo.save(vDetalle);
+					    }else {
+					    	DetalleFactura newDetalle=new DetalleFactura();
+							newDetalle.setProducto(producto);
+							newDetalle.setFactura(listaBusqueda.get(i));
+							newDetalle.setCantidad(1);
+							repo.save(newDetalle);
+					    }
+						
+					}
+			    	
 			    }else {
 			    	DetalleFactura newDetalle=new DetalleFactura();
 					newDetalle.setProducto(producto);
