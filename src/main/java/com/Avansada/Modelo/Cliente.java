@@ -27,6 +27,7 @@ public class Cliente implements Serializable {
 
 	private String direccion;
 
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;

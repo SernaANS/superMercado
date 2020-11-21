@@ -43,12 +43,12 @@
 		
 							<div class="btn-group">
 								<a class="navbar-brand dropdown-toggle" data-toggle="dropdown"
-									style="font-size: 25px"> Mi Cuenta</a>
+							style="font-size: 25px" th:text="${nombre}"></a>
 								</button>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="/Miperfil">Mi Cuenta</a> 
 									<a class="dropdown-item" href="/MisFacturas">Mis Facturas</a><a
-										class="dropdown-item" href="#">Cerrar Sesion</a>
+										class="dropdown-item" th:href="@{/CerrarSeccion}">Cerrar Sesion</a>
 								</div>
 							</div>
 						</li>

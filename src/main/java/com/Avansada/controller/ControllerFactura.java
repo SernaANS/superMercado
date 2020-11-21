@@ -6,14 +6,12 @@ import java.util.Date;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -180,24 +178,31 @@ public class ControllerFactura {
 		@GetMapping("/MostrarFractura/{idFactura}")
 		public String MostrarFactura(@PathVariable("idFactura") Integer id,Factura factura,Model model) {
 			//Detalles
-			Factura f=repoFactura.buscarFacturaId(id);
-			model.addAttribute("factura",f);
+			Cliente Bcliente = repoCliente.BuscarCLiente(ControllerCliente.cedula);
+			if (Bcliente != null) {
+				String nombre=Bcliente.getNombre();
+				Factura f=repoFactura.buscarFacturaId(id);
+				model.addAttribute("factura",f);
+				Iterable<Producto > listaProductos=repoProducto.findAll();
+				model.addAttribute("productos",listaProductos);
+				model.addAttribute("nombre", nombre);
+				return "VerFactura";
+			}else {
+				return "redirect:/index";
+			}
 			
-			Iterable<Producto > listaProductos=repoProducto.findAll();
-			model.addAttribute("productos",listaProductos);
-			
-			return "VerFactura";
 		}
 		
 		@GetMapping("/MisFacturas")
 		public String MisFacturas(Model model) {
 			if(ControllerCliente.getCedula()!=0) {
-				
+				Cliente Bcliente = repoCliente.BuscarCLiente(ControllerCliente.cedula);
+				String nombre=Bcliente.getNombre();
 				Iterable<Factura> listaProductos=repoFactura.historialFacturas(ControllerCliente.getCedula());
 				if(listaProductos!=null) {
-					model.addAttribute("facturas",listaProductos);
+				  model.addAttribute("facturas",listaProductos);
 				}
-				
+				model.addAttribute("nombre", nombre);
 				return "MisFacturas";
 			}else {		
 				return "MisFacturas";

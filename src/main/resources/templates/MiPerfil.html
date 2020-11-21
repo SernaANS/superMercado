@@ -56,12 +56,12 @@
 
 					<div class="btn-group">
 						<a class="navbar-brand dropdown-toggle" data-toggle="dropdown"
-							style="font-size: 25px"> Mi Cuenta</a>
+							style="font-size: 25px" th:text="${nombre}"></a>
 						</button>
 						<div class="dropdown-menu">
 							<a class="dropdown-item" href="/Miperfil">Mi Cuenta</a> 
 							<a class="dropdown-item" href="/MisFacturas">Mis Facturas</a><a
-								class="dropdown-item" href="#">Cerrar Sesion</a>
+								class="dropdown-item" th:href="@{/CerrarSeccion}">Cerrar Sesion</a>
 						</div>
 					</div>
 				</li>
@@ -103,16 +103,13 @@
 			</div>
 			<div class="row" style="margin: 10px">
 				<div class="col">
-					<label class="font-weight-bold">telefono</label> <input
-						class="form-control" type="text" placeholder="Ingrese el telefono"
+					<label class="font-weight-bold">telefono</label>
+					 <input class="form-control" type="text" placeholder="Ingrese el telefono"
 						th:value="${cliente.telefono}" th:field="*{telefono}">
 				</div>
 				<div class="col">
-					<label class="font-weight-bold">fecha Nacimiento</label> <input
-						class="form-control" type="text" placeholder="Ingrese la fecha"
-						required="required" th:value="${cliente.fechaNacimiento}"
-						th:field="*{fechaNacimiento}">
-
+					<label class="font-weight-bold">fecha Nacimiento</label> 
+					<input class="form-control" type="text"  required="required" th:field="*{fechaNacimiento}" th:value="${cliente.fechaNacimiento}">
 				</div>
 			</div>
 			<div class="row" style="margin: 10px">

@@ -3,7 +3,6 @@ package com.Avansada.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,7 +69,9 @@ public class ControllerCliente {
 	public String Miperfil(Cliente cliente, Model model) {
 		Cliente Bcliente = repoCliente.BuscarCLiente(cedula);
 		if (Bcliente != null) {
+			String nombre=Bcliente.getNombre();
 			model.addAttribute("cliente", Bcliente);
+			model.addAttribute("nombre", nombre);
 			return "MiPerfil";
 
 		} else {
@@ -78,34 +79,55 @@ public class ControllerCliente {
 		}
 	}
 
+	
 	@GetMapping("/IndexCliente")
 	public String IndexClienteLogeado( Model model) {
-		Iterable<Producto> productos = repoProducto.findAll();
-		System.out.println("entra########################");
-		model.addAttribute("productos", productos);
-		model.addAttribute("detalleFactura", new DetalleFactura());
-		model.addAttribute("pro", "nada");
-		return "indexClienteLogiado";
+		Cliente Bcliente = repoCliente.BuscarCLiente(cedula);
+		
+		if (Bcliente != null) {
+			String nombre=Bcliente.getNombre();
+			Iterable<Producto> productos = repoProducto.findAll();
+			model.addAttribute("productos", productos);
+			model.addAttribute("detalleFactura", new DetalleFactura());
+			model.addAttribute("nombre", nombre);
+			model.addAttribute("pro", "nada");
+			return "indexClienteLogiado";
+		}else {
+			return "index";
+		}
+		
 	}
 	
 	@GetMapping("/Micarrito")
 	public String Micarrito(Cliente cliente, Model model) {
-		ArrayList<DetalleFactura> lista=repoDetallaFactura.BuscarDetalleFactura(cedula);
-		model.addAttribute("productos", lista);
-		System.out.println(lista.size());
-		if(lista.size()!=0) {
-			model.addAttribute("preciototal", lista.get(0).getFactura().getPrecioTotal());
-			model.addAttribute("preciototalIva", (lista.get(0).getFactura().getPrecioTotal())*1.19);
-			model.addAttribute("idFactura", lista.get(0).getFactura().getIdFactura());
+		Cliente Bcliente = repoCliente.BuscarCLiente(cedula);
+		if (Bcliente != null) {
+			String nombre=Bcliente.getNombre();
+			ArrayList<DetalleFactura> lista=repoDetallaFactura.BuscarDetalleFactura(cedula);
+			model.addAttribute("productos", lista);
+			System.out.println(lista.size());
+			if(lista.size()!=0) {
+				model.addAttribute("preciototal", lista.get(0).getFactura().getPrecioTotal());
+				model.addAttribute("preciototalIva", (lista.get(0).getFactura().getPrecioTotal())*1.19);
+				model.addAttribute("idFactura", lista.get(0).getFactura().getIdFactura());
+			}
+			model.addAttribute("nombre", nombre);
+			return "MiCarrito";
+		}else {
+			return "index";
 		}
 		
-		return "MiCarrito";
 	}
 	@GetMapping("/VerInfoModal/{id}")
 	public String MostrarModal(@PathVariable("id") Integer id,Producto pro,Model model) {
 		Producto prod=repoProducto.buscarProductoId(id);
 		model.addAttribute("pro", prod.getNombre());
 		return "indexClienteLogiado";
+	}
+	@GetMapping("/CerrarSeccion")
+	public String cerrarSeccion() {
+		cedula=0;
+		return "redirect:/index";
 	}
 	
 	
@@ -123,10 +145,10 @@ public class ControllerCliente {
 				repoCliente.save(cliente);
 				return "redirect:/Login";
 			} else {
-				return "redirect:/GestionCategoria";
+				return "redirect:/Login";
 			}
 		} else {
-			return "redirect:/GestionCategoria";
+			return "redirect:/index";
 		}
 
 	}
@@ -150,12 +172,14 @@ public class ControllerCliente {
 
 		Cliente Bcliente = repoCliente.login(cliente.getIdCliente(), cliente.getClave());
 		if (Bcliente != null) {
+
+			String nombre=Bcliente.getNombre();
 			model.addAttribute("Cliente", Bcliente);
 			model.addAttribute("detalleFactura",detalleFactura);
-			
 			cedula=cliente.getIdCliente();
 			Iterable<Producto> productos = repoProducto.findAll();
 			model.addAttribute("productos", productos);
+			model.addAttribute("nombre", nombre);
 			return "indexClienteLogiado";
 		} else {
 			return "/Index";
@@ -174,7 +198,6 @@ public class ControllerCliente {
 		if (result.hasErrors()) {
 			return "index";
 		}
-		
 		if (cliente.getIdCliente()!=0) {
 			Cliente newCleinte=repoCliente.BuscarCLiente(cliente.getIdCliente());
 			if (newCleinte!=null) {
@@ -186,7 +209,7 @@ public class ControllerCliente {
 				newCleinte.setFechaNacimiento(cliente.getFechaNacimiento());
 				repoCliente.save(newCleinte);
 				model.addAttribute("Mensaje", "logrado");
-				return "indexClienteLogiado";
+				return "redirect:/IndexCliente";
 			}else {
 				return "redirect:/Iniciar";
 			}
@@ -204,17 +227,16 @@ public class ControllerCliente {
 	public void BottonLogin() {
 	}
 
+	
 	@RequestMapping(value = "/perfil", method = RequestMethod.POST)
 	public String BottonMiperfil(@RequestParam(required = false, value = "Modificar") String modificar,
 			@RequestParam(required = false, value = "Eliminar") String eliminar,
 			@Validated Cliente cliente, BindingResult result, Model model) {
-		
 		if ("Modificar".equals(modificar)) {
 			return Modificar(cliente, result, model);
 		}else if ("Eliminar".equals(eliminar)) {
 			return Eliminar(cliente, result, model);
 		}
-		
 		return "index";
 	}
 
