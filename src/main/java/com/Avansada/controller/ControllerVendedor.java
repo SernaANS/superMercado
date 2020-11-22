@@ -1,6 +1,8 @@
 package com.Avansada.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Avansada.Modelo.Admin;
 import com.Avansada.Modelo.Cliente;
+import com.Avansada.Modelo.Despacho;
+import com.Avansada.Modelo.DetalleFactura;
 import com.Avansada.Modelo.Factura;
 import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Proveedor;
 import com.Avansada.Modelo.Vendedor;
+import com.Avansada.repository.RepoDespacho;
+import com.Avansada.repository.RepoDetallaFactura;
 import com.Avansada.repository.RepoFactura;
 import com.Avansada.repository.RepoProducto;
 import com.Avansada.repository.RepoVendedor;
@@ -35,14 +41,14 @@ public class ControllerVendedor {
 	@Autowired
     com.Avansada.cloudinary.CloudinaryConfig cloudc;
 	
-	public static int cedula;
+	public static int  idVendedor;
 	
 	public static int getCedula() {
-		return cedula;
+		return idVendedor;
 	}
 
 	public static void setCedula(int cedula) {
-		ControllerVendedor.cedula = cedula;
+		ControllerVendedor.idVendedor = cedula;
 	}
 
 	@Autowired
@@ -55,16 +61,25 @@ public class ControllerVendedor {
 	private final RepoProducto repoProducto;
 	
 	@Autowired
-	public ControllerVendedor(RepoVendedor repoVendedor, RepoFactura repoFactura,RepoProducto repoProducto) {
+	private final RepoDetallaFactura repoDetallaFactura;
+
+	@Autowired
+	private final RepoDespacho repoDespacho;
+	
+	@Autowired
+	public ControllerVendedor(RepoVendedor repoVendedor, RepoFactura repoFactura,RepoProducto repoProducto,RepoDetallaFactura repoDetallaFactura,RepoDespacho repoDespacho) {
 		super();
 		this.repoVendedor = repoVendedor;
 		this.repoFactura= repoFactura;
 		this.repoProducto = repoProducto;
+		this.repoDetallaFactura=repoDetallaFactura;
+		this.repoDespacho=repoDespacho;
 	}
 
 	//////////////////////////// Vistas////////////////////////////////////////////
 	@GetMapping("/LoginVendedor")
 	public String Login(Vendedor vendedor, Model model) {
+		
 		return "LoginVendedor";
 	}
 
@@ -84,7 +99,7 @@ public class ControllerVendedor {
 
 	@GetMapping("/MiVendedor")
 	public String Miperfil(Vendedor vendedor, Model model) {
-		Vendedor Bvendedor = repoVendedor.BuscarVendedor(cedula);
+		Vendedor Bvendedor = repoVendedor.BuscarVendedor(idVendedor);
 		if (Bvendedor != null) {
 			model.addAttribute("cliente", Bvendedor);
 			return "MiPerfil";
@@ -97,8 +112,21 @@ public class ControllerVendedor {
 	@GetMapping("/IndexVendedor")
 	public String IndexClienteLogeado(Vendedor vendedor, Model model) {
 		
-		
+		Vendedor Bvendedor = repoVendedor.loginVendedor(idVendedor);
+		System.out.println("vendedor id "+Bvendedor.getIdVendedor());
+		int id=Bvendedor.getIdVendedor();
+		if (Bvendedor != null) {
+			vendedor.getIdVendedor();
+			Iterable<Factura> listaFacturas=cargarLista(id);
+			
+			model.addAttribute("facturas",listaFacturas);
 			return "indexVendedorLogiado";
+			
+			
+			
+		} else {
+			return "/Index";
+		}
 		
 	}
 
@@ -134,7 +162,7 @@ public class ControllerVendedor {
 
 	public String BuscarVendedor(Vendedor vendedor, BindingResult result, Model model) {
 
-		Vendedor Bvendedor = repoVendedor.BuscarVendedor(cedula);
+		Vendedor Bvendedor = repoVendedor.BuscarVendedor(idVendedor);
 		if (Bvendedor != null) {
 			model.addAttribute("cliente", Bvendedor);
 			return "MiPerfil";
@@ -153,10 +181,10 @@ public class ControllerVendedor {
 		}else {
 			Vendedor Bvendedor = repoVendedor.loginVendedor(vendedor.getIdVendedor());
 			if (Bvendedor != null) {
-				cedula=vendedor.getIdVendedor();
-				Iterable<Factura> listaProductos=repoFactura.facturasVendedor(cedula);
-				if(listaProductos!=null) {
-					model.addAttribute("facturas",listaProductos);
+				idVendedor=vendedor.getIdVendedor();
+				Iterable<Factura> listaFacturas=cargarLista();
+				if(listaFacturas!=null) {
+					model.addAttribute("facturas",listaFacturas);
 					return "indexVendedorLogiado";
 				}
 				
@@ -175,6 +203,99 @@ public class ControllerVendedor {
 	
 		
 		return "VerFacturaV";
+	}
+	@GetMapping("/Despachar/{idFactura}")
+	public String Despachar(@PathVariable("idFactura") Integer id,Factura factura,Model model) {
+		//Detalles
+		Date fechaActual = new Date();
+		System.out.println(fechaActual);
+		
+		DetalleFactura  detalleFactura=repoDetallaFactura.buscar(id);
+		
+		Despacho despacho = new Despacho();
+		
+		despacho.setDetalleFactura(detalleFactura);
+		despacho.setFecha(fechaActual);
+		
+		repoDespacho.save(despacho);
+		
+		//Iterable<Factura> listaFacturas=cargarLista();
+		//model.addAttribute("facturas",listaFacturas);
+		
+		return "redirect:/IndexVendedor";
+	}
+	
+	public Iterable<Factura> cargarLista() {
+		ArrayList<Despacho> listaDespacho=repoDespacho.todasDespacho();
+		
+		ArrayList<Factura> listaFacturas=repoFactura.facturasVendedor(idVendedor);
+		System.out.println("id vendedor "+idVendedor);
+		Iterable<Factura> listaFacturasNueva=null;
+		ArrayList<Factura> listaFacturasNueva2=new ArrayList<>();
+		
+		if(listaDespacho.size()>0) {
+			
+			for (int j = 0; j < listaFacturas.size(); j++) {
+				int cont=0;
+				for (int i = 0; i < listaDespacho.size(); i++) {
+					DetalleFactura listdetalleFactura=listaDespacho.get(i).getDetalleFactura();
+					
+					if(listdetalleFactura!=null) {
+						System.out.println("si hay detalle despacho Detalle "+listdetalleFactura.getFactura().getIdFactura()+
+								" factura id "+listaFacturas.get(j).getIdFactura());
+					if(listdetalleFactura.getFactura().getIdFactura()!=listaFacturas.get(j).getIdFactura()) {
+						cont++;
+					}}
+				}
+				if(cont==listaDespacho.size()) {
+					listaFacturasNueva2.add(listaFacturas.get(j));
+					
+				}else {
+					System.out.println("no entro a nada cantidad"+cont);
+				}
+			}
+			System.out.println("tamaño de lilsta "+listaFacturasNueva2.size());
+			listaFacturasNueva=listaFacturasNueva2;
+		}else {
+			listaFacturasNueva=listaFacturas;
+		}
+		return listaFacturasNueva;
+	}
+	public Iterable<Factura> cargarLista(int id) {
+		ArrayList<Despacho> listaDespacho=repoDespacho.todasDespacho();
+		
+		ArrayList<Factura> listaFacturas=repoFactura.facturasVendedor(id);
+		System.out.println("id vendedor2 "+id);
+		Iterable<Factura> listaFacturasNueva=null;
+		ArrayList<Factura> listaFacturasNueva2=new ArrayList<>();
+		
+		if(listaDespacho.size()>0) {
+			
+			for (int j = 0; j < listaFacturas.size(); j++) {
+				int cont=0;
+				for (int i = 0; i < listaDespacho.size(); i++) {
+					DetalleFactura listdetalleFactura=listaDespacho.get(i).getDetalleFactura();
+					
+					if(listdetalleFactura!=null) {
+						System.out.println("si hay detalle despacho Detalle "+listdetalleFactura.getFactura().getIdFactura()+
+								" factura id "+listaFacturas.get(j).getIdFactura());
+					if(listdetalleFactura.getFactura().getIdFactura()!=listaFacturas.get(j).getIdFactura()) {
+						cont++;
+					}}
+				}
+				if(cont==listaDespacho.size()) {
+					listaFacturasNueva2.add(listaFacturas.get(j));
+					
+				}else {
+					System.out.println("no entro a nada cantidad"+cont);
+				}
+			}
+			System.out.println("tamaño de lilsta "+listaFacturasNueva2.size());
+			listaFacturasNueva=listaFacturasNueva2;
+		}else {
+			listaFacturasNueva=listaFacturas;
+		}
+		return listaFacturasNueva;
 	}
 
 	public String EliminarVendedor(Vendedor vendedor, BindingResult result, Model model) {

@@ -29,6 +29,16 @@ public class Despacho implements Serializable {
 	public Despacho() {
 	}
 
+	
+	
+	public Despacho(Date fecha, DetalleFactura detalleFactura) {
+		super();
+		this.fecha = fecha;
+		this.detalleFactura = detalleFactura;
+	}
+
+
+
 	public int getIdDetallePedido() {
 		return this.idDetallePedido;
 	}
