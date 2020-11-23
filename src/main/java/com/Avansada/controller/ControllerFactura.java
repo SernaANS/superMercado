@@ -1,10 +1,14 @@
 package com.Avansada.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
 
-
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +33,7 @@ import com.Avansada.repository.RepoDetalleBodega;
 import com.Avansada.repository.RepoFactura;
 import com.Avansada.repository.RepoProducto;
 import com.Avansada.repository.RepoVendedor;
+import com.Avanzada.util.PDFExporterClass;
 
 
 @Controller
@@ -208,6 +213,23 @@ public class ControllerFactura {
 				return "MisFacturas";
 			}
 		}
+		
+		@GetMapping("/export/pdf/{idFactura}")
+	    public void exportToPDF(HttpServletResponse response , @PathVariable("idFactura") int idFactura) throws DocumentException, IOException {
+	        response.setContentType("application/pdf");
+	        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+	        String currentDateTime = dateFormatter.format(new Date());
+	          
+	        Factura factura =repoFactura.buscarFacturaId(idFactura);
+	        
+	        String headerKey = "Content-Disposition";
+	        String headerValue = "attachment; filename=factura_"+factura.getCliente().getNombre() +"_"+idFactura+".pdf";
+	        response.setHeader(headerKey, headerValue);
+	         
+	        PDFExporterClass exporter = new PDFExporterClass(factura.getDetalleFacturas(),factura);
+	        exporter.export(response);
+	         
+	    } 
 		
 	
 	 

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"crossorigin="anonymous"></script>
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"	integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+<link rel="stylesheet"	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>Gestionar Producto</title>
+</head>
+<p style="margin-top: 110px"></p>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top col" style="background-color: #17b978;">
+  <a class="navbar-brand" href="#"><img alt="" src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png" width="100px" height="70px"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active" >
+        <a class="navbar-brand" href="/GestionProductoVendendor" style="font-size:25px">PRODUCTOS</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="navbar-brand dropdown-toggle"   data-toggle="dropdown"style="font-size:25px">CAT/SUB</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/GestionCategoriaVendedor">CATEGORIA</a>
+          <a class="dropdown-item" href="/GestionSubcategoriaVendedor">SUBCATEGORIA</a>
+        </div>
+      </li>
+      <li class="nav-item"><a class="navbar-brand" href="/IndexVendedor"
+		style="font-size: 25px">ListaDeFacturas</a></li>
+		<li class="nav-item"><a class="navbar-brand" href="/GestionBodegaVendedor"
+			style="font-size: 25px">VerBodega</a></li>
+    </ul>
+  </div>
+</nav>
+<body>
+  <form class="formulario" action="#" th:action="@{/ProductoV}" th:object="${producto}" method="post" enctype="multipart/form-data">
+			<div class="row" style="margin: 10px">
+				<div class="col" >
+					<label class="font-weight-bold">Nombre del producto</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<input class="form-control"	type="text" placeholder="Ingrese nombre del producto" th:field="*{nombre}" th:value="${producto.nombre}" required="required">
+				</div>
+				<div class="col">
+				<label class="font-weight-bold">Descripcion</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    <input class="form-control"	type="text" placeholder="Ingresar descripcion del producto" th:field="*{decripcion}" th:value="${producto.decripcion}" required="required"> 
+				</div>
+				<div class="col">
+					<label class="font-weight-bold">Codigo de barras</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<input class="form-control"	type="text" placeholder="Ingrese el codigo" th:field="*{idProducto}" th:value="${producto.idProducto}" required="required">
+				</div>
+				<div class="col">
+					<label class="font-weight-bold"> Precio de Compra</label>
+					<input class="form-control" type="text" th:placeholder="hola" th:field="*{precioCompraUnidad}" th:value="${producto.precioCompraUnidad}" required="required">
+				</div>
+				<div class="col">
+					<label class="font-weight-bold"> Precio de Venta</label>
+				<input class="form-control" type="text" th:placeholder="hola" th:field="*{precioVentaUnidad}" th:value="${producto.precioVentaUnidad}" required="required"> 
+				</div>
+  		 
+			</div>
+			<div class="row" style="margin: 10px">
+			<div class="col">
+			    	<label class="font-weight-bold">SubCategoria</label>
+					<select class="form-control" th:field="*{subcategoria.idSubcategoria}" >
+						<option   th:each="sub : ${subcategoria}" th:text="${sub.nombre}" th:value="${sub.idSubcategoria}" required="required"></option>
+					</select>
+			    </div>
+				<div class="col">
+			    	<label class="font-weight-bold">Proveedor</label>
+					<select class="form-control" th:field="*{proveedor.idProveedor}" >
+						<option   th:each="pro : ${proveedor}" th:text="${pro.nombre}" th:value="${pro.idProveedor}" required="required"></option>
+					</select>
+			    </div>
+			   
+			    <div class="col">
+			    	<label class="font-weight-bold">fecha</label>
+					<input class="form-control" type="text" th:field="*{fechaVencimiento}" required="required" th:value="${producto.fechaVencimiento}">
+			    </div>
+			<div class="col">
+			<label class="font-weight-bold">Fotos del Producto</label> 
+			<div class="custom-file">
+			  <input type="file" class="custom-file-input" accept=".png, .jpg, .jpeg, .raw, .bmp" name="file" id="customFileLang" lang="es">
+			  <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+			</div>
+				
+			</div>
+		</div>
+			<div class="container-fluid " >
+				<div class="container d-flex justify-content-center" >
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Registrar" name="Registrar" id="btnCancelar">REGISTRAR</button>
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Buscar" name="Buscar" id="btnCancelar">BUSCAR</button>				
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Modificar" name="Modificar" id="btnCancelar">MODIFICAR</button>		
+					<button type="submit" class="btn btn-outline-dark btn-lg mr-2"  value="Eliminar" name="Eliminar" id="btnCancelar">ELIMINAR</button>	
+		</div>
+		</div>
+		<hr>
+				<div class="container" th:switch="${productolist}">
+		  <h2 class="text-center">LISTADO DE CATEGORIAS</h2>
+		  <p class="text-center">Las siguientes items en la lista son los productos usadas en la bodega</p>            
+		  <table class="table table-hover">
+		    <thead style="background-color: #eeef20">
+		      <tr>
+		        <th class="text-center">ID</th>
+		        <th class="text-center">NOMBRE</th>
+		        <th class="text-center">PRECIO COMPRA UNIDAD</th>
+		        <th class="text-center">PRECIO VENTA UNIDAD</th>
+		        <th class="text-center">NOMBRE SUBCATEGORIA</th>
+		        <th class="text-center">NOMBRE PROVEEDOR</th>
+		        <th class="text-center">FECHA VENCIMIENTO</th>
+		        <th class="text-center">DESCRIPCION</th>
+		        <th class="text-center">FOTO</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="pro : ${productolist}">
+		        <td th:text="${pro.idProducto}">John</td>
+		        <td th:text="${pro.nombre}">John</td>
+		        <td th:text="${pro.precioCompraUnidad}">John</td>
+		        <td th:text="${pro.precioVentaUnidad}">John</td>
+		        <td th:text="${pro.subcategoria.nombre}">John</td>
+		        <td th:text="${pro.proveedor.nombre}">John</td>
+		        <td th:text="${pro.fechaVencimiento}">John</td>
+		        <td th:text="${pro.decripcion}">John</td>
+		        <td><img th:src="${pro.foto}" title="publicidadIndex" height="100px" width="200px"></td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>	
+	</form>
+
+</body>
+
+</html>

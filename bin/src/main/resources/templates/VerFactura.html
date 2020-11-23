@@ -43,12 +43,12 @@
 		
 							<div class="btn-group">
 								<a class="navbar-brand dropdown-toggle" data-toggle="dropdown"
-									style="font-size: 25px"> Mi Cuenta</a>
+							style="font-size: 25px" th:text="${nombre}"></a>
 								</button>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="/Miperfil">Mi Cuenta</a> 
 									<a class="dropdown-item" href="/MisFacturas">Mis Facturas</a><a
-										class="dropdown-item" href="#">Cerrar Sesion</a>
+										class="dropdown-item" th:href="@{/CerrarSeccion}">Cerrar Sesion</a>
 								</div>
 							</div>
 						</li>
@@ -58,7 +58,80 @@
 			</nav>
 			<!-- Fin navegacion -->
 			
+			<div class="container">
+		  <h2 class="text-center ">DATOS DE LA FACTURA</h2>
+			
+			<div class="row" style="margin: 10px">
+				<div class="col" >
+					<label class="font-weight-bold">ID</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.idFactura}" ></label>
+				</div>
+				<div class="col">
+				<label class="font-weight-bold">FECHA</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    <label class="form-control"	type="text"  th:text="${factura.fecha}" > </label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold">PRECIO TOTAL</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.precioTotal}"></label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold">PRECIO TOTAL IVA</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.precioTotal}*1.19"></label>
+				</div>
+				
+			</div>
+			<div class="row" style="margin: 10px">
+			<div class="col">
+			    	<label class="font-weight-bold">VENDEDOR ID</label>
+					<label class="form-control" type="text"  th:text="${factura.vendedor.idVendedor}"> </label>
+			    </div>
+				<div class="col">
+			    	<label class="font-weight-bold">VENDEDOR NOMBRE</label>
+					<label class="form-control" type="text"  th:text="${factura.vendedor.nombre}"> </label>
+			    </div>
+			    
+			    <div class="col">
+					<label class="font-weight-bold"> CLIENTE ID</label>
+					<label class="form-control" type="text"  th:text="${factura.cliente.idCliente}"></label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold"> CLIENTE NOMBRE</label>
+				<label class="form-control" type="text"  th:text="${factura.cliente.nombre}"> </label>
+				</div>
+			   	
 
+		</div>
+			</div>
+		<hr>
+				<div class="container" th:switch="${productolist}">
+		  <h2 class="text-center">PRODUCTOS DE LA FACTURA</h2>
+		        
+		  <table class="table table-hover">
+		    <thead style="background-color: #17b978;">
+		      <tr>
+		      <th class="text-center">CODIGO DE BARRAS</th>
+		        <th class="text-center">CANTIDAD</th>
+		        <th class="text-center">NOMBRE PRODUCTO</th>
+		        <th class="text-center">SUBCATEGORIA</th>
+		        <th class="text-center">FOTO</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="pro :${factura.detalleFacturas}">
+		      <td th:text="${pro.producto.idProducto}">John</td>
+		        <td th:text="${pro.cantidad}">John</td>
+		        <td th:text="${pro.producto.nombre}">John</td>
+		        <td th:text="${pro.producto.subcategoria.nombre}">John</td>
+		        <td>
+		        	<img th:src="${pro.producto.foto}" title="publicidadIndex" height="100px" width="200px">
+		        </td>
+
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+		
+		
 
 </body>
 </html>

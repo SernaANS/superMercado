@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"crossorigin="anonymous"></script>
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"	integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+<link rel="stylesheet"	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="row" style="margin: 10px">
+<p style="margin-top: 110px"></p>
+			<nav class="navbar navbar-expand-lg navbar-light fixed-top col"
+				style="background-color: #17b978;">
+				<a class="navbar-brand" href="/IndexCliente"><img alt=""
+					src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
+					width="100px" height="70px"></a>
+				</button>
+
+</div>
+<div class="container">
+		  <h2 class="text-center">DATOS DE LA FACTURA</h2>
+			
+			<div class="row" style="margin: 10px">
+				<div class="col" >
+					<label class="font-weight-bold">ID</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.idFactura}" ></label>
+				</div>
+				<div class="col">
+				<label class="font-weight-bold">FECHA</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    <label class="form-control"	type="text"  th:text="${factura.fecha}" > </label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold">PRECIOTOTAL</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.precioTotal}"></label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold">PRECIOTOTAL</label>						<!-- La etiqueta th:value me trae la busqueda y me la carga al campo de texto -->
+			    	<label class="form-control"	type="text"  th:text="${factura.precioTotal}*1.19"></label>
+				</div>
+				
+			</div>
+			<div class="row" style="margin: 10px">
+			<div class="col">
+			    	<label class="font-weight-bold">VENDEDOR ID</label>
+					<label class="form-control" type="text"  th:text="${factura.vendedor.idVendedor}"> </label>
+			    </div>
+				<div class="col">
+			    	<label class="font-weight-bold">VENDEDOR NOMBRE</label>
+					<label class="form-control" type="text"  th:text="${factura.vendedor.nombre}"> </label>
+			    </div>
+			    
+			    <div class="col">
+					<label class="font-weight-bold"> CLIENTE DIRECION</label>
+					<label class="form-control" type="text"  th:text="${factura.cliente.direccion}"></label>
+				</div>
+				<div class="col">
+					<label class="font-weight-bold"> CLIENTE NOMBRE</label>
+				<label class="form-control" type="text"  th:text="${factura.cliente.nombre}"> </label>
+				</div>
+			   	
+
+		</div>
+			</div>
+		<hr>
+		<div class="row" style="margin: 10px">
+		  <h2 class="text-center">PRODUCTOS DE LA FACTURA</h2>
+		        
+		  <table class="table table-hover">
+		    <thead style="background-color: #17b978;">
+		      <tr>
+		      <th class="text-center">CODIGO DE BARRAS</th>
+		        <th class="text-center">CANTIDAD</th>
+		        <th class="text-center">NOMBRE PRODUCTO</th>
+		        <th class="text-center">SUBCATEGORIA</th>
+		        <th class="text-center">FOTO</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="pro :${factura.detalleFacturas}">
+		      <td th:text="${pro.producto.idProducto}">John</td>
+		        <td th:text="${pro.cantidad}">John</td>
+		        <td th:text="${pro.producto.nombre}">John</td>
+		        <td th:text="${pro.producto.subcategoria.nombre}">John</td>
+		        <td>
+		        	<img th:src="${pro.producto.foto}" title="publicidadIndex" height="100px" width="200px">
+		        </td>
+
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+</body>
+</html>

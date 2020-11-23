@@ -41,9 +41,19 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="navbar-brand" href="/Mivendedor"
+				      <li class="nav-item active" >
+        <a class="navbar-brand" href="/GestionProductoVendendor" style="font-size:25px">PRODUCTOS</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="navbar-brand dropdown-toggle"  href="/GestionCategoriaVendedor" data-toggle="dropdown"style="font-size:25px">CAT/SUB</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/GestionCategoriaVendedor">CATEGORIA</a>
+          <a class="dropdown-item" href="/GestionSubcategoriaVendedor">SUBCATEGORIA</a>
+        </div>
+      </li>
+					<li class="nav-item"><a class="navbar-brand" href="/IndexVendedor"
 						style="font-size: 25px">ListaDeFacturas</a></li>
-					<li class="nav-item"><a class="navbar-brand" href="/Login"
+					<li class="nav-item"><a class="navbar-brand" href="/GestionBodegaVendedor"
 						style="font-size: 25px">VerBodega</a></li>
 
 				</ul>
@@ -55,90 +65,52 @@
 	<hr>
 	<div>
 		<div class="container-fluid">
-			<p class="text-center " style="font-size: 30px">Lista De productos Pendientes</p>
+			<p class="text-center " style="font-size: 30px">Lista De Facturas Pendientes</p>
 		</div>
-		<div style="background-color: #eeef20">
+		<div >
 			<br>
+				<div class="container" th:switch="${facturas}">
+			<table class="table table-hover">
+				<thead style="background-color: #17b978">
+					<tr>
+						<th class="text-center">ID</th>
+						<th class="text-center">Cedula</th>
+						<th class="text-center">precio_total</th>
+						<th class="text-center">nombre del vendedor</th>
+						<th class="text-center">Estado</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="factura : ${facturas}" >
+						<td th:text="${factura.idFactura}" >John</td>
+						<td th:text="${factura.Cliente.idCliente}">John</td>
+						<td th:text="${factura.precioTotal}" >John</td>
+						<td th:text="${factura.vendedor.nombre}" >John</td>
+						<td th:text="sinEntregar">John</td>
+						<td><a th:href="@{MostrarFracturaV/}+${factura.idFactura}">
+						<button type="button"
+							class="btn btn-outline-dark btn-lg btn-block">
+							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+  <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/></svg>
+							
+						</button>
+					</a></td>
+					<td><a th:href="@{Despachar/}+${factura.idFactura}">
+						<button type="button"
+							class="btn btn-outline-dark btn-lg btn-block">
+							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+  <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+</svg>
+							
+						</button>
+					</a></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
-		<br>
-		<div class="container">
-			<div class="card-deck ">
-
-				<div class="card">
-					<img class="card-img-top"
-						src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">TITULO DEL PRODUCTO</h5>
-						<p class="card-text">DESCRIPCION DEL PRODUCTO</p>
-						<button type="button" class="btn btn-primary btn-lg btn-block">
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-cart3" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-  					<path fill-rule="evenodd"
-									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-  				</svg>
-							COMPRAR
-						</button>
-					</div>
-				</div>
-				<div class="card">
-					<img class="card-img-top"
-						src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">TITULO DEL PRODUCTO</h5>
-						<p class="card-text">DESCRIPCION DEL PRODUCTO</p>
-						<button type="button" class="btn btn-primary btn-lg btn-block">
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-cart3" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-  					<path fill-rule="evenodd"
-									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-  				</svg>
-							COMPRAR
-						</button>
-					</div>
-				</div>
-				<div class="card">
-					<img class="card-img-top"
-						src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">TITULO DEL PRODUCTO</h5>
-						<p class="card-text">DESCRIPCION DEL PRODUCTO</p>
-						<button type="button" class="btn btn-primary btn-lg btn-block">
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-cart3" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-  					<path fill-rule="evenodd"
-									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-  				</svg>
-							COMPRAR
-						</button>
-					</div>
-				</div>
-				<div class="card">
-					<img class="card-img-top"
-						src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title">TITULO DEL PRODUCTO</h5>
-						<p class="card-text">DESCRIPCION DEL PRODUCTO</p>
-						<button type="button" class="btn btn-primary btn-lg btn-block">
-							<svg width="1em" height="1em" viewBox="0 0 16 16"
-								class="bi bi-cart3" fill="currentColor"
-								xmlns="http://www.w3.org/2000/svg">
-  					<path fill-rule="evenodd"
-									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-  				</svg>
-							COMPRAR
-						</button>
-					</div>
-				</div>
-
-
-			</div>
 		</div>
 	</div>
 
