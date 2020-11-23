@@ -65,6 +65,7 @@
 						<th class="text-center">Cedula</th>
 						<th class="text-center">fecha</th>
 						<th class="text-center">precio_total</th>
+						<th class="text-center">precio_total con iva</th>
 						<th class="text-center">nombre del vendedor</th>
 						<th class="text-center">Estado</th>
 						<th class="text-center">factura</th>
@@ -76,6 +77,7 @@
 						<td th:text="${factura.Cliente.idCliente}">John</td>
 						<td th:text="${factura.fecha}" >John</td>
 						<td th:text="${factura.precioTotal}" >John</td>
+						<td th:text="${factura.precioTotal}*1.19" >John</td>
 						<td th:text="${factura.vendedor.nombre}" >John</td>
 						<td th:text="sinEntregar">John</td>
 						<td><a th:href="@{MostrarFractura/}+${factura.idFactura}">
