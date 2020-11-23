@@ -182,4 +182,17 @@ public class Producto implements Serializable {
 		this.proveedor = proveedor;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "Producto [idProducto=" + idProducto + ", decripcion=" + decripcion + ", fechaVencimiento="
+				+ fechaVencimiento + ", foto=" + foto + ", nombre=" + nombre + ", precioCompraUnidad="
+				+ precioCompraUnidad + ", precioVentaUnidad=" + precioVentaUnidad + ", detalleBodegas=" + detalleBodegas
+				+ ", detalleFacturas=" + detalleFacturas + ", subcategoria=" + subcategoria + ", proveedor=" + proveedor
+				+ "]";
+	}
+	
+	
+
 }

@@ -1,8 +1,14 @@
 package com.Avansada.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +26,7 @@ import com.Avansada.Modelo.Producto;
 import com.Avansada.repository.RepoCliente;
 import com.Avansada.repository.RepoDetallaFactura;
 import com.Avansada.repository.RepoProducto;
+import com.Avansada.service.api.ProductoServiceAPI;
 
 
 @Controller
@@ -44,13 +51,17 @@ public class ControllerCliente {
 	@Autowired
 	private final RepoProducto repoProducto;
 	RepoDetallaFactura repoDetallaFactura;
+	
+	@Autowired
+	private ProductoServiceAPI productoServiceAPI;
 
 	@Autowired
-	public ControllerCliente(RepoCliente repoCliente,RepoProducto repoProducto,RepoDetallaFactura repoDetallaFactura) {
+	public ControllerCliente(RepoCliente repoCliente,RepoProducto repoProducto,RepoDetallaFactura repoDetallaFactura,ProductoServiceAPI productoServiceAPI) {
 		super();
 		this.repoCliente = repoCliente;
 		this.repoProducto = repoProducto;
 		this.repoDetallaFactura=repoDetallaFactura;
+		this.productoServiceAPI = productoServiceAPI;
 	}
 
 	//////////////////////////// Vistas////////////////////////////////////////////
@@ -80,7 +91,6 @@ public class ControllerCliente {
 	}
 
 	
-	@GetMapping("/IndexCliente")
 	public String IndexClienteLogeado( Model model) {
 		Cliente Bcliente = repoCliente.BuscarCLiente(cedula);
 		
@@ -97,6 +107,41 @@ public class ControllerCliente {
 		}
 		
 	}
+	@GetMapping("/IndexCliente")
+	public String IndexClienteLogeado(@RequestParam Map <String, Object> params,Model model) {
+
+		Cliente Bcliente = repoCliente.BuscarCLiente(cedula);
+		
+		if (Bcliente != null) {
+			String nombre=Bcliente.getNombre();
+			model.addAttribute("detalleFactura", new DetalleFactura());
+			model.addAttribute("nombre", nombre);
+			model.addAttribute("pro", "nada");
+			
+			//PAGINACION
+			int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+			
+			PageRequest pageRequest = PageRequest.of(page,3);
+			
+			Page<Producto> pageProducto = productoServiceAPI.getAll(pageRequest);
+			
+			int totalPage = pageProducto.getTotalPages();
+			if(totalPage > 0) {
+				List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+				model.addAttribute("pages", pages);
+			}
+			model.addAttribute("productos", pageProducto.getContent());
+			model.addAttribute("current", page + 1);
+			model.addAttribute("next", page + 2);
+			model.addAttribute("prev", page);
+			model.addAttribute("last", totalPage);
+			return "indexClienteLogiado";
+		}else {
+			return "index";
+		}
+	}
+	
+	
 	
 	@GetMapping("/Micarrito")
 	public String Micarrito(Cliente cliente, Model model) {
@@ -167,8 +212,8 @@ public class ControllerCliente {
 
 	}
 
-	@PostMapping("/Iniciar")
-	public String BuscarLogin(Cliente cliente, DetalleFactura detalleFactura, BindingResult result, Model model) {
+	@PostMapping(value="/Iniciar")
+	public String BuscarLogin(@RequestParam Map <String, Object> params,Cliente cliente, DetalleFactura detalleFactura, BindingResult result, Model model) {
 
 		Cliente Bcliente = repoCliente.login(cliente.getIdCliente(), cliente.getClave());
 		if (Bcliente != null) {
@@ -177,13 +222,32 @@ public class ControllerCliente {
 			model.addAttribute("Cliente", Bcliente);
 			model.addAttribute("detalleFactura",detalleFactura);
 			cedula=cliente.getIdCliente();
-			Iterable<Producto> productos = repoProducto.findAll();
-			model.addAttribute("productos", productos);
+
 			model.addAttribute("nombre", nombre);
-			return "indexClienteLogiado";
+			
+			//PAGINACION
+			int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+			
+			PageRequest pageRequest = PageRequest.of(page,3);
+			
+			Page<Producto> pageProducto = productoServiceAPI.getAll(pageRequest);
+			
+			int totalPage = pageProducto.getTotalPages();
+			if(totalPage > 0) {
+				List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+				model.addAttribute("pages", pages);
+			}
+			model.addAttribute("productos", pageProducto.getContent());
+			model.addAttribute("current", page + 1);
+			model.addAttribute("next", page + 2);
+			model.addAttribute("prev", page);
+			model.addAttribute("last", totalPage);
+			return "redirect:/IndexCliente";
 		} else {
 			return "/Index";
 		}
+		
+
 	}
 	
 

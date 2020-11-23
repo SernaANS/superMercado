@@ -1,7 +1,16 @@
 package com.Avansada.controller;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -14,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Avansada.Modelo.Categoria;
 import com.Avansada.Modelo.Producto;
+
 import com.Avansada.repository.RepoCategoria;
 import com.Avansada.repository.RepoProducto;
+import com.Avansada.service.api.ProductoServiceAPI;
 
 
 @Controller
@@ -25,13 +36,23 @@ public class ControllerCategoria {
 	@Autowired
 	private final RepoCategoria repoCategoria;
 	
+	
+	
 	@Autowired
 	private final RepoProducto repoProducto;
 
-	public ControllerCategoria(RepoCategoria repoCategoria,RepoProducto repoProducto) {
+	@Autowired
+	private ProductoServiceAPI productoServiceAPI;
+
+
+
+
+	public ControllerCategoria(RepoCategoria repoCategoria, RepoProducto repoProducto,
+			ProductoServiceAPI productoServiceAPI) {
 		super();
 		this.repoCategoria = repoCategoria;
-		this.repoProducto=repoProducto;
+		this.repoProducto = repoProducto;
+		this.productoServiceAPI = productoServiceAPI;
 	}
 
 	@GetMapping("/GestionCategoria")
@@ -52,18 +73,37 @@ public class ControllerCategoria {
 		
 	}
 	
-	@GetMapping("/Index")
-	public String showSignUpForm(Model model) {
-		Iterable<Producto> productos = repoProducto.findAll();
-		model.addAttribute("productos", productos);
-		return "Index";
+	
+	
+	@GetMapping(value ="/Index")
+	public String xxx(@RequestParam Map <String, Object> params,Model model) {
+		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+		
+		PageRequest pageRequest = PageRequest.of(page,3);
+		
+		Page<Producto> pageProducto = productoServiceAPI.getAll(pageRequest);
+		
+		int totalPage = pageProducto.getTotalPages();
+		if(totalPage > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+			model.addAttribute("pages", pages);
+		}
+		model.addAttribute("productos", pageProducto.getContent());
+		model.addAttribute("current", page + 1);
+		model.addAttribute("next", page + 2);
+		model.addAttribute("prev", page);
+		model.addAttribute("last", totalPage);
+		
+		return "Index";	
 	}
-	@GetMapping("/*")
+	
+@GetMapping("/*")
 	public String showSignUpForm1(Model model) {
 		Iterable<Producto> productos = repoProducto.findAll();
 		model.addAttribute("productos", productos);
-		return "Index";
+		return "redirect:/Index";
 	}
+	
 	
 	@PostMapping("/RegistrarCategoria")
 	public String RegistarCategoria(@Validated Categoria categoria, BindingResult result, Model model) {
