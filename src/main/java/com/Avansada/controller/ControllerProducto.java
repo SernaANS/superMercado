@@ -1,6 +1,7 @@
 package com.Avansada.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.Avansada.Modelo.DetalleBodega;
+import com.Avansada.Modelo.DetalleFactura;
 import com.Avansada.Modelo.Producto;
 import com.Avansada.Modelo.Proveedor;
 import com.Avansada.Modelo.Subcategoria;
+import com.Avansada.repository.RepoDetallaFactura;
+import com.Avansada.repository.RepoDetalleBodega;
 import com.Avansada.repository.RepoProducto;
 import com.Avansada.repository.RepoProvedor;
 import com.Avansada.repository.RepoSubcategoria;
@@ -36,12 +41,18 @@ public class ControllerProducto {
 	private final RepoSubcategoria reposubCategoria;
 	@Autowired
 	private final RepoProvedor repoProvedor;
+	@Autowired
+	private final RepoDetalleBodega repoDetalleBodega;
+	
+	private final RepoDetallaFactura RepoDetallaFactura;
 
     @Autowired
-    public ControllerProducto(RepoProducto repoProducto,RepoSubcategoria reposubCategoria,RepoProvedor repoProvedor) {
+    public ControllerProducto(RepoProducto repoProducto,RepoSubcategoria reposubCategoria,RepoProvedor repoProvedor,RepoDetalleBodega repoDetalleBodega,RepoDetallaFactura repoDetallaFactura) {
 		this.repoProducto = repoProducto;
 		this.reposubCategoria=reposubCategoria;
 		this.repoProvedor=repoProvedor;
+		this.repoDetalleBodega=repoDetalleBodega;
+		this.RepoDetallaFactura=repoDetallaFactura;
 	}
 
 	@GetMapping("/GestionProducto")
@@ -187,9 +198,21 @@ public class ControllerProducto {
 		
 		Producto producto = repoProducto.buscarProductoId(id);
 		System.out.println("entro eliminar "+producto.getNombre());
+		
+		ArrayList<DetalleBodega> dt=repoDetalleBodega.buscarDetalleBodegaIdProducto(producto.getIdProducto());
+		
+		for (int i = 0; i < dt.size(); i++) {
+			repoDetalleBodega.deleteById((dt.get(i).getProducto().getIdProducto()));
+		}
 
+		ArrayList<DetalleFactura> dtF=RepoDetallaFactura.buscarProductosFactura(producto.getIdProducto());
+		for (int i = 0; i < dtF.size(); i++) {
+			RepoDetallaFactura.deleteById(dtF.get(i).getIdFactura());
+		}
 		repoProducto.delete(producto);
 		model.addAttribute("producto", repoProducto.findAll());
+		
+		
 		return "redirect:/GestionProducto";
 	}
 
@@ -341,9 +364,23 @@ public class ControllerProducto {
 		
 		Producto producto = repoProducto.buscarProductoId(id);
 		System.out.println("entro eliminar "+producto.getNombre());
+		
+		
+		ArrayList<DetalleBodega> dt=repoDetalleBodega.buscarDetalleBodegaIdProducto(producto.getIdProducto());
+		for (int i = 0; i < dt.size(); i++) {
+			repoDetalleBodega.deleteById((dt.get(i).getProducto().getIdProducto()));
+		}
+
+		ArrayList<DetalleFactura> dtF=RepoDetallaFactura.buscarProductosFactura(producto.getIdProducto());
+		
+		for (int i = 0; i < dtF.size(); i++) {
+			RepoDetallaFactura.deleteById(dtF.get(i).getIdFactura());
+		}
 
 		repoProducto.delete(producto);
 		model.addAttribute("producto", repoProducto.findAll());
+		
+		
 		return "redirect:/GestionProductoVendedor";
 	}
 

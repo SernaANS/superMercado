@@ -86,7 +86,7 @@ public class ControllerCliente {
 			return "MiPerfil";
 
 		} else {
-			return "index";
+			return "redirect:/Index";
 		}
 	}
 
@@ -103,7 +103,7 @@ public class ControllerCliente {
 			model.addAttribute("pro", "nada");
 			return "indexClienteLogiado";
 		}else {
-			return "index";
+			return "redirect:/Index";
 		}
 		
 	}
@@ -137,7 +137,7 @@ public class ControllerCliente {
 			model.addAttribute("last", totalPage);
 			return "indexClienteLogiado";
 		}else {
-			return "index";
+			return "redirect:/Index";
 		}
 	}
 	
@@ -159,7 +159,7 @@ public class ControllerCliente {
 			model.addAttribute("nombre", nombre);
 			return "MiCarrito";
 		}else {
-			return "index";
+			return "redirect:/Index";
 		}
 		
 	}
@@ -167,12 +167,12 @@ public class ControllerCliente {
 	public String MostrarModal(@PathVariable("id") Integer id,Producto pro,Model model) {
 		Producto prod=repoProducto.buscarProductoId(id);
 		model.addAttribute("pro", prod.getNombre());
-		return "indexClienteLogiado";
+		return "redirect:/IndexCliente";
 	}
 	@GetMapping("/CerrarSeccion")
 	public String cerrarSeccion() {
 		cedula=0;
-		return "redirect:/index";
+		return "redirect:/Index";
 	}
 	
 	
@@ -207,7 +207,7 @@ public class ControllerCliente {
 			return "MiPerfil";
 
 		} else {
-			return "indexClienteLogiado";
+			return "redirect:/IndexCliente";
 		}
 
 	}
@@ -244,7 +244,7 @@ public class ControllerCliente {
 			model.addAttribute("last", totalPage);
 			return "redirect:/IndexCliente";
 		} else {
-			return "/Index";
+			return "redirect:/Index";
 		}
 		
 

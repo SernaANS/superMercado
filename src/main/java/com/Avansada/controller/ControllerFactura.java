@@ -152,7 +152,7 @@ public class ControllerFactura {
 				model.addAttribute("factura", buscaFactura.getIdFactura());
 				return "redirect:/";		
 			} else {
-				return  "algo";
+				return  "redirect:/Index";
 			}
 		}
 		
@@ -160,7 +160,7 @@ public class ControllerFactura {
 		public String EliminarFactura(@PathVariable("id") Integer id,BindingResult result, Model model) {
 			Factura factura = repoFactura.buscarFacturaId(id);
 			repoFactura.delete(factura);
-			return "redirect:/algo";
+			return "redirect:/Index";
 		}
 
 		@RequestMapping(value = "/Factura", method = RequestMethod.POST)
@@ -193,7 +193,7 @@ public class ControllerFactura {
 				model.addAttribute("nombre", nombre);
 				return "VerFactura";
 			}else {
-				return "redirect:/index";
+				return "redirect:/Index";
 			}
 			
 		}
@@ -210,7 +210,7 @@ public class ControllerFactura {
 				model.addAttribute("nombre", nombre);
 				return "MisFacturas";
 			}else {		
-				return "MisFacturas";
+				return "redirect:/Index";
 			}
 		}
 		

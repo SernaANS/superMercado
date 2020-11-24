@@ -26,6 +26,8 @@ public interface RepoDetallaFactura  extends  CrudRepository<DetalleFactura,Inte
 	@Query("select d from DetalleFactura d where d.factura.idFactura=?1")
 	public ArrayList<DetalleFactura> buscarFactura(int id);
 	
+	@Query("select d from DetalleFactura d where d.producto.idProducto=?1")
+	public ArrayList<DetalleFactura> buscarProductosFactura(int id);
 
 
 	
