@@ -21,96 +21,171 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
-	<link href="../css/style.css" rel="stylesheet" th:href="@{/css/style.css}" />
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
+
+
+<style type="text/css">
+
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+html,body{
+background-image: url('https://bodytech.com.co/uploads/post/854f2ba4e83148eca0ef9509895f4506/Frutas-sistema-inmune-1_1920x854.jpg');
+background-size: cover;
+background-repeat: no-repeat;
+height: 100%;
+font-family: 'Numans', sans-serif;
+}
+
+.contenedor{
+margin:70px;
+border:1px solid black;
+background-color: rgba(0,0,0,0.5) !important;
+}
+.container{
+height: 100%;
+align-content: center;
+
+}
+
+.card{
+height: 300px;
+margin-top: auto;
+margin-bottom: auto;
+width: 400px;
+background-color: rgba(0,0,0,0.5) !important;
+}
+
+.social_icon span{
+font-size: 60px;
+margin-left: 10px;
+color: #FFC312;
+}
+
+.social_icon span:hover{
+color: white;
+cursor: pointer;
+}
+
+.card-header h3{
+color: white;
+}
+
+.social_icon{
+position: absolute;
+right: 20px;
+top: -45px;
+}
+
+.input-group-prepend span{
+width: 50px;
+background-color: #FFC312;
+color: black;
+border:0 !important;
+}
+
+input:focus{
+outline: 0 0 0 0  !important;
+box-shadow: 0 0 0 0 !important;
+
+}
+
+.remember{
+color: white;
+}
+
+.remember input
+{
+width: 20px;
+height: 20px;
+margin-left: 15px;
+margin-right: 5px;
+}
+
+.login_btn{
+color: black;
+background-color: #FFC312;
+width: 100%;
+}
+
+.login_btn:hover{
+color: black;
+background-color: white;
+}
+
+.links{
+color: white;
+}
+
+.links a{
+margin-left: 4px;
+}
+
+</style>
+
+
 <body>
 
-	<div>
-		<p style="margin-top: 110px"></p>
-		<nav class="navbar navbar-expand-lg navbar-light fixed-top col"
-			style="background-color: #17b978;">
-			<a class="navbar-brand" href="/Index"><img alt=""
-				src="http://mesaverdemercados.com/wp-content/uploads/2019/11/cropped-logo-mesa-verde-sin-fondo-e1573756199615-2-129x95.png"
-				width="100px" height="70px"></a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavDropdown">
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="navbar-brand" href="#"
-						style="font-size: 25px">PRODUCTOS</a></li>
-					<li class="nav-item"><a class="navbar-brand"
-						href="/Formulario" style="font-size: 25px">REGISTRATE</a></li>
-					<li class="nav-item"><a class="navbar-brand" href="/Login"
-						style="font-size: 25px">INICIAR SESION</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
 
 
-
-
-	<form style="border: solid; margin-right: 250px; margin-left: 250px" action="#" th:action="@{/Registro}"
-		th:object="${cliente}" method="post">
-		<h2 class="text-center">FORMULARIO</h2>
+	<form style="border:  1px solid black; height:100%; margin-right: 250px; margin-left: 250px;align-items: center;" action="#" th:action="@{/Registro}"
+		th:object="${cliente}" method="post" >
+		<div class="contenedor">
+		<h2 class="text-center" style="color: #FFFFFF">FORMULARIO</h2>
 		<hr>
 		<div class="row" style="margin: 10px">
 			<div class="col">
-				<label class="font-weight-bold">Cedula</label> <input
+				<label class="font-weight-bold" style="color: #FFFFFF">Cedula</label> <input
 					class="form-control" type="number" placeholder="Ingrese la cedula" th:field="*{idCliente}">
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Nombre</label> <input
+				<label class="font-weight-bold" style="color: #FFFFFF">Nombre</label> <input
 					class="form-control" type="text" placeholder="Ingrese el nombre" th:field="*{nombre}">
 			</div>
 		</div>
 		<div class="row" style="margin: 10px">
 			<div class="col">
-				<label class="font-weight-bold">apellido</label> <input
+				<label class="font-weight-bold" style="color: #FFFFFF">apellido</label> <input
 					class="form-control" type="text" placeholder="Ingrese el apellido" th:field="*{apellido}">
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">telefono</label> <input
+				<label class="font-weight-bold" style="color: #FFFFFF">telefono</label> <input
 					class="form-control" type="text" placeholder="Ingrese el telefono" th:field="*{telefono}">
 			</div>
 		</div>
 		<div class="row" style="margin: 10px">
 
 			<div class="col">
-				<label class="font-weight-bold">fecha</label> <input
+				<label class="font-weight-bold" style="color: #FFFFFF">fecha</label> <input
 					class="form-control" type="text" placeholder="Ingrese la fecha"
 					required="required" th:field="*{fechaNacimiento}">
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">direccion</label> <input
+				<label class="font-weight-bold" style="color: #FFFFFF">direccion</label> <input
 					class="form-control" type="text" placeholder="Ingrese la direccion" th:field="*{direccion}">
 			</div>
 		</div>
 		<div class="row" style="margin: 10px">
 			<div class="col">
-				<label class="font-weight-bold">Correo</label> <input
+				<label class="font-weight-bold" style="color: #FFFFFF">Correo</label> <input
 					class="form-control" type="text" placeholder="Ingrese el nombre" th:field="*{correo}">
 			</div>
 			<div class="col">
-				<label class="font-weight-bold">Password</label> <input
+				<label class="font-weight-bold" style="color: #FFFFFF">Password</label> <input
 					class="form-control" type="password" placeholder="Ingrese el password" th:field="*{clave}">
 			</div>
 
 			<div style="margin-top: 30px"
 				class="container d-flex justify-content-center">
-				<button type="submit" class="btn btn-outline-dark btn-lg btn-block" value="Registrar" name="Registrar">Registrarse</button>
+				<button type="submit" class="btn btn-outline-dark login_btn btn-lg  btn-block" value="Registrar" name="Registrar">Registrarse</button>
 			</div>
 		</div>
-		<p class="text-center ">
+		<p class="text-center " style="color: #FFFFFF">
 			ya te encuentas registrador <a href="/Login">Ingresar aqui </a>
 		</p>
-
+		</div>
 	</form>
 </body>
 </html>
