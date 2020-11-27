@@ -200,9 +200,12 @@ public class ControllerVendedor {
 		//Detalles
 		Factura f=repoFactura.buscarFacturaId(id);
 		model.addAttribute("factura",f);
-	
+		if(idVendedor!=0) {
 		
 		return "VerFacturaV";
+		}else {
+			return "index";
+		}
 	}
 	@GetMapping("/Despachar/{idFactura}")
 	public String Despachar(@PathVariable("idFactura") Integer id,Factura factura,Model model) {
@@ -261,6 +264,7 @@ public class ControllerVendedor {
 		}
 		return listaFacturasNueva;
 	}
+	
 	public Iterable<Factura> cargarLista(int id) {
 		ArrayList<Despacho> listaDespacho=repoDespacho.todasDespacho();
 		
