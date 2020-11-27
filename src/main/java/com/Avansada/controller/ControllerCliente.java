@@ -136,7 +136,7 @@ public class ControllerCliente {
 			model.addAttribute("next", page + 2);
 			model.addAttribute("prev", page);
 			model.addAttribute("last", totalPage);
-			return "indexClienteLogiado";
+			return "IndexClienteLogiado";
 		}else {
 			return "redirect:/Index";
 		}
