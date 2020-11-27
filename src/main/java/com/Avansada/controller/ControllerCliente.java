@@ -90,7 +90,7 @@ public class ControllerCliente {
 		}
 	}
 
-	
+	/*
 	public String IndexClienteLogeado( Model model) {
 		Cliente Bcliente = repoCliente.BuscarCLiente(cedula);
 		
@@ -107,6 +107,7 @@ public class ControllerCliente {
 		}
 		
 	}
+	**/
 	@GetMapping("/IndexCliente")
 	public String IndexClienteLogeado(@RequestParam Map <String, Object> params,Model model) {
 
@@ -223,8 +224,8 @@ public class ControllerCliente {
 			model.addAttribute("detalleFactura",detalleFactura);
 			cedula=cliente.getIdCliente();
 
-			model.addAttribute("nombre", nombre);
-			
+			//model.addAttribute("nombre", nombre);
+			/*
 			//PAGINACION
 			int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
 			
@@ -235,13 +236,14 @@ public class ControllerCliente {
 			int totalPage = pageProducto.getTotalPages();
 			if(totalPage > 0) {
 				List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
-				model.addAttribute("pages", pages);
+				//model.addAttribute("pages", pages);
 			}
-			model.addAttribute("productos", pageProducto.getContent());
-			model.addAttribute("current", page + 1);
-			model.addAttribute("next", page + 2);
-			model.addAttribute("prev", page);
-			model.addAttribute("last", totalPage);
+			//model.addAttribute("productos", pageProducto.getContent());
+			//model.addAttribute("current", page + 1);
+			//model.addAttribute("next", page + 2);
+			//model.addAttribute("prev", page);
+			//model.addAttribute("last", totalPage);
+			*/
 			return "redirect:/IndexCliente";
 		} else {
 			return "redirect:/Index";
