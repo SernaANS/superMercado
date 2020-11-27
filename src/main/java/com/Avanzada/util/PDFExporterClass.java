@@ -48,26 +48,23 @@ public class PDFExporterClass {
         cell.setPadding(5);
          
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
-        font.setColor(Color.WHITE);
+        font.setColor(Color.BLACK);
          
-        cell.setPhrase(new Phrase("Nombre Producto", font));
-         
+        cell.setPhrase(new Phrase("NOMBRE PRODUCTO", font));
         table.addCell(cell);
          
-        cell.setPhrase(new Phrase("Marca Producto", font));
+        cell.setPhrase(new Phrase("CODIGO PRODUCTO", font));
         table.addCell(cell);
         
-        cell.setPhrase(new Phrase("Cantidad", font));
+        cell.setPhrase(new Phrase("CANTIDAD", font));
         table.addCell(cell);
          
-        cell.setPhrase(new Phrase("Valor Unitario ", font));
+        cell.setPhrase(new Phrase("VALOR UNITARIO ", font));
         table.addCell(cell);
         
-        cell.setPhrase(new Phrase("Valor IVA ", font));
+        cell.setPhrase(new Phrase("PRECIO TOTAL", font));
         table.addCell(cell);
-         
-        cell.setPhrase(new Phrase("Valor Total + IVA", font));
-        table.addCell(cell);
+        
         
     }
      
@@ -78,9 +75,10 @@ public class PDFExporterClass {
             table.addCell(listDetalleFactura.get(i).getProducto().getIdProducto()+"");
             table.addCell(String.valueOf(listDetalleFactura.get(i).getCantidad()));
             table.addCell(String.valueOf(listDetalleFactura.get(i).getProducto().getPrecioVentaUnidad()));
-            
+            table.addCell(String.valueOf(listDetalleFactura.get(i).getProducto().getPrecioVentaUnidad()*listDetalleFactura.get(i).getCantidad()));      
         }
         
+        table.addCell("");
         table.addCell("");
         table.addCell("");
         table.addCell("");
@@ -105,7 +103,11 @@ public class PDFExporterClass {
         Paragraph p4 = new Paragraph("Nombre Persona : " + factura.getCliente().getNombre()+" "+factura.getCliente().getApellido(), font);
         Paragraph p5 = new Paragraph("Cedula : " + factura.getCliente().getIdCliente(), font);
         Paragraph p6 = new Paragraph("Direccion  : " + factura.getCliente().getDireccion(), font);
-        Paragraph p7 = new Paragraph("", font);
+        
+        Paragraph p7 = new Paragraph("PRECIO TOTAL  : " + factura.getPrecioTotal(), font);
+        Paragraph p8 = new Paragraph("Precio TOTAL +IVA  : " + factura.getPrecioTotal()*1.19, font);
+        
+        Paragraph p9 = new Paragraph("", font);
         
         p.setAlignment(Paragraph.ALIGN_CENTER);
         p2.setAlignment(Paragraph.ALIGN_JUSTIFIED);
@@ -113,6 +115,9 @@ public class PDFExporterClass {
         p4.setAlignment(Paragraph.ALIGN_JUSTIFIED);
         p5.setAlignment(Paragraph.ALIGN_JUSTIFIED);
         p6.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+        p7.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+        p8.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+        p9.setAlignment(Paragraph.ALIGN_JUSTIFIED);
          
         document.add(p);
         document.add(p4);
@@ -121,11 +126,13 @@ public class PDFExporterClass {
         document.add(p5);
         document.add(p6);
         document.add(p7);
+        document.add(p8);
+        document.add(p9);
         
          
-        PdfPTable table = new PdfPTable(6);
+        PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(100f);
-        table.setWidths(new float[] {3.5f, 2.0f,1.5f, 2.0f, 2.0f, 1.5f });
+        table.setWidths(new float[] {3.5f, 2.0f,1.5f, 2.0f, 2.0f});
         table.setSpacingBefore(10);
          
         writeTableHeader(table);
