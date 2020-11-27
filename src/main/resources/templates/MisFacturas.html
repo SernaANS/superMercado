@@ -67,7 +67,7 @@
 						<th class="text-center">precio_total</th>
 						<th class="text-center">precio_total con iva</th>
 						<th class="text-center">nombre del vendedor</th>
-						<th class="text-center">Estado</th>
+						
 						<th class="text-center">factura</th>
 					</tr>
 				</thead>
@@ -79,7 +79,7 @@
 						<td th:text="${factura.precioTotal}" >John</td>
 						<td th:text="${factura.precioTotal}*1.19" >John</td>
 						<td th:text="${factura.vendedor.nombre}" >John</td>
-						<td th:text="sinEntregar">John</td>
+						
 						<td><a th:href="@{MostrarFractura/}+${factura.idFactura}">
 						<button type="button"
 							class="btn btn-outline-dark btn-lg btn-block">
